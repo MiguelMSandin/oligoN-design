@@ -20,13 +20,24 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 Download and move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`). You might need to make the scripts executable as follows: `chmod +x *.py`.
   
 ## Quick start  
+If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the simplest pipeline is as follows:
+
+`findPrimer.py -t target.fasta -r reference.fasta -o output`  
+`testPrimer.py -r reference.fasta -f output.fasta -o output_TP.tsv`  
+`mafft target.fasta > target_align.fasta`  
+`alignmentConsensus.py -f target_align.fasta -o target_consensus.fasta`  
+`mafft --addfragments output.fasta target_consensus.fasta > target_consensus_regions.fasta`
+  
+And based on your preferred parameters you select the best candidate regions for preliminary laboratory experiments.  
+
+## Getting started
 First decide on which organism/group you want to be working with, in this example we are going to be focusing on the Diatom *Guinardia*.  
 Then, choose your favourite reference file. In this example we are going to be using public data, for example let's use the [PR2 database](https://pr2-database.org/). Go to your working directory, download and unzip the file:  
   
 `wget https://github.com/pr2database/pr2database/releases/download/v4.14.0/pr2_version_4.14.0_SSU_taxo_long.fasta.gz`  
 `gunzip -k pr2_version_4.14.0_SSU_taxo_long.fasta.gz`  
 
-### Prepare files
+## Prepare files
 Now create the **target** and **reference** fasta files. To do so, we extract all sequences affiliated to *Guinardia* from the reference database and save them into the target file. We could do this with the script [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py) as follows:  
   
 `sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v`  
@@ -34,7 +45,7 @@ Now create the **target** and **reference** fasta files. To do so, we extract al
   
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single_line fasta if needed.  
 
-### Find specific regions  
+## Find specific regions  
 Once we have the target and reference files, we are going to **search for specific regions** of different length in the target file that are not in the reference file. It is important to know that:  
 - Not all sequences in a database are of the same length, and therefore the region of interest might not be present in all sequences from the target file.
 - Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. So it is possible that the region of interest might also be present in the reference file.  
@@ -47,7 +58,7 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
   
 >**Note1**: For further details on the usage of the script, use the help `findPrimer.py -h`.  
 
-### Test regions
+## Test regions
 Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database as follows:  
   
 `testPrimer.py -r reference.fasta -f guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_TP_m2.tsv -m 2 -v`  
@@ -56,7 +67,7 @@ Here we are using the fasta file generated in the previous step and containing a
   
 If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh).
   
-### Generate a consensus sequence of the target file
+## Generate a consensus sequence of the target file
 First we have to align the file:  
   
 `mafft target.fasta > target_align.fasta`  
@@ -67,21 +78,21 @@ Might be worth checking the alignment manually for possible missalignments. From
   
 The consensus sequences is using a 70% consensus threshold (`-t 70`), considering bases that are present in at least 30% of the sequences (`-b 30`) and considering gaps if a position contains more than 80% of gaps (`-g 80`). In this example we are using the most abundant base (`-m` option) to resolve ambiguities and removing gaps in the output sequence (`-r` option) to be used for downstream analysis. However you can go fancy and use different thresholds in order to have a better representation of the diversity within the group using the wrapper script [alignmentConsensus_compare.sh](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/wrappers/alignmentConsensus_compare.sh).  
 
-### Align candidate regions to consensus sequence
+## Align candidate regions to consensus sequence
 With this step we just want to know in what positions of the 18S rDNA gene the candidate regions are:  
   
 `mafft --addfragments guinardia_PR2_m8_s001.fasta target_consensus.fasta > target_consensus_regions.fasta`
 
-### Estimate the secondary structure
-#### (to be implemented)
+## Estimate the secondary structure
+### (to be implemented)
 By using the recentlmy develop tool [R2DT](https://github.com/rnacentral/R2DT) ([Sweeney et al., 2021](https://www.nature.com/articles/s41467-021-23555-5#citeas) ), we can infer the secondary structure of (almost) any 18S rDNA. An easy example of using this tool can be uploading the consensus sequence created in the previous step to the [R2DT website](https://rnacentral.org/r2dt) an automatically generate the secondary structure of the rDNA by comparing to the best fitting profile.  
 
-### Identify best accesibility regions
-#### (to be implemente)
+## Identify best accesibility regions
+### (to be implemente)
 Little effort has been done in this area of research, yet Behrens et al. ([2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)) provide an excellent map of the probe accessibility for the eukaryotic 18S rDNA gene of *Saccharomyces cerevisiae*. Further, Bernier et al. ([2018](https://academic.oup.com/mbe/article/35/8/2065/5000151)) provide a 3D reconstruction and highly preserved domains of the rDNA operon.  
 
-### Identification of the best candidate primers/probes
-#### (to be implemented)
+## Identification of the best candidate primers/probes
+### (to be implemented)
 By integrating the length, GC content, theoretical melting temperature and number of hits allowing mismatches obtained in this pipeline, along with the accesibility of the desire region, it is possible to **manually select the best candidate primers/probes** for your group. In this sense you want to select 2-4 primers/probes in order to **empirically test and cross-validate its specificity and functioning**, and therefore you will target candidate primers/probes:
 - that covers most of the targeted diversity,
 - with a high GC content,
