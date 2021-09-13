@@ -74,10 +74,17 @@ By using the recentlmy develop tool [R2DT](https://github.com/rnacentral/R2DT) (
 #### (to be implemented in the pipeline)
 Little effort has been done in this area of research, yet Behrens et al. ([2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)) provide an excellent map of the probe accessibility for the eukaryotic 18S rDNA gene of *Saccharomyces cerevisiae*. Further, Bernier et al. ([2018](https://academic.oup.com/mbe/article/35/8/2065/5000151)) provide a 3D reconstruction and highly preserved domains of the rDNA operon.  
 
-### Manual identification of the best candidate primers/probes
-By integrating the length, GC content, theoretical melting temperature 
+### Identification of the best candidate primers/probes
+#### (to be implemented in the pipeline)
+By integrating the length, GC content, theoretical melting temperature and number of hits allowing mismatches obtained in this pipeline, along with the accesibility of the desire regon, it is possible to **manually select the best candidate primers/probes** for your group. In this sense you want to select 2-4 primers/probes in order to **empirically test and cross-validate its specificity and functioning**, and therefore you will target candidate primers/probes:
+- that covers most of the targeted diversity,
+- with a high GC content,
+- with similar theoretical melting temperature,
+- with low hits to the reference file allowing mismatches (or at least that hits to a known group, i.e.; copepods),
+- highly accessible,
+- and that avoids self-binding (**to be implemented**, i.e.; ACGTnnnnACGT).
 
 ## References
-Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R. In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol. 2003 Mar;69(3):1748-58. doi: [10.1128/AEM.69.3.1748-1758.2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)  
-Bernier CR, Petrov AS, Kovacs NA, Penev PI, Williams LD. Translation: The Universal Structural Core of Life. Mol Biol Evol. 2018 Aug 1;35(8):2065-2076. doi: [10.1093/molbev/msy101](https://academic.oup.com/mbe/article/35/8/2065/5000151)  
-Sweeney, B.A., Hoksza, D., Nawrocki, E.P. et al. R2DT is a framework for predicting and visualising RNA secondary structure using templates. Nat Commun 12, 3494 (2021). doi:[10.1038/s41467-021-23555-5](https://www.nature.com/articles/s41467-021-23555-5#citeas)  
+-Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R. In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol. 2003 Mar;69(3):1748-58. doi: [10.1128/AEM.69.3.1748-1758.2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)  
+-Bernier CR, Petrov AS, Kovacs NA, Penev PI, Williams LD. Translation: The Universal Structural Core of Life. Mol Biol Evol. 2018 Aug 1;35(8):2065-2076. doi: [10.1093/molbev/msy101](https://academic.oup.com/mbe/article/35/8/2065/5000151)  
+-Sweeney, B.A., Hoksza, D., Nawrocki, E.P. et al. R2DT is a framework for predicting and visualising RNA secondary structure using templates. Nat Commun 12, 3494 (2021). doi:[10.1038/s41467-021-23555-5](https://www.nature.com/articles/s41467-021-23555-5#citeas)  
