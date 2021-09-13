@@ -24,11 +24,8 @@ If you already have a target fasta file and a reference fasta file (note that th
 
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
 `testPrimer.py -r reference.fasta -f output.fasta -o output_TP.tsv`  
-`mafft target.fasta > target_align.fasta`  
-`alignmentConsensus.py -f target_align.fasta -o target_consensus.fasta`  
-`mafft --addfragments output.fasta target_consensus.fasta > target_consensus_regions.fasta`
   
-And based on your preferred parameters you select the best candidate regions for preliminary laboratory experiments.  
+And based on your preferred parameters along with the accessibility of the region you select the best candidate primers/probes for preliminary laboratory experiments.  
   
   
 ## Getting started with the detailed pipeline
