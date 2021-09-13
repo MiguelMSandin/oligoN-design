@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE="pr2_version_4.14.0_SSU_taxo_long_bacillariophyta_align.fasta"
+FILE=""
 OUTPUT=${FILE/_align.fasta/_consensus.fasta}
 
 echo "Building consensus with most abundant base as consensus"
