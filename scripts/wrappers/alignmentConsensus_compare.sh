@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# The name of the alignment file
 FILE=""
+# The name of the output file (the following line replace '_align.fasta' with '_consensus.fasta')
 OUTPUT=${FILE/_align.fasta/_consensus.fasta}
 
+# And now copy, paste and modify as many times as different parameters you want to epxlore. For example:
 echo "Building consensus with most abundant base as consensus"
 /shared/projects/radecoevo/probes/scripts/alignmentConsensus.py -f $FILE -o $OUTPUT -r -v -m
 echo "--------------------"
