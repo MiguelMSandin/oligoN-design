@@ -29,7 +29,8 @@ If you already have a target fasta file and a reference fasta file (note that th
 `mafft --addfragments output.fasta target_consensus.fasta > target_consensus_regions.fasta`
   
 And based on your preferred parameters you select the best candidate regions for preliminary laboratory experiments.  
-
+  
+  
 ## Getting started
 First decide on which organism/group you want to be working with, in this example we are going to be focusing on the Diatom *Guinardia*.  
 Then, choose your favourite reference file. In this example we are going to be using public data, for example let's use the [PR2 database](https://pr2-database.org/). Go to your working directory, download and unzip the file:  
@@ -105,3 +106,5 @@ By integrating the length, GC content, theoretical melting temperature and numbe
 -Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R. In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol. 2003 Mar;69(3):1748-58. doi: [10.1128/AEM.69.3.1748-1758.2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)  
 -Bernier CR, Petrov AS, Kovacs NA, Penev PI, Williams LD. Translation: The Universal Structural Core of Life. Mol Biol Evol. 2018 Aug 1;35(8):2065-2076. doi: [10.1093/molbev/msy101](https://academic.oup.com/mbe/article/35/8/2065/5000151)  
 -Sweeney, B.A., Hoksza, D., Nawrocki, E.P. et al. R2DT is a framework for predicting and visualising RNA secondary structure using templates. Nat Commun 12, 3494 (2021). doi:[10.1038/s41467-021-23555-5](https://www.nature.com/articles/s41467-021-23555-5#citeas)  
+  
+  
