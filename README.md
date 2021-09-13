@@ -29,8 +29,8 @@ Then, choose your favourite reference file. In this example we are going to be u
 ### Prepare files
 Now create the **target** and **reference** fasta files. To do so, we extract all sequences affiliated to *Guinardia* from the reference database and save them into the target file. We could do this with the script [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py) as follows:  
   
-`scripts/sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v`  
-`scripts/sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o reference.fasta -p Guinardia -a r -v`  
+`sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v`  
+`sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o reference.fasta -p Guinardia -a r -v`  
   
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single_line fasta if needed.  
 
@@ -41,7 +41,7 @@ Once we have the target and reference files, we are going to **search for specif
   
 With this in mind, we can search for specific regions using the script **[findPrimer.py](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer.py)** as follows:  
   
-`scripts/findPrimer.py -t target.fasta -r reference.fasta -o guinardia_PR2_m8_s001 -l '18+22' -m 0.8 -s 0.001 -v`  
+`findPrimer.py -t target.fasta -r reference.fasta -o guinardia_PR2_m8_s001 -l '18+22' -m 0.8 -s 0.001 -v`  
   
 With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18+22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and that are present in less than 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`). In order to carry out different searches, we have saved the output file name with key parameters of the search (`-o guinardia_PR2_m8_s001`).  
   
