@@ -4,9 +4,7 @@ The purpose of this pipeline is to produce oligonucleotide candidates to be used
   
 Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/FASTA) file and searches for specific regions of the sequences against a **reference** fasta file. Later, based on the specificity, GC content, theoretical melting temperature and the accessibility of the selected region the best primers/probes are manually selected.  
   
-![brief_pipeline](/resources/bioinfo_pipeline_ppt.png)  
-  
->(For further details on the pipeline, please check the [detailed pipeline](/resources/bioinfo_pipeline.pdf) in the resources folder (in development).  
+![brief_pipeline](/resources/bioinfo_pipeline_ppt.png)   
   
 ## Dependencies  
 - [python](https://www.python.org/)  
