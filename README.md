@@ -108,7 +108,7 @@ By integrating the length, GC content, theoretical melting temperature and numbe
 ## Concluding remarks and further resources
 Primer and probe design is a tedious work that requires a final empirical test for its completion. Therefore, bioinformatic pipelines will only provide theoretical candidate regions, that have to be tested in the laboratory. With this pipeline we attempted to generate an easy-to-use tool for the high-throughput design of primers/probes. However the [ARB](http://www.arb-home.de/) software from the [SILVA](https://www.arb-silva.de/) project is the choice of preference when studying a targeted group.  
 It is also possible to [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) the desired primer/probe and test for the specificity in the most exhaustive databases. Or when using the 18S rDNA gene it is even possible to test for mismatches and taxonomic affiliation in the [PR2-primers](https://app.pr2-primers.org/) database.  
-Other online resources (such as [oligoCalc](http://biotools.nubic.northwestern.edu/OligoCalc.html)) provide useful properties to empirically test the primers/probe.  
+Other online resources (such as [oligoCalc](http://biotools.nubic.northwestern.edu/OligoCalc.html)) provide useful properties to start testing the primers/probe in the laboratory.  
 
 ## References
 -Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R. In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol. 2003 Mar;69(3):1748-58. doi: [10.1128/AEM.69.3.1748-1758.2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)  
