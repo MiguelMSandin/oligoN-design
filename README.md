@@ -1,6 +1,7 @@
 # oligoN-design (version alpha)
   
 The purpose of this pipeline is to produce oligonucleotide candidates to be used for PCR amplification (primers) or FISH (probes) among other uses. It focuses on the rDNA operon (specially the Small-SubUnit of the rDNA or the 18S rDNA gene), yet it can potentially be used for other genes.  
+  
 Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/FASTA) file and searches for specific regions of the sequences against a **reference** fasta file. Later, based on the specificity, GC content, theoretical melting temperature and the accessibility of the selected region the best primers/probes are manually selected.  
   
 ![brief_pipeline](/resources/bioinfo_pipeline_ppt.png)  
@@ -19,12 +20,15 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 Download and move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`). You might need to make the scripts executable as follows: `chmod +x *.py`.
   
 ## Quick start  
-First decide on which organism/group you want to be working with, in this example we are going to be focusing on the Diatom *Guinardia*. Then, choose your favourite reference file. In this example we are going to be using public data, for example let's use the [PR2 database](https://pr2-database.org/). Go to your working directory, download and unzip the file:  
+First decide on which organism/group you want to be working with, in this example we are going to be focusing on the Diatom *Guinardia*.  
+Then, choose your favourite reference file. In this example we are going to be using public data, for example let's use the [PR2 database](https://pr2-database.org/). Go to your working directory, download and unzip the file:  
+  
 `wget https://github.com/pr2database/pr2database/releases/download/v4.14.0/pr2_version_4.14.0_SSU_taxo_long.fasta.gz`  
 `gunzip -k pr2_version_4.14.0_SSU_taxo_long.fasta.gz`  
 
 ### Prepare files
 Now create the **target** and **reference** fasta files. To do so, we extract all sequences affiliated to *Guinardia* from the reference database and save them into the target file. We could do this with the script [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py) as follows:  
+  
 `scripts/sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v`  
 `scripts/sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o reference.fasta -p Guinardia -a r -v`  
   
@@ -36,6 +40,7 @@ Once we have the target and reference files, we are going to **search for specif
 - Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. So it is possible that the region of interest might also be present in the reference file.  
   
 With this in mind, we can search for specific regions using the script **[findPrimer.py](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer.py)** as follows:  
+  
 `scripts/findPrimer.py -t target.fasta -r reference.fasta -o guinardia_PR2_m8_s001 -l '18+22' -m 0.8 -s 0.001 -v`  
   
 With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18+22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and that are present in less than 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`). In order to carry out different searches, we have saved the output file name with key parameters of the search (`-o guinardia_PR2_m8_s001`).  
@@ -44,6 +49,7 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
 
 ### Test regions
 Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database as follows:  
+  
 `testPrimer.py -r reference.fasta -f guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_TP_m2.tsv -m 2 -v`  
   
 Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to look if its present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mistmatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`).  
