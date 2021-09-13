@@ -56,13 +56,13 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
 >**Note1**: For further details on the usage of the script, use the help: `findPrimer.py -h`.  
   
 ## 3. Test regions
-Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database as follows:  
+Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database using the script **[testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer.py)** as follows:  
   
 `testPrimer.py -r reference.fasta -f guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_TP_m2.tsv -m 2 -v`  
   
-Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to look if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`).  
+Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`).  
   
-If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file with all sequences that contains the specific primer/probe with the selected number of mismatches.  
+If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific primer/probe with the selected number of mismatches.  
   
 ## 4. Generate a consensus sequence of the target file
 First we have to align the file, and for that we use [mafft](https://mafft.cbrc.jp/alignment/software/). Depending on the size and similarity of sequences you have in the target group you may want to explore the different options and algorithms of mafft. The simplest command uses an automatic selection of best parameters according to your file size, as follows:  
@@ -70,7 +70,7 @@ First we have to align the file, and for that we use [mafft](https://mafft.cbrc.
 `mafft target.fasta > target_align.fasta`  
   
 Might be worth checking the alignment manually for possible missalignments with (e.g.;) [aliview](https://ormbunkar.se/aliview/) or [seaview](http://doua.prabi.fr/software/seaview).  
-From the aligned file, we can now build a consensus sequence as follows:  
+From the aligned file, we can now build a consensus sequence with the script [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/alignmentConsensus.py) as follows:  
   
 `alignmentConsensus.py -f target_align.fasta -o target_consensus.fasta -t 70 -b 30 -g 80 -r -m -v`  
   
