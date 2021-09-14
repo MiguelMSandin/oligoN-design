@@ -82,9 +82,9 @@ Here we are using the fasta file generated in the previous step and containing a
   
 
 | identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs | ... |
-| ----- | ----- | ----- | ----- | ----- | ----- | ... |
-| primer1 | CAAGTTTCTGCCCTATTA | 0.0509 | 9343 | 0.3855 | 70638 |
-| primer2 | AATATGACACTGTCGGCATC | 0.00002 | 5 | 0.00002 | 5 |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| primer1 | CAAGTTTCTGCCCTATTA | 0.0509 | 9343 | 0.3855 | 70638 | ... |
+| primer2 | AATATGACACTGTCGGCATC | 0.00002 | 5 | 0.00002 | 5 | ... |
 | ... | ... | ... | ... | ... | ... | ... |
   
 We can now merge the outputs from **Step 2** and **Step 3** with the wrapper script [bindFindTest.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/bindFindTest.sh), so we can have a look at the complete output in a single file. Note this wrapper script understands that the two files contain the primers in matching order of appearance, as it is output from the original scripts.
