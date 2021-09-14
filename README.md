@@ -63,6 +63,8 @@ Regions found in the previous step are now going to be tested for hits **allowin
   
 Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`).  
   
+We can now merge the outputs from **Step 2** and **Step 3** with the wrapper script [bindFindTest.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/bindFindTest.sh), so we can have a look at the complete output in a single file. Note this wrapper script understands that the two files contain the primers in matching order of appearance, as it is output from the original scripts.
+  
 If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific primer/probe with the selected number of mismatches.  
   
 ## (3.1 Add a script to automatically filter probes)
