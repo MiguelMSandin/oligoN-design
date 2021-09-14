@@ -52,9 +52,7 @@ With this in mind, we can search for specific regions using the script **[findPr
   
 `findPrimer.py -t target.fasta -r reference.fasta -o guinardia_PR2_m80_s001 -l '18+22' -m 0.8 -s 0.001 -v`  
   
-With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18+22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`). In order to carry out different searches, we have included in the output file name key parameters of the search (`-o guinardia_PR2_m8_s001`).  
-  
-In this step we will obtain two files: a fasta file containing all the primers that passed the search thresholds and a log file with parameters of the primer and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
+With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18+22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`). In order to carry out different searches, we have included in the output file name key parameters of the search (`-o guinardia_PR2_m8_s001`). It will output two files: a fasta file containing all the primers that passed the search thresholds and a log file with parameters of the primer and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
 - a sequence identifier,
 - the length of the sequence,
 - the sequence,
@@ -70,7 +68,7 @@ In this step we will obtain two files: a fasta file containing all the primers t
 | identifier |length | sequence | (sequence_reverseComplement) | GC | Tm | hits_target | hits_target_absolute | hits_reference | hits_reference_absolute |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
 | primer1 | 18 | CAAGTTTCTGCCCTATTA | (TAATAGGGCAGAAACTTG) | 0.3889 | 43.49 | 0.8157 | 31 | 0.0002 | 45 |
-| primer2 | 20 | TTATCTGGCATTAAGTTGTC | (GACAACTTAATGCCAGATAA) | 0.35 | 45.63 | 0.8421 | 32 | 0.0001 | 24 |
+| primer2 | 20 | AATATGACACTGTCGGCATC | (GATGCCGACAGTGTCATATT) | 0.45 | 49.73 | 0.8421 | 32 | 0.00002 | 5 |
 | ... | ... | ... | (...) | ... | ... | ... | ... | ... | ... |
   
 >**Note1**: For further details on the usage of the script, use the help: `findPrimer.py -h`.  
@@ -80,7 +78,14 @@ Regions found in the previous step are now going to be tested for hits **allowin
   
 `testPrimer.py -r reference.fasta -f guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_TP_m2.tsv -m 2 -v`  
   
-Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`).  
+Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`). It will ouput a file with the sequence identifier, the sequence itself and two columns for every mismacth with the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:
+  
+
+| identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs | ... |
+| ----- | ----- | ----- | ----- | ----- | ----- | ... |
+| primer1 | CAAGTTTCTGCCCTATTA | 0.0509 | 9343 | 0.3855 | 70638 |
+| primer2 | AATATGACACTGTCGGCATC | 0.00002 | 5 | 0.00002 | 5 |
+| ... | ... | ... | ... | ... | ... | ... |
   
 We can now merge the outputs from **Step 2** and **Step 3** with the wrapper script [bindFindTest.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/bindFindTest.sh), so we can have a look at the complete output in a single file. Note this wrapper script understands that the two files contain the primers in matching order of appearance, as it is output from the original scripts.
   
