@@ -1,6 +1,6 @@
 # oligoN-design (version alpha)
   
-The purpose of this pipeline is to produce oligonucleotide candidates to be used for PCR amplification (primers) or FISH (probes) among other uses. It focuses on the rDNA operon (specially the Small-SubUnit of the rDNA or the 18S rDNA gene), yet it can potentially be used for other genes.  
+The purpose of this pipeline is to produce oligonucleotide candidates to be used for (e.g.) PCR amplification (primers) or fluorescence *in situ* hybridisation (probes). It focuses on the rDNA operon (specially the Small-SubUnit of the rDNA or the 18S rDNA gene), yet it can potentially be used for other genes.  
   
 Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/FASTA) file and searches for specific regions of the sequences against a **reference** fasta file. Later, based on the specificity, GC content, theoretical melting temperature and the accessibility of the selected region the best primers/probes are manually selected.  
   
