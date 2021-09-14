@@ -6,8 +6,7 @@ from Bio.Seq import Seq
 import regex
 import re
 
-parser = argparse.ArgumentParser(description="Given a fasta file with the primers/probes search for hits allowing mismatches against a reference file.",
-								 epilog="*The basic melting temperature (Tm) is an approximation and should be considered as a baseline for comparison. Briefly, for short primers (<14 bp): Tm = 2*(A+T) + 4*(G+C); and for longer primers (>13 bp): Tm = 64.9 + 41*(G+C - 16.4) / (A+G+C+T); where A, C, G and T are the number of bases of A, G, C and T respectively.")
+parser = argparse.ArgumentParser(description="Given a fasta file with the primers/probes search for hits allowing mismatches against a reference file.")
 
 # Add the arguments to the parser
 requiredArgs = parser.add_argument_group('required arguments')
@@ -19,10 +18,10 @@ requiredArgs.add_argument("-r", "--reference", dest="reference", required=True,
 					help="A reference fasta file to look against.")
 
 parser.add_argument("-o", "--output", dest="file_out", required=False,
-					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_log.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the reverse-complement sequence, the length of the sequence, the GC content, the estimated basic melting temperature* and two columns for each given mismatch (containing the absolute number of hits in the reference file and the proportion of hits to the complete reference file) until arriving to the maximum allowed.")
+					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_log.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the length of the sequence and two columns for each given mismatch (containing the absolute number of hits in the reference file and the proportion of hits to the complete reference file) until arriving to the maximum allowed.")
 
 parser.add_argument("-m", "--mismatch", dest="mismatch", required=False, action='store', type=int, default=2,
-					help="The maximum number of mismatches allowed. Bear in mind that will look from 0 to m mismatches. Default=2")
+					help="The maximum number of mismatches allowed. Bear in mind that will look from 1 to m mismatches. Default=2")
 
 parser.add_argument("-p", "--probe", dest="probe", required=False, default=None, action="store_true",
 					help="If selected, will reverse complement the primers/probes before searching.")
@@ -51,9 +50,9 @@ if verbose:
 
 # Setting number of mismatch _______________________________________________________________________
 mismatches = args.mismatch
-mismatches = range(int(mismatches)+1)
+mismatches = range(1, int(mismatches)+1)
 
-fields = [["name", "sequence", "revCom", "length", "GCcontent", "Tm"], ["mismatch"+str(i)+"\tp_mismatch"+str(i) for i in mismatches]]
+fields = [["name", "sequence"], ["mismatch"+str(i)+"\tmismatch"+str(i)+"_abs" for i in mismatches]]
 fields = [item for l in fields for item in l]
 fields = "\t".join(fields)
 
@@ -122,18 +121,10 @@ with open(outFile, "w") as outfile:
 			for t in ref.values():
 				if len(regex.findall(pattern, t)) > 0:
 					c += 1
-			matches.append(str(str(c) + "\t" + str(c / seqs)))
+			matches.append(str(str(c / seqs)) + "\t" + str(c))
 		
-		gcs = primer.upper().count("G") + primer.upper().count("C")
 		length = len(primer)
-		GC = round((gcs) / length, 4)
-		if length < 14:
-			Tm = 2 * (primer.upper().count("A") + primer.upper().count("T")) + 4 * (gcs)
-		else:
-			Tm = 64.9 + 41*(gcs - 16.4) / length
-		Tm = round(Tm, 2)
-		
-		line = [[str(name + "\t" + primer + "\t" + Seq(primer).reverse_complement() + "\t" + str(length) + "\t" + str(GC) + "\t" + str(Tm))], matches]
+		line = [[str(name + "\t" + primer)], matches]
 		line = [item for l in line for item in l]
 		line = "\t".join(line)
 		print(line, file=outfile)
