@@ -43,7 +43,7 @@ Now we are going to create the **target** and **reference** fasta files. To do s
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
   
 ## 2. Find specific regions  
-### TO BE IMPLEMENTED: Parallelizzation of the foor loop and start the search in the target file and not the reference file
+### TO BE IMPLEMENTED: Parallelization of the for loop and start the search in the target file and not the reference file
 Once we have the target and reference files, we are going to search for specific regions of different lengths in the target file that are not present in the reference file. It is important to know that:  
 - Not all sequences in a database are of the same length; and therefore the region of interest might not be present in all sequences from the target file.
 - Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. Therefore it is possible that the region of interest might also be present in the reference file due to chimeric sequences, badly annotated sequences or simply high similarity to other groups.  
