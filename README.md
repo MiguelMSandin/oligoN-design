@@ -56,11 +56,11 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
   
 In this step we will obtain two files: a fasta file containing all the primers that passed the search thresholds and a log file with parameters of the primer and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file, as in the following example:
 
-|identifier|length|sequence|(sequence_reverseComplement)|GC|Tm|hits_target|hits_target_absolute|hits_reference|hits_reference_absolute|
-|-----|-----|-----|-----|
-|primer1|18|CAAGTTTCTGCCCTATTA|(TAATAGGGCAGAAACTTG)|0.3889|43.49|0.8157|31|0.0002|45|
-|primer2|20|TTATCTGGCATTAAGTTGTC|(GACAACTTAATGCCAGATAA)|0.35|45.63|0.8421|32|0.0001|24|
-|...|...|...|(...)|...|...|...|...|...|...|
+| identifier |length | sequence | (sequence_reverseComplement) | GC | Tm | hits_target | hits_target_absolute | hits_reference | hits_reference_absolute |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| primer1 | 18 | CAAGTTTCTGCCCTATTA | (TAATAGGGCAGAAACTTG) | 0.3889 | 43.49 | 0.8157 | 31 | 0.0002 | 45 |
+| primer2 | 20 | TTATCTGGCATTAAGTTGTC | (GACAACTTAATGCCAGATAA) | 0.35 | 45.63 | 0.8421 | 32 | 0.0001 | 24 |
+| ... | ... | ... | (...) | ... | ... | ... | ... | ... | ... |
   
 >**Note1**: For further details on the usage of the script, use the help: `findPrimer.py -h`.  
   
