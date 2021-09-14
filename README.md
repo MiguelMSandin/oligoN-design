@@ -78,7 +78,7 @@ Regions found in the previous step are now going to be tested for hits **allowin
   
 `testPrimer.py -r reference.fasta -f guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_TP_m2.tsv -m 2 -v`  
   
-Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`). It will ouput a file with the sequence identifier, the sequence itself and two columns for every mismacth with the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:
+Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`). It will ouput a tsv file with the sequence identifier, the sequence itself and two columns for every mismacth with the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:
   
 
 | identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs | ... |
