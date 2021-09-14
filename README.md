@@ -65,6 +65,11 @@ Here we are using the fasta file generated in the previous step and containing a
   
 If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific primer/probe with the selected number of mismatches.  
   
+## (3.1 Add a script to automatically filter probes)
+(Based on length, GC content, number of matches,...)
+  
+## (3.2 Add a script to automatically select the X% best probes)
+  
 ## 4. Generate a consensus sequence of the target file
 First we have to align the file, and for that we use [mafft](https://mafft.cbrc.jp/alignment/software/). Depending on the size and similarity of sequences you have in the target group you may want to explore the different options and algorithms of mafft. The simplest command uses an automatic selection of best parameters according to your file size, as follows:  
   
