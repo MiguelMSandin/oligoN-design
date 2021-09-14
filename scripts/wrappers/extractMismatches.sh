@@ -6,7 +6,7 @@ usage()
     echo "A wrapper to find hits of a primer/probe in a reference database allowing mismatches and returning a fasta file."
     echo "Uses 'agrep' to search allowing mismatches."
     echo ""
-    echo "Usage: agrep2fasta.sh -m mismatches -p pattern -f file -o outFile"
+    echo "Usage: extractMismatches.sh -m mismatches -p pattern -f file -o outFile"
     echo ""
     echo "  -h    Print this information"
     echo ""
