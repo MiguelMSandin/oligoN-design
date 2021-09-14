@@ -54,6 +54,14 @@ With this in mind, we can search for specific regions using the script **[findPr
   
 With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18+22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`). In order to carry out different searches, we have included in the output file name key parameters of the search (`-o guinardia_PR2_m8_s001`).  
   
+In this step we will obtain two files: a fasta file containing all the primers that passed the search thresholds and a log file with parameters of the primer and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file, as in the following example:
+  
+|identifier|length|sequence|(sequence_reverseComplement)|GC|Tm|hits_target|hits_target_absolute|hits_reference|hits_reference_absolute|
+|-----|-----|-----|-----|
+|primer1|18|CAAGTTTCTGCCCTATTA|(TAATAGGGCAGAAACTTG)|0.3889|43.49|0.8157|31|0.0002|45|
+|primer2|20|TTATCTGGCATTAAGTTGTC|(GACAACTTAATGCCAGATAA)|0.35|45.63|0.8421|32|0.0001|24|
+|...|...|...|(...)|...|...|...|...|...|...|
+  
 >**Note1**: For further details on the usage of the script, use the help: `findPrimer.py -h`.  
   
 ## 3. Test regions
