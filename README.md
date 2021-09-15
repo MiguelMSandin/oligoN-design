@@ -25,6 +25,15 @@ If you already have a target fasta file and a reference fasta file (note that th
   
 And based on your preferred parameters along with the accessibility of the region you select the best candidate primers/probes for preliminary laboratory experiments.  
   
+## Overview
+- **[1](https://github.com/MiguelMSandin/oligoN-design#1-prepare-files). Select a target and a reference fasta files**: containing the sequences of your group of inerest and a reference file with a complete overview of the diversity for the studied gene respectively (note that the target group should not be in the reference file).  
+- **[2](https://github.com/MiguelMSandin/oligoN-design#2-find-specific-regions). Find candidate primers**: specific to your group of interest.  
+- **[3](https://github.com/MiguelMSandin/oligoN-design#3-test-regions). Test candidate primers**: for possible mismatches against the reference database.  
+- **[4](https://github.com/MiguelMSandin/oligoN-design#4-generate-a-consensus-sequence-of-the-target-file). Generate a consensus sequence of the group of interest**.   
+- **[5](https://github.com/MiguelMSandin/oligoN-design#5-align-candidate-regions-to-consensus-sequences). Align candidate primers to the consensus sequence** to spot regions of interest.  
+- **[6](https://github.com/MiguelMSandin/oligoN-design#6-estimate-the-secondary-structure). Estimate secondary structure of your target group**.  
+- **[7](https://github.com/MiguelMSandin/oligoN-design#7-identify-best-accesibility-regions). Identify best accesibility regions**.  
+- **[8](https://github.com/MiguelMSandin/oligoN-design#8-identification-of-the-best-candidate-primersprobes). Select the best candidate primers**.  
   
 ## Getting started with the detailed pipeline
 First decide on which organism/group you want to be working with and your favourite reference file.  
@@ -42,7 +51,7 @@ Now we are going to create the **target** and **reference** fasta files. To do s
   
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
   
-## 2. Find specific regions  
+## 2. Find candidate primers  
 ### TO BE IMPLEMENTED: Parallelization of the for loop and start the search in the target file and not the reference file
 Once we have the target and reference files, we are going to search for specific regions of different lengths in the target file that are not present in the reference file. It is important to know that:  
 - Not all sequences in a database are of the same length; and therefore the region of interest might not be present in all sequences from the target file.
@@ -73,7 +82,7 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
   
 >**Note1**: For further details on the usage of the script, use the help: `findPrimer.py -h`.  
   
-## 3. Test regions
+## 3. Test candidate primers
 Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database using the script **[testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer.py)** as follows:  
   
 `testPrimer.py -r reference.fasta -f guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_TP_m2.tsv -m 2 -v`  
@@ -108,7 +117,7 @@ From the aligned file, we can now build a consensus sequence with the script [al
   
 The consensus sequences is using a 70% consensus threshold (`-t 70`), considering bases that are present in at least 30% of the sequences (`-b 30`) and considering gaps if a position contains more than 80% of gaps (`-g 80`). In this example we are using the most abundant base (`-m` option) to resolve ambiguities (oherwise results in the IUPAC code) and removing gaps in the output sequence (`-r` option) to be used for downstream analysis. However you can go fancy and use different thresholds at the same time in order to have a better representation of the diversity within the group using the wrapper script [alignmentConsensus_compare.sh](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/wrappers/alignmentConsensus_compare.sh).  
 
-## 5. Align candidate regions to consensus sequence(s)
+## 5. Align candidate primers to consensus sequence(s)
 With this step we want to know in what positions of the 18S rDNA gene the candidate regions are:  
   
 `mafft --addfragments guinardia_PR2_m8_s001.fasta target_consensus.fasta > target_consensus_regions.fasta`
