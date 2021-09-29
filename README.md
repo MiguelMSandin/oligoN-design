@@ -122,6 +122,10 @@ With this step we want to know in what positions of the 18S rDNA gene the candid
   
 `mafft --addfragments guinardia_PR2_m8_s001.fasta target_consensus.fasta > target_consensus_regions.fasta`
   
+or **newly implemented**, if you want to also include the *Saccharomyces cerevisiae* template 18S sequence you can do it with the follwoing script (and if you have more than one sequence in the consensus file there is no need for previously align the file):  
+  
+`alignPrimers.sh -c target_consensus.fasta -p guinardia_PR2_m8_s001.fasta -o target_consensus_regions.fasta`
+  
 ## 6. Estimate the secondary structure
 ### (to be implemented)
 By using the recently develop tool [R2DT](https://github.com/rnacentral/R2DT) ([Sweeney et al., 2021](https://www.nature.com/articles/s41467-021-23555-5#citeas) ), it is possible to infer the secondary structure of (almost) any 18S rDNA.  
