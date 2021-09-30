@@ -12,7 +12,7 @@
    style="font-size: 4px; font-weight: bold; font-family: Helvetica; "
    version="1.1"
    id="svg13382"
-   sodipodi:docname="saccharomyces_consensus_mostAbundant_r2dt_accessClass.svg"
+   sodipodi:docname="saccharomyces_r2dt_accessClass.svg"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)">
   <metadata
      id="metadata13388">
@@ -27,7 +27,98 @@
     </rdf:RDF>
   </metadata>
   <defs
-     id="defs13386" />
+     id="defs13386">
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7714"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7816"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7689"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect8149"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7689-5"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7838"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7945"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7779"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+    <inkscape:path-effect
+       effect="bspline"
+       id="path-effect7742"
+       is_visible="true"
+       weight="33.333333"
+       steps="2"
+       helper_size="0"
+       apply_no_weight="true"
+       apply_with_weight="true"
+       only_selected="false" />
+  </defs>
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -37,17 +128,206 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1587"
-     inkscape:window-height="980"
+     inkscape:window-width="1631"
+     inkscape:window-height="998"
      id="namedview13384"
      showgrid="false"
-     inkscape:zoom="1.280118"
-     inkscape:cx="302.12316"
-     inkscape:cy="268.60004"
-     inkscape:window-x="2253"
-     inkscape:window-y="71"
+     inkscape:zoom="5.120472"
+     inkscape:cx="340.19072"
+     inkscape:cy="324.11075"
+     inkscape:window-x="2209"
+     inkscape:window-y="17"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg13382" />
+  <path
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 487.59657,149.67165 c -7.02117,-8.34763 -11.76285,-24.46189 -18.10283,-31.38093 -6.33999,-6.91905 -14.27938,-4.64308 -19.43084,-4.82215 -5.15146,-0.17907 -7.51324,-2.81338 -15.84718,-4.50104 -8.33394,-1.68766 -22.64003,-2.42853 -30.97735,-5.45765 -8.33732,-3.02912 -10.70432,-8.345954 -9.47368,-17.776963 1.23064,-9.431009 6.0586,-22.976345 10.88111,-31.114828 4.82252,-8.138482 9.6401,-10.872783 16.66934,-11.328285 7.02925,-0.455502 16.27577,1.367755 30.15443,3.90912 13.87865,2.541364 32.39283,5.801511 54.65704,10.488736 22.26422,4.687225 48.27583,10.800899 62.77945,15.875876 14.50362,5.074977 17.49807,9.110978 19.25573,12.756215 1.75766,3.645237 2.27842,6.90001 2.08328,9.894681 -0.19514,2.99467 -1.10629,5.728108 -4.16695,12.500688 -3.06067,6.77258 -8.24938,17.53915 -20.79142,26.65253 -12.54204,9.11338 -32.25235,16.44246 -46.816,19.83679 -14.56365,3.39433 -23.85297,2.81483 -30.87413,-5.53279 z"
+     id="path7740"
+     inkscape:connector-curvature="0"
+     inkscape:path-effect="#path-effect7742"
+     inkscape:original-d="m 485.31732,157.43908 c -4.74073,-16.11541 -9.48241,-32.22967 -14.22514,-48.3431 -7.93862,2.27503 -15.87801,4.551 -23.81875,6.82807 -2.36094,-2.63549 -4.72272,-5.2698 -7.08568,-7.90331 -14.30592,-0.74192 -28.61201,-1.48279 -42.9195,-2.22269 -2.366,-5.31783 -4.73299,-10.634662 -7.10099,-15.950495 4.82864,-13.545443 9.6566,-27.090779 14.48292,-40.633332 4.81795,-2.734943 9.63553,-5.469246 14.4518,-8.202369 9.24264,1.821296 18.48916,3.644553 27.73182,5.468246 18.51462,3.259047 37.0288,6.519194 55.54255,9.780441 26.01475,6.113175 52.02637,12.226847 78.03888,18.341965 2.99558,4.035172 5.99003,8.071173 8.98354,12.108259 0.52181,3.254042 1.04257,6.508816 1.56236,9.764724 -0.91061,2.733811 -1.82175,5.467251 -2.73412,8.202371 -5.20914,10.81004 -10.39785,21.57661 -15.62356,32.41888 -19.85899,7.38374 -39.5693,14.71282 -59.38776,22.08274 -9.30857,-0.58176 -18.59789,-1.16127 -27.89837,-1.7404 z"
+     sodipodi:nodetypes="ccccccccccccccccc"
+     transform="translate(4.0301855,-0.19070481)" />
+  <path
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 394.96389,182.39398 c 1.67928,3.9174 2.36264,8.99378 2.63937,13.87634 0.27673,4.88256 0.14659,9.56757 -2.19752,19.66091 -2.34412,10.09333 -6.89922,25.58066 -10.74012,35.99712 -3.8409,10.41646 -6.96539,15.75413 -11.26226,18.68414 -4.29687,2.93001 -9.76393,3.45068 -16.60027,2.53922 -6.83633,-0.91146 -15.03657,-3.25438 -21.74226,-5.92357 -6.70569,-2.66919 -11.9129,-5.66334 -14.54971,-11.23016 -2.6368,-5.56683 -2.7019,-13.70438 0.7631,-21.00737 3.46501,-7.30299 10.45976,-13.77316 17.98644,-23.2799 7.52667,-9.50673 15.58318,-22.04653 23.78499,-29.00995 8.2018,-6.96342 16.54667,-8.34948 22.05604,-7.66444 5.50937,0.68504 8.18292,3.44026 9.8622,7.35766 z"
+     id="path7777"
+     inkscape:connector-curvature="0"
+     inkscape:path-effect="#path-effect7779"
+     inkscape:original-d="m 395.95958,181.23329 c 0.6847,5.07794 1.36806,10.15432 2.05059,15.23298 -0.12921,4.68664 -0.25935,9.37165 -0.39058,14.0612 -4.55732,15.49728 -9.11242,30.98461 -13.67063,46.48009 -3.12393,5.33743 -6.24842,10.6751 -9.37413,16.01415 -5.46842,0.5199 -10.93549,1.04057 -16.40473,1.56235 -8.203,-2.345 -16.40324,-4.68792 -24.60711,-7.0306 -5.20717,-2.9957 -10.41438,-5.98984 -15.62356,-8.98354 -0.0641,-8.13878 -0.1292,-16.27633 -0.1953,-24.41181 6.99506,-6.47053 13.98981,-12.9407 20.98421,-19.41047 8.05925,-12.5435 16.11576,-25.0833 24.17245,-37.62394 8.34653,-1.38717 16.69139,-2.77323 25.03593,-4.1584 2.67536,2.75507 5.3489,5.5103 8.02286,8.26799 z"
+     sodipodi:nodetypes="ccccccccccccc"
+     transform="translate(1.4913571,-1.1671773)" />
+  <path
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 194.6908,192.20202 c -4.08816,15.17749 -9.76543,20.03368 -16.06871,30.05816 -6.30329,10.02449 -13.22949,25.21317 -20.45799,38.28918 -7.2285,13.076 -14.75115,24.02465 -20.49452,30.14754 -5.74336,6.12288 -9.70122,7.41149 -14.21333,8.05612 -4.5121,0.64464 -9.57368,0.64464 -13.25685,-0.27612 -3.68318,-0.92076 -5.9843,-2.76165 -15.78814,-11.90985 -9.803844,-9.1482 -27.109677,-25.6031 -37.846038,-38.58316 -10.73636,-12.98006 -14.902605,-22.48431 -16.074134,-31.20781 -1.171529,-8.72351 0.651219,-16.66548 5.989314,-35.34867 5.338095,-18.68318 14.192161,-48.10993 20.961977,-66.98687 6.769815,-18.876937 11.457262,-27.210174 17.901658,-33.589207 6.444396,-6.379032 14.647748,-10.806237 21.201943,-10.934753 6.55419,-0.128516 11.46079,4.040232 17.36811,7.533375 5.90732,3.493144 12.81516,6.310498 19.67198,8.295937 6.85683,1.985439 13.66462,3.139784 20.64845,3.024174 6.98384,-0.11561 14.13932,-1.500392 20.12574,-1.247355 5.98643,0.253037 10.7991,2.143262 13.83958,8.836826 3.04048,6.693563 4.30705,18.187083 3.69165,36.682723 -0.6154,18.49563 -3.11252,43.98226 -7.20069,59.15976 z"
+     id="path7943"
+     inkscape:connector-curvature="0"
+     inkscape:path-effect="#path-effect7945"
+     inkscape:original-d="m 196.28072,202.52264 c -5.67815,4.85679 -11.35542,9.71297 -17.03463,14.57096 -6.92684,15.19127 -13.85304,30.37995 -20.7835,45.57679 -7.52678,10.95512 -15.04943,21.90377 -22.57803,32.86063 -3.95854,1.28815 -7.9164,2.57676 -11.8761,3.86664 -5.06431,-10e-4 -10.12589,-10e-4 -15.19034,0 -2.30102,-1.84262 -4.60214,-3.68351 -6.90471,-5.52377 -17.305019,-16.45607 -34.610853,-32.91096 -51.918021,-49.36517 -4.165321,-9.50542 -8.331565,-19.00967 -12.498847,-28.513 1.823749,-7.94298 3.646497,-15.88495 5.468246,-23.82593 8.85435,-29.42537 17.708416,-58.85212 26.56005,-88.27311 4.68769,-8.332889 9.375136,-16.666127 14.061203,-24.997692 8.2022,-4.427044 16.405551,-8.85425 24.607109,-13.280025 4.90793,4.168026 9.81453,8.336774 14.72045,12.506794 6.9083,2.816134 13.81614,5.633489 20.72145,8.45122 6.80804,1.153218 13.61583,2.307561 20.42362,3.463076 7.15954,-1.386374 14.31502,-2.771155 21.47272,-4.155561 4.81577,1.890052 9.62844,3.780275 14.44205,5.672261 1.26797,11.496227 2.53454,22.989747 3.80046,34.487447 -2.49692,25.49378 -4.99404,50.98041 -7.49318,76.47844 z"
+     sodipodi:nodetypes="cccccccccccccccccccc"
+     transform="translate(3.3271042,4.3952314)" />
+  <path
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 313.47779,410.50316 c 1.456,-9.9613 3.08205,-15.22225 5.22628,-20.33048 2.14424,-5.10822 4.80309,-10.05688 8.989,-12.50814 4.1859,-2.45126 9.89056,-2.40078 14.02904,-0.51584 4.13848,1.88494 6.70841,5.60377 7.84139,11.80548 1.13298,6.20171 0.82833,14.88297 2.3153,21.58581 1.48698,6.70283 4.76528,11.42144 6.76473,45.32689 1.99944,33.90544 2.72062,97.0076 1.41181,132.37193 -1.30881,35.36433 -4.7731,43.27864 -11.18761,46.96844 -6.41451,3.6898 -16.77796,3.7282 -23.25332,-0.0315 -6.47537,-3.7597 -9.43458,-11.31546 -11.09173,-23.19109 -1.65715,-11.87563 -2.01286,-28.07337 -2.64178,-55.826 -0.62892,-27.75263 -1.5308,-67.04919 -1.33844,-94.03577 0.19237,-26.98658 1.47933,-41.65843 2.93533,-51.61973 z"
+     id="path7836"
+     inkscape:connector-curvature="0"
+     inkscape:path-effect="#path-effect7838"
+     inkscape:original-d="m 313.30789,405.80233 c 1.62653,-5.26027 3.25258,-10.52122 4.87815,-15.78286 2.66263,-4.95482 5.32148,-9.90348 7.98233,-14.85672 5.71061,0.0495 11.41527,0.1 17.1219,0.1515 2.57146,3.7186 5.14139,7.43743 7.71094,11.15816 -0.30377,8.68351 -0.60842,17.36477 -0.91421,26.05113 3.27992,4.71849 6.55822,9.4371 9.8349,14.1558 0.72194,63.09297 1.44326,126.19513 2.16342,189.29622 -3.33831,7.62779 -6.80261,15.5421 -10.01773,22.88587 -9.61437,0.0346 -19.97782,0.073 -29.96908,0.11104 -2.95826,-7.55689 -5.91748,-15.11265 -8.87728,-22.66636 -0.35467,-16.1971 -0.71038,-32.39484 -1.06713,-48.59305 -0.9011,-39.30705 -1.80298,-78.60361 -2.70604,-117.90699 1.28768,-14.66968 2.57463,-29.34153 3.85983,-44.00374 z"
+     sodipodi:nodetypes="cccccccccccccc"
+     transform="translate(-0.47894105,4.5919905)" />
+  <path
+     inkscape:original-d="m 196.14106,1164.2166 c -1.04048,12.7572 -2.08214,25.5174 -3.12471,38.2777 5.46971,3.6448 10.93749,7.29 16.40474,10.9365 h 59.36953 c 24.67386,-3.436 49.34924,-6.8714 74.02235,-10.3056 10.47989,-8.8043 20.95878,-17.6075 31.43667,-26.4098 9.6346,-14.8419 19.27006,-29.6858 28.90359,-44.5271 1.8236,-5.7292 3.12571,-11.9791 4.68706,-17.9671 -0.51968,-5.4682 -1.04055,-10.9374 -1.56235,-16.4048 -15.00237,-8.1113 -30.00539,-16.2215 -45.00895,-24.3304 -36.73718,1.037 -73.47606,2.075 -110.21768,3.114 -18.30311,29.2056 -36.60736,58.4125 -54.91025,87.6166 z"
+     inkscape:path-effect="#path-effect7689-5"
+     inkscape:connector-curvature="0"
+     id="path7687-8"
+     d="m 204.77167,1155.993 c -9.67201,20.9807 -10.71366,33.7409 -8.50002,41.9441 2.21364,8.2032 7.68142,11.8484 10.41543,13.671 2.73401,1.8227 62.10354,1.8227 74.44053,0.1051 12.33698,-1.7176 37.01237,-5.153 54.58886,-11.2726 17.57649,-6.1196 28.05534,-14.9228 38.11142,-26.745 10.05609,-11.8223 19.69159,-26.6661 25.26623,-36.9915 5.57465,-10.3254 7.18413,-16.4951 7.70477,-22.223 0.52063,-5.728 -2.4e-4,-11.1972 -7.76209,-17.986 -7.76186,-6.7888 -22.7649,-14.899 -48.63493,-18.4351 -25.87003,-3.5361 -62.60891,-2.4981 -90.13142,12.6237 -27.5225,15.1217 -45.82677,44.3286 -55.49878,65.3093 z"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="translate(-98.036899,-514.57645)"
+     sodipodi:nodetypes="cccccccccccc" />
+  <path
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 450.76846,199.00425 c 0.79922,1.33469 1.21328,4.18705 0.95951,7.87316 -0.25376,3.68611 -1.17285,8.18964 -2.96794,11.1361 -1.79508,2.94645 -4.46421,4.32704 -8.24018,4.18898 -3.77597,-0.13805 -8.65311,-1.79444 -13.487,-5.15515 -4.83389,-3.36071 -9.62057,-8.42354 -14.96024,-15.14418 -5.33968,-6.72064 -11.23173,-15.0984 -18.15939,-23.63501 -6.92767,-8.53662 -14.98317,-17.33285 -19.86256,-24.37591 -4.8794,-7.04307 -6.6286,-12.38274 -6.62825,-16.52568 3.5e-4,-4.14294 1.74974,-7.08928 4.32707,-9.43624 2.57732,-2.34697 5.985,-4.09686 10.08082,-4.83308 4.09582,-0.73621 8.88476,-0.45993 13.25681,2.53142 4.37204,2.99135 8.33152,8.70036 14.77611,16.618 6.4446,7.91765 15.37436,18.04418 21.18576,27.80256 5.81141,9.75839 8.50543,19.15293 10.74373,23.7549 2.2383,4.60198 4.02277,4.41912 5.50799,4.23488 1.48522,-0.18424 2.66853,-0.36944 3.46776,0.96525 z"
+     id="path8147"
+     inkscape:connector-curvature="0"
+     inkscape:path-effect="#path-effect8149"
+     inkscape:original-d="m 451.15329,197.48424 c 0.41552,2.85454 0.82957,5.7069 1.24285,8.56183 -0.92117,4.51761 -1.84026,9.02114 -2.76189,13.53322 -2.6695,1.38029 -5.33863,2.76088 -8.00945,4.14282 -4.88051,-1.65887 -9.75765,-3.31526 -14.63797,-4.97139 -4.78684,-5.06506 -9.57352,-10.12789 -14.36178,-15.19034 -5.89098,-8.37866 -11.78303,-16.75642 -17.67604,-25.13312 -8.00827,-8.65469 -16.01791,-17.49292 -24.02837,-26.23787 -1.74818,-5.34061 -3.49738,-10.68028 -5.24757,-16.01891 1.74999,-2.94668 3.49938,-5.89302 5.24757,-8.83802 3.40596,-1.7495 6.81364,-3.49939 10.21896,-5.24758 4.78658,0.27509 9.57552,0.55138 14.36178,0.82857 3.95892,5.70576 7.9184,11.41477 11.87609,17.12366 8.93141,10.12626 17.86117,20.25279 26.79025,30.38069 2.69385,9.38947 5.38787,18.78401 8.0785,28.17119 1.7847,-0.18378 3.56917,-0.36664 5.3535,-0.54858 1.18607,-0.18648 2.36938,-0.37168 3.55357,-0.55617 z"
+     transform="translate(2.8584185,1.1763567)"
+     sodipodi:nodetypes="ccccccccccccccccc" />
+  <path
+     inkscape:original-d="m 322.75176,916.66642 c 8.04604,10.40358 16.08534,20.80075 24.12584,31.20175 16.52612,-2.47728 33.05164,-4.95362 49.57814,-7.42925 3.99149,-14.52911 7.98129,-29.05468 11.97044,-43.58052 -8.91745,-1.95395 -17.83591,-3.9069 -26.75534,-5.85884 -19.63867,8.55461 -39.27084,17.10695 -58.91908,25.66686 z"
+     inkscape:path-effect="#path-effect7689"
+     inkscape:connector-curvature="0"
+     id="path7687"
+     d="m 336.59845,917.58892 c -5.80176,9.48194 2.23754,19.87911 14.52147,23.84095 12.28392,3.96185 28.80945,1.48552 39.06804,-7.01736 10.2586,-8.50288 14.2484,-23.02845 11.78446,-31.26767 -2.46395,-8.23922 -11.38241,-10.19217 -25.66122,-6.89118 -14.27882,3.30098 -33.91099,11.85333 -39.71275,21.33526 z"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     transform="rotate(-3.6864662,-7633.3199,2225.8744)"
+     sodipodi:nodetypes="cccccc" />
+  <path
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 482.02559,283.57816 c -7.25428,10.75424 -13.49271,22.29913 -15.55292,29.79976 -2.06021,7.50062 0.0586,10.95675 3.78245,12.91798 3.72385,1.96123 9.05031,2.42681 15.61347,0.52619 6.56316,-1.90062 14.36116,-6.16646 24.68793,-10.62317 10.32676,-4.45671 23.18135,-9.10415 36.28888,-20.30477 13.10752,-11.20061 26.46071,-28.94593 33.17254,-40.26427 6.71184,-11.31834 6.77692,-16.19983 4.56364,-20.43066 -2.21329,-4.23083 -6.70505,-7.81122 -15.06971,-9.21092 -8.36466,-1.3997 -20.60133,-0.61863 -31.86493,4.23146 -11.26361,4.85008 -21.54763,13.76724 -30.8242,23.2064 -9.27658,9.43916 -17.54288,19.39776 -24.79715,30.152 z"
+     id="path7814"
+     inkscape:connector-curvature="0"
+     inkscape:path-effect="#path-effect7816"
+     inkscape:original-d="m 481.01032,282.78643 c -6.23865,11.54616 -12.47708,23.09105 -18.71631,34.63657 2.11962,3.45483 4.23843,6.91095 6.35643,10.36837 5.32862,0.46468 10.65508,0.93026 15.98151,1.39692 7.79961,-4.26717 15.59761,-8.53301 23.3947,-12.7979 12.85643,-4.64874 25.71102,-9.29618 38.56705,-13.94351 13.35938,-17.75322 26.71257,-35.49854 40.07095,-53.2511 0.0661,-4.88423 0.1312,-9.76572 0.1953,-14.64708 -4.49078,-3.58141 -8.98255,-7.1618 -13.47533,-10.74121 -12.23747,0.78018 -24.47414,1.56125 -36.71536,2.34354 -10.28599,8.91874 -20.57001,17.8359 -30.85652,26.75535 -8.26648,9.95902 -16.53278,19.91762 -24.80242,29.88005 z"
+     sodipodi:nodetypes="cccccccccccc"
+     transform="translate(3.2490075,-1.9483553)" />
+  <path
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 229.20156,330.91876 c -4.74993,4.29012 -15.20059,8.75581 -27.19267,10.25206 -11.99207,1.49624 -25.5238,0.0234 -35.87683,-0.89958 -10.35302,-0.92297 -17.52426,-1.29579 -21.37409,-4.17746 -3.84983,-2.88166 -4.37519,-8.27006 -4.1031,-14.4821 0.27209,-6.21203 1.34141,-13.24694 5.42007,-24.40429 4.07865,-11.15736 11.16872,-26.44244 16.37059,-34.86587 5.20186,-8.42342 8.51611,-9.98848 19.09152,-1.47855 10.57541,8.50994 28.41087,27.0919 38.04268,38.36106 9.6318,11.26915 11.0549,15.21955 12.24009,19.25398 1.18519,4.03443 2.13167,8.15064 -2.61826,12.44075 z"
+     id="path7712"
+     inkscape:connector-curvature="0"
+     inkscape:path-effect="#path-effect7714"
+     inkscape:original-d="m 234.898,330.74501 c -10.44658,4.46338 -20.89724,8.92908 -31.34736,13.39512 -13.5337,-1.47417 -27.06543,-2.94701 -40.59965,-4.41901 -7.1719,-0.3739 -14.34314,-0.74671 -21.5173,-1.11863 -0.52446,-5.39048 -1.04982,-10.77888 -1.57623,-16.16682 1.07032,-7.0359 2.13965,-14.0708 3.20798,-21.1047 7.08859,-15.28074 14.17866,-30.56582 21.26649,-45.84723 3.31526,-1.56607 6.62951,-3.13113 9.94277,-4.6952 17.83878,18.58339 35.67424,37.16535 53.51335,55.75316 1.42469,3.95105 2.84778,7.90145 4.2705,11.85459 0.94763,4.11588 1.8941,8.23209 2.83945,12.34872 z"
+     sodipodi:nodetypes="ccccccccccc"
+     transform="translate(3.6723413,1.3571645)" />
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6"
+     class="black"
+     y="162.29144"
+     x="75.146912">
+    <tspan
+       sodipodi:role="line"
+       id="tspan8091"
+       x="75.146912"
+       y="162.29144">V4</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-4"
+     class="black"
+     y="623.18829"
+     x="142.1692">
+    <tspan
+       y="623.18829"
+       x="142.1692"
+       id="tspan7573-4-22-9-0"
+       sodipodi:role="line">V2</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-5"
+     class="black"
+     y="301.6033"
+     x="162.26057">
+    <tspan
+       y="301.6033"
+       x="162.26057"
+       id="tspan7573-4-22-9-9"
+       sodipodi:role="line">V3</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-46"
+     class="black"
+     y="65.217545"
+     x="487.37344">
+    <tspan
+       y="65.217545"
+       x="487.37344"
+       id="tspan7573-4-22-9-92"
+       sodipodi:role="line">V7</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-54"
+     class="black"
+     y="234.15631"
+     x="380.9458">
+    <tspan
+       y="234.15631"
+       x="380.9458"
+       id="tspan7573-4-22-9-8"
+       sodipodi:role="line">V5</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-46-2"
+     class="black"
+     y="288.68204"
+     x="545.05206">
+    <tspan
+       y="288.68204"
+       x="545.05206"
+       id="tspan7573-4-22-9-92-8"
+       sodipodi:role="line">V8</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-46-2-9"
+     class="black"
+     y="499.07401"
+     x="351.44305">
+    <tspan
+       y="499.07401"
+       x="351.44305"
+       id="tspan7573-4-22-9-92-8-3"
+       sodipodi:role="line">V9</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-4-6"
+     class="black"
+     y="423.83594"
+     x="274.77887">
+    <tspan
+       y="423.83594"
+       x="274.77887"
+       id="tspan7573-4-22-9-0-2"
+       sodipodi:role="line">V1</tspan>
+  </text>
+  <text
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.66666698px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;dominant-baseline:middle;text-anchor:middle;fill:#000000"
+     id="text1698-2-5-104-6-54-7"
+     class="black"
+     y="129.08705"
+     x="386.56094">
+    <tspan
+       y="129.08705"
+       x="386.56094"
+       id="tspan7573-4-22-9-8-2"
+       sodipodi:role="line">V6</tspan>
+  </text>
   <rect
      style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1.01497066;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:10;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
      id="rect15757"
@@ -996,22 +1276,14 @@ line.numbering-line {stroke: rgb(204, 204, 204);}
        id="line430" />
   </g>
   <g
-     id="g436">
+     id="g436"
+     transform="translate(-1.8297463,-2.7618813)">
     <text
-       x="239.348"
+       x="239.34801"
        y="392.134"
        class="numbering-label sequential"
-       id="text434">50</text>
-  </g>
-  <g
-     id="g440">
-    <line
-       x1="228.199"
-       y1="392.134"
-       x2="236.672"
-       y2="392.134"
-       class="numbering-line sequential"
-       id="line438" />
+       id="text434"
+       style="dominant-baseline:middle;text-anchor:middle;fill:#cccccc">50</text>
   </g>
   <g
      id="g446"
@@ -1034,18 +1306,6 @@ line.numbering-line {stroke: rgb(204, 204, 204);}
        y2="391.134"
        class="black"
        id="line448" />
-  </g>
-  <g
-     id="g456"
-     style="fill:#2ca02c;fill-opacity:1">
-    <title
-       id="title452">51 (position.label in template: 51.A)</title>
-    <text
-       x="229.34"
-       y="394.083"
-       class="black"
-       id="text454"
-       style="fill:#2ca02c;fill-opacity:1">A</text>
   </g>
   <g
      id="g462"
@@ -11263,19 +11523,21 @@ line.numbering-line {stroke: rgb(204, 204, 204);}
   </g>
   <g
      id="g5368"
-     style="fill:#00aad4;fill-opacity:1">
+     style="fill:#00aad4;fill-opacity:1"
+     transform="translate(-0.57510625,-0.64727584)">
     <title
        id="title5364">719 (position.label in template: 719.U)</title>
     <text
        x="50"
-       y="218.921"
+       y="218.92101"
        class="black"
        id="text5366"
-       style="fill:#00aad4;fill-opacity:1">U</text>
+       style="dominant-baseline:middle;text-anchor:middle;fill:#00aad4;fill-opacity:1">U</text>
   </g>
   <g
      id="g5374"
-     style="fill:#00aad4;fill-opacity:1">
+     style="fill:#00aad4;fill-opacity:1"
+     transform="translate(-0.57510625,-0.64727584)">
     <title
        id="title5370">720 (position.label in template: 720.G)</title>
     <text
@@ -11283,7 +11545,7 @@ line.numbering-line {stroke: rgb(204, 204, 204);}
        y="214.479"
        class="black"
        id="text5372"
-       style="fill:#00aad4;fill-opacity:1">G</text>
+       style="dominant-baseline:middle;text-anchor:middle;fill:#00aad4;fill-opacity:1">G</text>
   </g>
   <g
      id="g5380"
@@ -14034,22 +14296,14 @@ line.numbering-line {stroke: rgb(204, 204, 204);}
        id="line6698" />
   </g>
   <g
-     id="g6704">
+     id="g6704"
+     transform="translate(8.9224557,-5.6212354)">
     <text
        x="155.459"
-       y="94.2393"
+       y="94.239304"
        class="numbering-label sequential"
-       id="text6702">900</text>
-  </g>
-  <g
-     id="g6708">
-    <line
-       x1="155.459"
-       y1="83.0899"
-       x2="155.459"
-       y2="90.8945"
-       class="numbering-line sequential"
-       id="line6706" />
+       id="text6702"
+       style="dominant-baseline:middle;text-anchor:middle;fill:#cccccc">900</text>
   </g>
   <g
      id="g6714"
@@ -15278,14 +15532,16 @@ line.numbering-line {stroke: rgb(204, 204, 204);}
        id="line7306" />
   </g>
   <g
-     id="g7314">
+     id="g7314"
+     style="fill:#ff0000;fill-opacity:1">
     <title
        id="title7310">990 (position.label in template: 990.C)</title>
     <text
        x="287.903"
        y="160.98"
        class="black"
-       id="text7312">C</text>
+       id="text7312"
+       style="fill:#ff0000;fill-opacity:1">C</text>
   </g>
   <g
      id="g7318">
@@ -29676,4 +29932,1875 @@ line.numbering-line {stroke: rgb(204, 204, 204);}
        y="727.12268">Behrens S et al. (2003) In Situ Accessibility of Small-Subunit rRNA of Members of the Domains Bacteria, Archaea, and Eukarya to Cy3-Labeled Oligonucleotide Probes. <tspan
    style="font-style:italic"
    id="tspan15932">Appl. Environ. Microbiol</tspan>. 69:1748</tspan></text>
+  <g
+     transform="matrix(0,0.5,-1,0,476.68116,-13.644567)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,468.09062,320.55865)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,227.25284,662.16596)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,340.68965,754.57158)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,-149.02151,569.48351)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,636.44742,283.45242)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,80.458282,749.16913)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-4"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(1,0,0,-1,59.854297,888.31652)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g2664-7">
+    <line
+       x1="174.69701"
+       y1="498.87799"
+       x2="168.034"
+       y2="496.87299"
+       class="numbering-line sequential"
+       id="line2662-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     id="g456"
+     style="fill:#2ca02c;fill-opacity:1">
+    <title
+       id="title452">51 (position.label in template: 51.A)</title>
+    <text
+       x="229.34"
+       y="394.083"
+       class="black"
+       id="text454"
+       style="fill:#2ca02c;fill-opacity:1">A</text>
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,679.31456,292.53362)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-6">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,49.699399,785.00567)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,347.34879,904.58675)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,348.6182,943.25506)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-5">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-09"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,636.52597,447.63002)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,600.15943,783.52456)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-84"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,687.32163,490.95283)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-3">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,610.30684,806.73057)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-4"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,354.15382,1014.8789)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-6">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,611.19358,849.53409)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-59">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,5.4103266,1014.3108)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-18">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,557.84688,575.78131)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,503.8521,569.29089)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,525.39477,544.57205)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-31">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-89"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,309.94989,1020.3964)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-33"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,585.08497,491.05047)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-60">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-48"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,561.35669,469.07984)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-89">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-77"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,11.031089,937.53067)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-3">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,13.081681,859.99875)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-5">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-40"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,-10.256012,890.95293)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-94">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,532.06251,414.10444)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-24">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-775"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,540.75311,393.01264)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-36">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-80"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,324.01109,870.8008)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-51">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,528.584,681.28789)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-64"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,590.06498,342.82195)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-86">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-28"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,8.1016711,810.88219)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-62"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,312.00049,821.196)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-03"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,586.94027,290.19008)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-69">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,326.54992,779.79357)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-56">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,585.86614,260.21238)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-26">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-75"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,569.00177,233.49257)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-29">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,18.256985,701.61492)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-13">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-21"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,596.41204,222.91113)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-14">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-91"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,553.64255,222.12995)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-758"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,320.3005,711.34285)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-04"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,534.54048,481.69691)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-04"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,545.37933,460.21452)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,602.46617,181.5087)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-04">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-22"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,338.58423,662.56085)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-20">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,28.19906,578.99485)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-52">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,361.79483,642.47377)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-28">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-38"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,361.79484,701.11238)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-04">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-091"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,397.65345,662.73903)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-44">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,627.59832,437.16977)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-50">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,554.73237,56.907918)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-94">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-35"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,532.94557,312.36787)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,285.49148,547.07808)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-43">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-14"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,-67.079133,594.83695)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-6">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-94"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,606.10336,55.11269)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-22">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,241.57757,507.85936)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-92"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,-65.698192,645.10318)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,501.28997,-44.038846)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-868">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-38"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,600.65872,401.65681)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-3">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,268.43294,600.01004)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-3">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-80"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,-11.583383,559.93741)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,395.13815,469.05494)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="translate(3.1205548,12.156207)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#cccccc;fill-opacity:1;stroke:#cccccc;stroke-opacity:1"
+     id="g5290-6">
+    <line
+       x1="86.006599"
+       y1="211.005"
+       x2="84.884399"
+       y2="206.634"
+       class="black"
+       id="line5288-5"
+       style="stroke:#cccccc;fill:#cccccc;fill-opacity:1;stroke-opacity:1" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,-105.16913,557.58523)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-65">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-87"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="translate(49.893587,-24.266217)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;fill:#cccccc;fill-opacity:1;stroke:#cccccc;stroke-opacity:1"
+     id="g5290-6-1">
+    <line
+       x1="86.006599"
+       y1="211.005"
+       x2="84.884399"
+       y2="206.634"
+       class="black"
+       id="line5288-5-0"
+       style="fill:#cccccc;fill-opacity:1;stroke:#cccccc;stroke-opacity:1" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,-38.144531,424.93932)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,588.33629,-52.382392)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,618.47285,386.88076)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,317.43826,498.68727)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,88.396717,551.09938)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-925"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,597.45049,-31.53019)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,347.81895,535.006)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-5">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,631.55973,-59.701378)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,348.37133,488.4683)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,369.63782,548.53921)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-19">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,419.76596,535.006)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,399.60423,552.82014)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,722.1494,177.93623)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-60"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,714.03391,460.18643)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-6">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,562.96949,529.87425)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-46">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,275.65225,470.2921)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,550.83478,472.07953)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,681.7199,493.99721)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-6-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-6-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,526.78884,448.65267)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-46-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-2-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,149.57237,702.82023)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,737.61597,156.13964)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-2-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-60-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,750.35268,368.65234)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-6-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-6-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,437.16581,621.0386)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-46-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-2-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,183.95781,576.5087)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,697.43063,156.3)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-2-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-60-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,724.66722,436.04225)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-6-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-6-4"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,420.04218,582.25644)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-46-5">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-2-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,152.3343,589.78799)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,831.38185,-12.197028)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,808.2141,458.68966)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-60"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,365.68961,465.75726)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,563.66002,627.52902)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-6"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,798.2393,206.70433)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,793.16182,406.05355)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,225.66225,643.23039)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,561.17435,699.6364)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,825.89012,338.3652)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-3">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,836.10908,311.45913)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-83">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,799.65231,382.59984)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-37"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,492.67967,539.58537)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-46-1-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-2-3-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,252.7287,540.48841)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-7-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-7-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,766.23357,377.65072)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-3-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-3-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,439.65153,942.24539)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,879.47061,299.19101)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-3-93">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-3-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,585.75505,660.11922)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,849.6103,-41.174506)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-2-7-0-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-60-0-9-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,305.34254,443.4083)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-7-7-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-7-9-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,949.76058,280.15633)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-3-93-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-3-2-2"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,620.96909,506.719)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-4-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-3-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,779.76673,558.62524)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-5">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,826.30443,537.65721)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-74">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-17"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,369.28006,624.40508)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,808.35221,559.52059)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-70"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,328.40416,617.7988)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-40">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,304.37585,645.30181)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-19">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-64"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,583.40745,575.90411)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-85-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-8-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-1,0,0,1,916.77656,-10.690538)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica;stroke:#cccccc;stroke-opacity:1"
+     id="g8652-8">
+    <line
+       x1="447.177"
+       y1="316.73001"
+       x2="449.54599"
+       y2="320.57001"
+       class="black"
+       id="line8650-1"
+       style="stroke:#cccccc;stroke-opacity:1" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,603.56918,770.75483)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-71-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-38-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,244.30491,696.35207)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-7-7">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-7-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,307.69002,668.47931)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-7-6">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-7-4"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,-0.35355339,0.70710678,-0.70710678,336.41365,645.1637)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-5-37-77-8-7-63">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-0-3-4-9-7-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,841.90907,522.78757)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-1-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-70-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,747.59078,540.69527)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-70">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-608"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,441.03243,986.27512)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-85-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-8-4"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,757.86892,269.14312)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-4-1">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-91-5"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.35355339,0.35355339,-0.70710678,-0.70710678,767.15328,564.09798)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-6-3-70-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-87-1-608-1"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,441.17056,856.07471)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-85-9-4">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-8-4-9"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(0,0.5,-1,0,753.03565,248.45129)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-68-2-4-8">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-90-07-91-3"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,441.44678,766.19775)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-85-9-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-8-4-7"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,437.71824,899.04423)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-0">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-34"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,461.47033,991.36231)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-6">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-36"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,463.12757,946.6867)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-6-5">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-36-8"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,465.7513,903.99335)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-6-9">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-36-0"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,461.33226,860.47143)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-6-2">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-36-4"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="matrix(-0.5,0,0,-1,461.14733,772.04024)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g440-5-7-3-4-7-9-190-6-4-6-2-3">
+    <line
+       x1="228.19901"
+       y1="392.134"
+       x2="236.672"
+       y2="392.134"
+       class="numbering-line sequential"
+       id="line438-6-0-6-4-8-033-56-0-3-36-4-38"
+       style="stroke:#cccccc" />
+  </g>
+  <g
+     transform="translate(0.53100586,-155.0591)"
+     style="font-weight:bold;font-size:4px;font-family:Helvetica"
+     id="g4840-5">
+    <line
+       x1="154.92799"
+       y1="238.149"
+       x2="160.57001"
+       y2="241.40601"
+       class="numbering-line sequential"
+       id="line4838-1"
+       style="stroke:#cccccc" />
+  </g>
 </svg>
