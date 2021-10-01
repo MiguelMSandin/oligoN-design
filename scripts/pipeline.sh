@@ -28,6 +28,6 @@ alignmentConsensus.py -f ${TARGET/.fasta/_align.fasta} -o $CONSENSUS
 alignPrimers.sh -c $CONSENSUS -p $PROBES.fasta -o ${CONSENSUS/.fasta/_probes.fasta}
 
 # Estimate accessibility by the relative position to the S. cerevisiae template
-rateAccess.py -f 
+rateAccess.py -f ${CONSENSUS/.fasta/_probes.fasta} -o $PROBES"_access.tsv"
 
 
