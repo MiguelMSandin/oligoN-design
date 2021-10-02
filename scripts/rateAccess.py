@@ -3,9 +3,7 @@
 import argparse
 import os
 from Bio import SeqIO
-#from Bio.Seq import Seq
-#import regex
-#import re
+from statistics import mean
 
 parser = argparse.ArgumentParser(description="Estimate the accessibility of the primers/probes in the rDNA by comparing the position to the Saccharomyces cerevisiae 18S rDNA template.")
 
@@ -19,7 +17,7 @@ parser.add_argument("-a", "--accessMap", dest="accessMap", required=False, defau
 					help="The accessibility map table. By default will assume is located with the script and called 'accessibilityMap.tsv'.")
 
 parser.add_argument("-o", "--output", dest="file_out", required=False,
-					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_access.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the position in the target consensus file, the approximate region in the 18S (C1-C10, V1-V9), the position regarding the Saccharomyces cerevisiae 18S rDNA template, the average maximun relative brightness (0-1), the average minimum relative brightness (0-1), the average relative brightness (0-1) and the given brightness class (VI-I).")
+					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_access.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the first position in the target consensus sequence, the approximate region in the 18S (C1-C10, V1-V9), the first position regarding the Saccharomyces cerevisiae 18S rDNA template, the average maximun relative brightness (0-1), the average minimum relative brightness (0-1), the average relative brightness (0-1) and the given brightness class (VI-I).")
 
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
 					help="If selected, will print information to the console.")
@@ -30,8 +28,7 @@ args = parser.parse_args()
 if args.verbose:
 	print("  Reading accessibility map:", args.accessMap)
 access = {}
-#for lin in open(args.accessMap):
-for line in open(os.path.realpath("accessibilityMap.tsv")):
+for line in open(args.accessMap):
     line = line.strip().split()
     access[line[0]] = {}
     access[line[0]]['region'] = line[1]
@@ -55,7 +52,7 @@ def extractPositions(sequence):
 		out[position] = {}
 		out[position]['base'] = str(Sbase)
 		if Sbase == "-":
-			out[position]['ungapped'] = "NA"
+			out[position]['ungapped'] = posUngap
 		else:
 			posUngap += 1
 			out[position]['ungapped'] = posUngap
@@ -77,27 +74,30 @@ s = 0
 c = 0
 primers = {}
 p = 0
-#for line in SeqIO.parse(open(args.file_in), "fasta"):
-for line in SeqIO.parse(open("dumies/guinardia_consensus_probes.fasta"), "fasta"):
+for line in SeqIO.parse(open(args.file_in), "fasta"):
 	name = line.id
 	seq = line.seq
+	
 	# First extract the template sequence of S. cerevisiae
 	if "Saccharomyces" in name and s == 0:
 		s += 1
 		Scerevisae = extractPositions(seq)
 		Sname = name
+	
 	# Extract positions of the consensus sequence with the most abundant base if present
 	if "consensus" in name and "mostAbundant" in name:
 		c += 1
 		consensus = extractPositions(seq)
 		Cname = name
+	
 	# Otherwise take the first consensus sequence present
 	elif "consensus" in name and "mostAbundant" not in name and c == 0:
 		c += 1
 		consensus = extractPositions(seq)
 		Cname = name
+	
 	# And now the primers/probes
-	# But to safe memory we will only extract relevant positions now
+	# But to safe memory we will only extract relevant positions
 	if "primer" in name:
 		p += 1
 		primers[name] = extractPositionsPrimers(seq)
@@ -108,20 +108,66 @@ if args.verbose:
 	print("    Total primers to estimate accessibility: ", p)
 
 
+# Estimating accessibility classes by matching positions ___________________________________________
+if args.verbose:
+	print("  Estimating accessibility")
 
+with open(args.file_out, "w") as fileOut:
+	print("identifier\tsequence\tstart_position\tregion\tScerevisae_start_position\taverage_max_brightness\taverage_min_brightness\taverage_brightness\tclass", file=fileOut)
+	for key in primers:
+		value = primers[key]
+		# Join the separated bases of the primer
+		seq = "".join(value['bases'])
+		seq = seq.upper()
+		
+		# Find the first position of the primer in the alignment
+		positions = value['positions']
+		start = positions[0]
+		
+		# Match the first position of the primer to the consensus sequence
+		positionConsensus = consensus[start]['ungapped']
+		
+		# extract all regions from the different positions
+		region = set()
+		for i in positions:
+			region.add(access[str(i)]['region'])
+		region = "-".join(region)
+		
+		# Match the first position of the primer to the S. cerevisae sequence
+		positionScerevisae = Scerevisae[start]['ungapped']
+		
+		# Calculate mean maximum and minimum relative brightness
+		maxb = list()
+		minb = list()
+		for i in positions:
+			p = Scerevisae[i]['ungapped']
+			maxb.append(float(access[str(p)]['brightMax']))
+			minb.append(float(access[str(p)]['brightMin']))
+		meanMaxBright = round(mean(maxb), 2)
+		meanMinBright = round(mean(minb), 2)
+		
+		# Calculate mean relative brightness
+		meanBright = round(mean(maxb+minb), 2)
+		
+		# Give the arbitrary class according to the mean relative brightness
+		if meanBright <= 0.05:
+			classp = "VI"
+		elif  meanBright > 0.05 and meanBright <= 0.2:
+			classp = "V"
+		elif  meanBright > 0.2 and meanBright <= 0.4:
+			classp = "IV"
+		elif  meanBright > 0.4 and meanBright <= 0.6:
+			classp = "III"
+		elif  meanBright > 0.6 and meanBright <= 0.8:
+			classp = "II"
+		elif  meanBright > 0.8 and meanBright <= 1:
+			classp = "I"
+		else:
+			classp = "NA"
+		
+		# And finally export all these info
+		print(str(key) + "\t" + str(seq) + "\t" + str(positionConsensus) + "\t" + str(region) + "\t" + str(positionScerevisae) + "\t" + str(meanMaxBright) + "\t" + str(meanMinBright) + "\t" + str(meanBright) + "\t" + str(classp), file=fileOut)
 
-
-
-
-
-
-
-
-
-
-
-
-
-if verbose:
+if args.verbose:
 	print("Done")
 
