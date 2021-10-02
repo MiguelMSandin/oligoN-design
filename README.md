@@ -100,11 +100,6 @@ We can now merge the outputs from **Step 2** and **Step 3** with the wrapper scr
   
 If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific primer/probe with the selected number of mismatches.  
   
-## (3.1 Add a script to automatically filter probes)
-(Based on length, GC content, number of matches,...)
-  
-## (3.2 Add a script to automatically select the X% best probes)
-  
 ## 4. Generate a consensus sequence of the target file
 First we have to align the file, and for that we use [mafft](https://mafft.cbrc.jp/alignment/software/). Depending on the size and similarity of sequences you have in the target group you may want to explore the different options and algorithms of mafft. The simplest command uses an automatic selection of best parameters according to your file size, as follows:  
   
@@ -125,7 +120,17 @@ With this step we want to know in what positions of the 18S rDNA gene the candid
 or **newly implemented**, if you want to also include the *Saccharomyces cerevisiae* template 18S sequence you can do it with the follwoing script (and if you have more than one sequence in the consensus file there is no need for previously align the file):  
   
 `alignPrimers.sh -c target_consensus.fasta -p guinardia_PR2_m8_s001.fasta -o target_consensus_regions.fasta`
+
+## 6. Estimate accessibility regions
+
+'rateAccess.py -f target_consensus_regions.fasta -o guinardia_probes_access.tsv'  
   
+## (TO BE DONE: 7 Add a script to automatically filter probes)
+(Based on length, GC content, number of matches,...)
+  
+## (TO BE DONE: 7 Add a script to automatically select the X% best probes)
+
+
 ## 6. Estimate the secondary structure
 ### (to be implemented)
 By using the recently develop tool [R2DT](https://github.com/rnacentral/R2DT) ([Sweeney et al., 2021](https://www.nature.com/articles/s41467-021-23555-5#citeas) ), it is possible to infer the secondary structure of (almost) any 18S rDNA.  
