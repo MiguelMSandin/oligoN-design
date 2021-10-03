@@ -26,7 +26,7 @@ If you already have a target fasta file and a reference fasta file (note that th
 `alignPrimers.sh -c target_consensus.fasta -p output.fasta -o target_primers.fasta`  
 `rateAccess.py -f target_primers.fasta -o output_access.tsv`  
   
-Briefly: First candidate primers are selected with `findPrimer.py`, then they are tested for unespecific hits with `testPrimer.py`. A consensus sequence is created from the target file with the wrapper `createConsensus.sh` and the consensus sequence and the candidate primers are aligned to the *Saccharomyces cerivisae* template  18S rDNA sequence to estimate the accessibility with `rateAccess.py`.  
+Briefly: First candidate primers are selected with `findPrimer.py`, then they are tested for unespecific hits with `testPrimer.py`. A consensus sequence is created from the target file with the wrapper `createConsensus.sh` and the consensus sequence and the candidate primers are aligned to the *Saccharomyces cerivisae* template  18S rDNA sequence with `alignPriemrs.sh` to estimate the accessibility with `rateAccess.py`.  
 And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments.  
   
 (**Not tested**) The **laziest option** is simply running the wrapper `oligoNdesign.sh` as follows:  
