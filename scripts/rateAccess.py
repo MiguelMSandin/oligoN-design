@@ -4,6 +4,7 @@ import argparse
 import os
 from Bio import SeqIO
 from statistics import mean
+import sys
 
 parser = argparse.ArgumentParser(description="Estimate the accessibility of the primers/probes in the rDNA by comparing the position to the Saccharomyces cerevisiae 18S rDNA template.")
 
@@ -13,8 +14,8 @@ requiredArgs = parser.add_argument_group('required arguments')
 requiredArgs.add_argument("-f", "--file", dest="file_in", required=True,
 					help="A fasta file with the (1) Saccharomyces cerevisiae template, (2) the consensus sequence(s) of the target file and (3) the primers/probes aligned. Note sequences will be identified by containing the words 'Saccharomyces', 'consensus' and 'primer' respectively, and prefereably will take the consensus sequence with the most abundant base as consensus to avoid ambiguities.")
 
-parser.add_argument("-a", "--accessMap", dest="accessMap", required=False, default=os.path.realpath("accessibilityMap.tsv"),
-					help="The accessibility map table. By default will assume is located with the script and called 'accessibilityMap.tsv'.")
+parser.add_argument("-a", "--accessMap", dest="accessMap", required=False, default="/usr/local/bin/accessibilityMap.tsv",
+					help="The accessibility map table. By default will assume is located in '/usr/local/bin/' and called 'accessibilityMap.tsv'.")
 
 parser.add_argument("-o", "--output", dest="file_out", required=False,
 					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_access.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the first position in the target consensus sequence, the approximate region in the 18S (C1-C10, V1-V9), the first position regarding the Saccharomyces cerevisiae 18S rDNA template, the average maximun relative brightness (0-1), the average minimum relative brightness (0-1), the average relative brightness (0-1) and the given brightness class (VI-I).")
@@ -102,6 +103,14 @@ for line in SeqIO.parse(open(args.file_in), "fasta"):
 		p += 1
 		primers[name] = extractPositionsPrimers(seq)
 
+if "Sname" not in locals():
+	print("\nError: There is no  sequence with the identifier 'Saccharomyces' in the alignment.\nExiting\n")
+	sys.exit(1)
+
+if "Cname" not in locals():
+	print("\nError: There is no  sequence with the identifier 'consensus' in the alignment.\nExiting\n")
+	sys.exit(1)
+
 if args.verbose:
 	print("    Saccharomyces cerevisiae template:       ", Sname)
 	print("    Target group sequence template:          ", Cname)
@@ -170,4 +179,3 @@ with open(args.file_out, "w") as fileOut:
 
 if args.verbose:
 	print("Done")
-
