@@ -139,7 +139,8 @@ with open(args.file_out, "w") as fileOut:
 		# extract all regions from the different positions
 		region = set()
 		for i in positions:
-			region.add(access[str(i)]['region'])
+			p = Scerevisae[i]['ungapped']
+			region.add(access[str(p)]['region'])
 		region = "-".join(region)
 		
 		# Match the first position of the primer to the S. cerevisae sequence
@@ -179,3 +180,4 @@ with open(args.file_out, "w") as fileOut:
 
 if args.verbose:
 	print("Done")
+
