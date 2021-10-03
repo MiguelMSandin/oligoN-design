@@ -22,8 +22,9 @@ If you already have a target fasta file and a reference fasta file (note that th
 
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
 `testPrimer.py -r reference.fasta -f output.fasta -o output_TP.tsv`  
-  
-And based on your preferred parameters along with the accessibility of the region you select the best candidate primers/probes for preliminary laboratory experiments.  
+`rateAccess.py -f output.fasta -o output_access.tsv`  
+
+And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments.  
   
 ## Overview
 - **[1](https://github.com/MiguelMSandin/oligoN-design#1-prepare-files). Select a target and a reference fasta files**: containing the sequences of your group of inerest and a reference file with a complete overview of the diversity for the studied gene respectively (note that the target group should not be in the reference file).  
@@ -123,7 +124,7 @@ or **newly implemented**, if you want to also include the *Saccharomyces cerevis
 
 ## 6. Estimate accessibility regions
 
-'rateAccess.py -f target_consensus_regions.fasta -o guinardia_probes_access.tsv'  
+`rateAccess.py -f target_consensus_regions.fasta -o guinardia_probes_access.tsv`  
   
 ## (TO BE DONE: 7 Add a script to automatically filter probes)
 (Based on length, GC content, number of matches,...)
