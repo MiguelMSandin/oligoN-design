@@ -19,11 +19,15 @@ Download and move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`). Y
   
 ## Quick start  
 If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the simplest pipeline is as follows:
-
+  
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
 `testPrimer.py -r reference.fasta -f output.fasta -o output_TP.tsv`  
-
-And based on your preferred parameters and the accessibility you select the best candidate primers/probes for preliminary laboratory experiments.  
+`createConsensus.sh -t target.fasta -o target_consensus.fasta`  
+`alignPrimers.sh -c target_consensus.fasta -p output.fasta -o target_primers.fasta`  
+`rateAccess.py -f target_primers.fasta -o output_access.tsv`  
+  
+Briefly: First candidate primers are selected with `findPrimer.py`, then they are tested for unespecificy hits with `testPrimer.py`. A consensus sequence is created from the target file with the wrapper `createConsensus.sh` and the consensus sequence and the candidate primers are aligned to the *Saccharomyces cerivisae* template  18S rDNA sequence to estimate the accessibility with `rateAccess.py`.  
+And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments.  
   
 ## Overview
 - **[1](https://github.com/MiguelMSandin/oligoN-design#1-prepare-files). Select a target and a reference fasta files**: containing the sequences of your group of inerest and a reference file with a complete overview of the diversity for the studied gene respectively (note that the target group should not be in the reference file).  
