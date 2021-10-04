@@ -18,7 +18,7 @@ requiredArgs.add_argument("-f", "--file", dest="file_in", required=True,
 parser.add_argument("-a", "--accessMap", dest="accessMap", required=False, default="/usr/local/bin/accessibilityMap.tsv",
 					help="The accessibility map table. By default will assume is located in '/usr/local/bin/' and called 'accessibilityMap.tsv'.")
 
-parser.add_argument("-o", "--output", dest="file_out", required=False,
+parser.add_argument("-o", "--output", dest="file_out", required=False, default=None, 
 					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_access.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the first position in the target consensus sequence, the approximate region in the 18S (C1-C10, V1-V9), the first position regarding the Saccharomyces cerevisiae 18S rDNA template, the average maximun relative brightness (0-1), the average minimum relative brightness (0-1), the average relative brightness (0-1) and the given brightness class (VI-I).")
 
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
@@ -125,7 +125,7 @@ if args.verbose:
 if args.file_out is None:
         outFile = re.sub("\\.[^\\.]+$", "_access.tsv", args.file_in)
 else:
-        outFile = args.outFile
+        outFile = args.file_out
 
 with open(outFile, "w") as fileOut:
 	print("identifier\tsequence\tstart_position\tregion\tScerevisae_start_position\taverage_max_brightness\taverage_min_brightness\taverage_brightness\tclass", file=fileOut)
