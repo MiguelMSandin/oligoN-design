@@ -90,7 +90,7 @@ echo "Filtering primers"
 filterPrimer.py -l "$OUT_LOG" -s "0.4" -m "0.0001" -M "0.0001" -c "III" -v
 
 # And remove temporary files
-rm -f $tmp1 $tmp2 $tmp3 $tmp4 "$OUT_FASTA_NOEXT.tsv"
+rm -f $tmp1 $tmp2 $tmp3 $tmp4
 
 echo ""
 echo "Final fasta file containing all primers/probes exported to: $OUT_FASTA"
