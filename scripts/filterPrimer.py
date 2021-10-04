@@ -64,8 +64,7 @@ if args.verbose:
 	print("  Filtering")
 
 # Start filtering __________________________________________________________________________________
-#infile = pd.read_csv(args.logFile, sep="\t")
-infile = pd.read_csv("probes_log.tsv", sep="\t")
+infile = pd.read_csv(args.logFile, sep="\t")
 
 outfile = infile
 
