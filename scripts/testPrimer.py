@@ -18,7 +18,7 @@ requiredArgs.add_argument("-r", "--reference", dest="reference", required=True,
 					help="A reference fasta file to look against.")
 
 parser.add_argument("-o", "--output", dest="file_out", required=False,
-					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_log.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the length of the sequence and two columns for each given mismatch (containing the absolute number of hits in the reference file and the proportion of hits to the complete reference file) until arriving to the maximum allowed.")
+					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_tested.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the length of the sequence and two columns for each given mismatch (containing the absolute number of hits in the reference file and the proportion of hits to the complete reference file) until arriving to the maximum allowed.")
 
 parser.add_argument("-m", "--mismatch", dest="mismatch", required=False, action='store', type=int, default=2,
 					help="The maximum number of mismatches allowed. Bear in mind that will look from 1 to m mismatches. Default=2")
@@ -39,7 +39,7 @@ else:
 	verbose=False
 
 if args.file_out is None:
-	outFile = re.sub("\\.[^\\.]+$", "_log.tsv", args.file_in)
+	outFile = re.sub("\\.[^\\.]+$", "_tested.tsv", args.file_in)
 else:
 	outFile = args.file_out
 
@@ -52,7 +52,7 @@ if verbose:
 mismatches = args.mismatch
 mismatches = range(1, int(mismatches)+1)
 
-fields = [["name", "sequence"], ["mismatch"+str(i)+"\tmismatch"+str(i)+"_abs" for i in mismatches]]
+fields = [["identifier", "sequence"], ["mismatch"+str(i)+"\tmismatch"+str(i)+"_abs" for i in mismatches]]
 fields = [item for l in fields for item in l]
 fields = "\t".join(fields)
 
