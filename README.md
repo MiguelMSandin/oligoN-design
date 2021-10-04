@@ -18,20 +18,22 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 Download and move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`). You might need to make the scripts executable as follows: `chmod +x *.py`.
   
 ## Quick start  
-If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the simplest pipeline is as follows:
+If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the **laziest option** is simply running the wrapper `oligoNdesign.sh` as follows:  
+`oligoNdesign.sh -t target.fasta -r reference.fasta -o primers.fasta -l primers.log`  
+And you will obtain a fasta file containing all candidate primers a log file with all the characteristics for each primer and a filtered log file containing only the best scoring primers.  
   
+However, if you want to tune parameters, or have access to intermediate files you can run the pipeline as follows (explained in detail in the following section):  
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
 `testPrimer.py -r reference.fasta -f output.fasta -o output_TP.tsv`  
 `createConsensus.sh -t target.fasta -o target_consensus.fasta`  
 `alignPrimers.sh -c target_consensus.fasta -p output.fasta -o target_primers.fasta`  
 `rateAccess.py -f target_primers.fasta -o output_access.tsv`  
+`bindLogs.py -f probes.tsv output_TP.tsv output_access.tsv -o output_log.tsv`  
   
 Briefly: First candidate primers are selected with `findPrimer.py`, then they are tested for unespecific hits with `testPrimer.py`. A consensus sequence is created from the target file with the wrapper `createConsensus.sh` and the consensus sequence and the candidate primers are aligned to the *Saccharomyces cerivisae* template  18S rDNA sequence with `alignPriemrs.sh` to estimate the accessibility with `rateAccess.py`.  
-And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments.  
+And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments, for example:  
+`filterPrimer.py -l output_log.tsv -s 0.4 -m 0.0001 -M 0.0001 -c III -v`  
   
-The **laziest option** is simply running the wrapper `oligoNdesign.sh` as follows:  
-`oligoNdesign.sh -t target.fasta -r reference.fasta -o primers.fasta -l primers.log`  
-And you will obtain a fasta file containing all candidate primers and a log file with all the characteristics for each primer.  
   
 ## Overview
 - **[1](https://github.com/MiguelMSandin/oligoN-design#1-prepare-files). Select a target and a reference fasta files**: containing the sequences of your group of inerest and a reference file with a complete overview of the diversity for the studied gene respectively (note that the target group should not be in the reference file).  
