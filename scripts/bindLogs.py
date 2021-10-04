@@ -17,6 +17,9 @@ requiredArgs.add_argument("-o", "--output", dest="file_out", required=False,
 parser.add_argument("-i", "--identifier", dest="identifier", required=False, default="identifier",
 					help="The column name to identify similar rows. Default: 'identifier'")
 
+parser.add_argument("-r", "--remove", dest="remove", required=False, default=None, action="store_true",
+					help="If selected, will delete the input files before exiting.")
+
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
 					help="If selected, will print information to the console.")
 
@@ -34,7 +37,7 @@ for filei in args.files_in:
 		out = f
 		first = False
 	else:
-		out = pd.merge(out, f, how="left", on=args.identifier)
+		out = pd.merge(out, f, how="left", on=args.identifier, suffixes=('', '_new'))
 		out.drop(out.filter(regex='_new$').columns.tolist(), axis=1, inplace=True)
 
 
@@ -44,6 +47,10 @@ if args.verbose:
 
 out.to_csv(args.file_out, sep="\t", index=False)
 
+if args.remove:
+	import os
+	for filei in args.files_in:
+		os.remove(filei)
 
 if args.verbose:
 	print("Done")
