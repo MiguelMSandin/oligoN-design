@@ -123,7 +123,7 @@ if args.verbose:
 	print("  Estimating accessibility")
 
 if args.file_out is None:
-        outFile = re.sub("\\.[^\\.]+$", "_filtered.tsv", args.file_in)
+        outFile = re.sub("\\.[^\\.]+$", "_access.tsv", args.file_in)
 else:
         outFile = args.outFile
 
