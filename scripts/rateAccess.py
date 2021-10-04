@@ -5,6 +5,7 @@ import os
 from Bio import SeqIO
 from statistics import mean
 import sys
+import re
 
 parser = argparse.ArgumentParser(description="Estimate the accessibility of the primers/probes in the rDNA by comparing the position to the Saccharomyces cerevisiae 18S rDNA template.")
 
@@ -121,7 +122,12 @@ if args.verbose:
 if args.verbose:
 	print("  Estimating accessibility")
 
-with open(args.file_out, "w") as fileOut:
+if args.file_out is None:
+        outFile = re.sub("\\.[^\\.]+$", "_filtered.tsv", args.file_in)
+else:
+        outFile = args.outFile
+
+with open(outFile, "w") as fileOut:
 	print("identifier\tsequence\tstart_position\tregion\tScerevisae_start_position\taverage_max_brightness\taverage_min_brightness\taverage_brightness\tclass", file=fileOut)
 	for key in primers:
 		value = primers[key]
