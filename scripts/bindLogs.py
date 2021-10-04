@@ -28,15 +28,13 @@ if args.verbose:
 
 out = pd.DataFrame()
 first = True
-#for filei in args.files_in:
-for filei in ("../guinardia/probes_guinardia_PR2_s001_m8.tsv", "../guinardia/probes_guinardia_PR2_s001_m8_tested_m2.tsv", "../guinardia/probes_guinardia_PR2_s001_m8_access.tsv"):
+for filei in args.files_in:
 	f = pd.read_csv(filei, sep="\t")
 	if first:
 		out = f
 		first = False
 	else:
-		#out = pd.merge(out, f, how="left", on=args.identifier)
-		out = pd.merge(out, f, how="left", on="identifier", suffixes=("", "_new"))
+		out = pd.merge(out, f, how="left", on=args.identifier)
 		out.drop(out.filter(regex='_new$').columns.tolist(), axis=1, inplace=True)
 
 
