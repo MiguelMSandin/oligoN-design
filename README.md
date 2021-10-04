@@ -19,10 +19,12 @@ Download and move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`). Y
   
 ## Quick start  
 If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the **laziest option** is simply running the wrapper `oligoNdesign.sh` as follows:  
+  
 `oligoNdesign.sh -t target.fasta -r reference.fasta -o primers.fasta -l primers.log`  
+  
 And you will obtain a fasta file containing all candidate primers a log file with all the characteristics for each primer and a filtered log file containing only the best scoring primers.  
   
-However, if you want to tune parameters, or have access to intermediate files you can run the pipeline as follows (explained in detail in the following section):  
+However, if you want to tune parameters, or have access to intermediate files you can run the pipeline as follows (explained in detail in the following section):   
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
 `testPrimer.py -r reference.fasta -f output.fasta -o output_TP.tsv`  
 `createConsensus.sh -t target.fasta -o target_consensus.fasta`  
