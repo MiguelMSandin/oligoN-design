@@ -3,7 +3,7 @@
 usage()
 {
     echo ""
-    echo "A wrapper to quickly test primers against a reference database allowing 1 and 2 mismatches."
+    echo "A wrapper to quickly test primers against a reference database allowing 1 and 2 mismatches. However this script does not include insertions or deletions."
     echo ""
     echo "Usage: testPrimers.sh -p PRIMERS -r REFERENCE -o OUTPUT"
     echo ""
