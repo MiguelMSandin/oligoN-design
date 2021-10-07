@@ -33,7 +33,7 @@ while getopts "hp:r:o:" opt; do
         esac
 done
 
-PRIMERSSEQS=$(wc -l $PRIMERS | cut -d " " -f 1)
+PRIMERSSEQS=$(grep -c ">" $PRIMERS)
 echo "  Primers file:        $PRIMERS"
 echo "  Number of sequences: $PRIMERSSEQS"
 
