@@ -5,7 +5,7 @@ import pandas as pd
 import re
 import sys
 
-parser = argparse.ArgumentParser(description="Based on several user-defined threshold, the logFile will filter primers that do not meet the criteria")
+parser = argparse.ArgumentParser(description="Based on several user-defined threshold, the logFile will filter primers that do not meet the selected criteria.")
 
 # Add the arguments to the parser
 requiredArgs = parser.add_argument_group('required arguments')
@@ -28,14 +28,20 @@ parser.add_argument("-m", "--mismatch1", dest="mismatch1", required=False, actio
 parser.add_argument("-M", "--mismatch2", dest="mismatch2", required=False, action='store', type=float, default=None,
 					help="A maximum percentage of of hits allowing 2 mismatchs (0-1).")
 
-parser.add_argument("-r", "--region", dest="region", required=False, action='store', default=None,
-					help="A desired region in the 18S rDNA (C1-C10, V1-V9).")
-
 parser.add_argument("-c", "--class", dest="classb", required=False, action='store', default=None,
 					help="A minimum brightness class (I > II > III > IV > V > VI)")
 
 parser.add_argument("-b", "--brightness", dest="brightness", required=False, action='store', type=float, default=None,
 					help="A minimum relative mean brightness (0-1).")
+
+parser.add_argument("-r", "--region", dest="region", required=False, action='store', default=None,
+					help="A desired region in the 18S rDNA (C1-C10, V1-V9).")
+
+parser.add_argument("-f", "--fasta", dest="fasta", required=False, default=None,
+					help="A fasta file containing the probes to be filtered. ")
+
+parser.add_argument("-O", "--outFasta", dest="outFasta", required=False, default=None,
+					help="The name of the output fasta file. By default, will add '_filtered.fasta' to the input fasta file.")
 
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
 					help="If selected, will print information to the console.")
@@ -126,6 +132,34 @@ if args.brightness is not None:
 
 # Exporting ----------------------------------------------------------------------------------------
 outfile.to_csv(outFile, sep="\t", index=False)
+
+# Filtering fasta file if given --------------------------------------------------------------------
+if args.fasta is not None:
+	if args.verbose:
+		print("  Filtering fasta file...")
+	if args.outFasta is None:
+			outFasta = re.sub("\\.[^\\.]+$", "_filtered.fasta", args.fasta)
+	else:
+			outFasta = args.outFasta
+	
+	from Bio import SeqIO
+	
+	with open(outFasta, "w") as outfasta:
+		ids = set()
+		for i in SeqIO.parse(open(args.fasta), "fasta"):
+			ids.add(i.id)
+			if i.id in list(outfile['identifier']):
+				SeqIO.write([i], outfasta, "fasta")
+	
+	notPresent = set()
+	for i in list(outfile['identifier']):
+		if i not in ids:
+			notPresent.add(i)
+	
+	if len(notPresent) > 0:
+		print("    Warning, the following identifiers were not found in the fasta file:")
+		for e in notPresent:
+			print("      -", e, sep="")
 
 if args.verbose:
 	print("  Primers in:  ", len(infile))
