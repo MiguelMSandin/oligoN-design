@@ -1,8 +1,8 @@
 # oligoN-design (version alpha)
   
-The purpose of this pipeline is to produce oligonucleotide candidates to be used for (e.g.) PCR amplification (primers) or fluorescence *in situ* hybridisation (probes). It focuses on the rDNA operon (specially the Small-SubUnit of the rDNA or the 18S rDNA gene), yet it can potentially be used for other genes.  
+The purpose of this pipeline is to produce oligonucleotide candidates to be used for fluorescence *in situ* hybridisation (probes), yet primers for PCR amplification can also be searched. It focuses on the rDNA operon (specially the Small-SubUnit of the rDNA or the 18S rDNA gene), yet it can potentially be used for other genes.  
   
-Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/FASTA) file and searches for specific regions of the sequences against a **reference** fasta file. Later, based on the specificity, GC content, theoretical melting temperature and the accessibility of the selected region the best primers/probes are manually selected.  
+Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/FASTA) file and searches for specific regions of the sequences against a **reference** fasta file. Later, based on the specificity, GC content, theoretical melting temperature and the accessibility of the selected region the best primers/probes are selected for empirical test in the laboratory.  
   
 ![brief_pipeline](/resources/bioinfo_pipeline_ppt.png)   
   
@@ -15,14 +15,14 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 - [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py)  
 - [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/alignmentConsensus.py)  
   
-Download and move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`). You might need to make the scripts executable as follows: `chmod +x *.py`.
+Download, move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`) and start running the pipeline. You might need to make the scripts executable as follows: `chmod +x *.py`.  
   
 ## Quick start  
 If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the **laziest option** is simply running the wrapper `oligoNdesign.sh` as follows:  
   
-`oligoNdesign.sh -t target.fasta -r reference.fasta -o primers.fasta -l primers.log`  
+`oligoNdesign.sh -t target.fasta -r reference.fasta -o probes`  
   
-And you will obtain a fasta file containing all candidate primers a log file with all the characteristics for each primer and a filtered log file containing only the best scoring primers.  
+And you will obtain a fasta file containing all candidate probes a log file with all the characteristics for each primer and a filtered fasta file and log file containing only the best scoring probes.  
   
 However, if you want to tune parameters, or have access to intermediate files you can run the pipeline as follows (explained in detail in the following section):   
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
