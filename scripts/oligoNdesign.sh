@@ -56,46 +56,54 @@ if [ "$OUT_FASTA_NOEXT.tsv" == "$OUT_LOG" ]; then
 	mv "$OUT_FASTA_NOEXT.tsv" "$OUT_FASTA_NOEXT.2.tsv"
 fi
 
+echo ""
+
 # test the candidate primers
 echo "Testing candidate primers"
 tmp1=$(mktemp --tmpdir=$(pwd))
 testPrimer.py -r $REFERENCE -f $OUT_FASTA -o $tmp1 -v
 
-# Create a consensus sequence from the target file
-echo "Creating a consensus sequence from the target file"
-tmp2=$(mktemp --tmpdir=$(pwd))
-createConsensus.sh -t $TARGET -o $tmp2
+echo ""
 
 # align primers and consensus sequence to Saccharomyces cerivisae template 18S rDNA sequence
 echo "Aligning primers to the consensus sequence and the Saccharomyces cerivisae template 18S rDNA sequence"
-tmp3=$(mktemp --tmpdir=$(pwd))
-alignPrimers.sh -c $tmp2 -p $OUT_FASTA -o $tmp3
+tmp2=$(mktemp --tmpdir=$(pwd))
+alignPrimers.sh -t $TARGET -p $OUT_FASTA -o $tmp2
+
+echo ""
 
 # Estimate accessibility of the primers
 echo "Estimating accessibility of the primers"
-tmp4=$(mktemp --tmpdir=$(pwd))
-rateAccess.py -f $tmp3 -o $tmp4 -v
+tmp3=$(mktemp --tmpdir=$(pwd))
+rateAccess.py -f $tmp2 -o $tmp3 -v
+
+echo ""
 
 # Bind all log files into a single log file
 echo "Merging log files to $OUT_LOG"
 
 if [ "$OUT_FASTA_NOEXT.tsv" == "$OUT_LOG" ]; then
-	bindLogs.py -f "$OUT_FASTA_NOEXT.2.tsv" "$tmp1" "$tmp4" -o "$OUT_LOG" -v -r
+	bindLogs.py -f "$OUT_FASTA_NOEXT.2.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG" -v -r
 else
-	bindLogs.py -f "$OUT_FASTA_NOEXT.tsv" "$tmp1" "$tmp4" -o "$OUT_LOG" -v -r
+	bindLogs.py -f "$OUT_FASTA_NOEXT.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG" -v -r
 fi
+
+echo ""
 
 # Filtering primers
 echo "Filtering primers"
-filterPrimer.py -l "$OUT_LOG" -s "0.4" -m "0.0001" -M "0.0001" -c "III" -v
-
-# And remove temporary files
-rm -f $tmp1 $tmp2 $tmp3 $tmp4
+filterPrimer.py -l "$OUT_LOG" -s "0.4" -m "0.0001" -M "0.001" -c "III" -f $OUT_FASTA -v
 
 echo ""
-echo "Final fasta file containing all primers/probes exported to: $OUT_FASTA"
-echo "Final log file containing all primers/probes information exported to: $OUT_LOG"
-echo "Filtered log file containing best primers/probes exported to: $(echo $OUT_LOG | rev | cut -f 2- -d '.' | rev)_filtered.tsv"
+
+# And remove temporary files
+rm -f $tmp1 $tmp2 $tmp3
+
+echo ""
+echo "Final fasta file containing all probes exported to: $OUT_FASTA"
+echo "Final log file containing all probes information exported to: $OUT_LOG"
+echo "Filtered fasta file containing best probes exported to: $(echo $OUT_FASTA | rev | cut -f 2- -d '.' | rev)_filtered.fasta"
+echo "Filtered log file containing best probes exported to: $(echo $OUT_LOG | rev | cut -f 2- -d '.' | rev)_filtered.tsv"
 echo ""
 
 echo "Finished"
