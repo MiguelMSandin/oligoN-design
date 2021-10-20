@@ -23,7 +23,7 @@ requiredArgs.add_argument("-o", "--output", dest="output", required=True,
 					help="The name of the output fasta and log files. Please note the extensions '.fasta' and '.tsv' will be added to the specify name respectively ('output.fasta' and 'output.tsv'). The output file contains the follwing columns: the primer name, the length of the sequence, the sequence, the reverse complement sequence (if selected), the GC content, the basic melting temperature*, the proportion of hits in the reference file, the number of hits in the reference file, the proportion of hits in the target file and the number of hits in the target file.")
 
 parser.add_argument("-l", "--length", dest="length", required=False, action='store', default='18-22',
-					help="The desire length of the primers to be searched. A range can be specified with the '-' sign or several lengths can be selected by separating them with a '+' sign in between. By default it will look for primers of length 18, 19, 20, 21 and 22 base pairs ('18-22').")
+					help="The desire length of the primers to be searched. A range can be specified with the '-' sign or several lengths can be selected by separating them with a '+' sign in between. By default it will look for primers of length 18, 19, 20, 21 and 22 base pairs ('18-22'). A decreasing range could be given, increasing speed and avoiding redundancy of smaller potential primers (i.e.; '22-18').")
 
 parser.add_argument("-s", "--specificity", dest="specificity", required=False, action='store', type=float, default=0.01,
 					help="The maximum percentage of sequences that can contain the primer in the reference file (0 >= s >= 1). Default = 0.001")
@@ -37,8 +37,8 @@ parser.add_argument("-S", "--specificityAbs", dest="specificityAbs", required=Fa
 parser.add_argument("-M", "--minimumAbs", dest="minimumAbs", required=False, action='store', type=int, default=None,
 					help="Same as '-m/--minimum' but absolute values.")
 
-parser.add_argument("-p", "--probe", dest="probe", required=False, default=None, action="store_true",
-					help="If selected, will also return in the logfile the reverse complement of the primer to be used for reverse primers or probes.")
+parser.add_argument("-p", "--probe", dest="probe", required=False, action="store_false",
+					help="If selected, will also NOT return in the logfile the reverse complement of the primer to be used for reverse primers or probes.")
 
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
 					help="If selected, will print information to the console.")
@@ -61,9 +61,14 @@ elif '+' in args.length:
 	for l in tmp:
 		lengths.append(int(l))
 elif '-' in args.length:
-	mi = args.length.split('-')[0]
-	ma = args.length.split('-')[1]
-	lengths = range(int(mi), int(ma)+1)
+	if args.length.count('-') > 1:
+		print("    Warning! More than one range has been specified. Taking only the first two elements...")
+	first = args.length.split('-')[0]
+	last = args.length.split('-')[1]
+	if first < last:
+		lengths = range(int(first), int(last)+1)
+	elif first > last:
+		lengths = range(int(first), int(last)-1, -1)
 else:
 	lengths = int(args.length)
 if verbose:
@@ -100,10 +105,11 @@ else:
 if verbose:
 	print("    Minimum:    ", minimum, ext)
 
-if args.probe is not None:
+if args.probe:
 	from Bio.Seq import Seq
+else:
 	if verbose:
-		print("    Reverse-complement option selected (-p/--probe)")
+		print("    Reverse-complement option deactivated (-p/--probe)")
 
 # Reading target file ______________________________________________________________________________
 if verbose:
@@ -142,7 +148,7 @@ primers = set()
 logFile = str(args.output + ".tsv")
 fasFile = str(args.output + ".fasta")
 with open(logFile, "w") as logfile, open(fasFile, "w") as fasfile:
-	if args.probe is not None:
+	if args.probe:
 		print("identifier\tlength\tsequence\tsequence_reverseComplement\tGC\tTm\thits_target\thits_target_absolute\thits_reference\thits_reference_absolute", file=logfile)
 	else:
 		print("identifier\tlength\tsequence\tGC\tTm\thits_target\thits_target_absolute\thits_reference\thits_reference_absolute", file=logfile)
@@ -159,7 +165,7 @@ with open(logFile, "w") as logfile, open(fasFile, "w") as fasfile:
 			l = len(tv)
 			for p in range(0, l-length+1):  # Split the target ith sequence into potential primers of length 'l'
 				pprimer = tv[int(p):(int(p+length))]
-				if pprimer not in primers:  # Check if the potential primer is already in the list
+				if sum(pprimer in i for i in primers) == 0:  # Check if the potential primer is already in the list or is smaller than an already existing primer in the list
 					r = sum(pprimer in i for i in target.values())  # Count how many times the potential primer is repeated in the target file
 					if args.minimumAbs is not None:  # Check if the potential primer is repeated more than 'M' times
 						R = r
@@ -184,7 +190,7 @@ with open(logFile, "w") as logfile, open(fasFile, "w") as fasfile:
 									Tm = 64.9 + 41*(gcs - 16.4) / length
 								Tm = round(Tm, 2)
 								# And export
-								if args.probe is not None:
+								if args.probe:
 									print("primer" + str(len(primers)) + "\t" + str(len(pprimer)) + "\t" + str(pprimer) + "\t" + str(Seq(pprimer).reverse_complement()) + "\t" + str(GC) + "\t" + str(Tm) + "\t" + str(r/len(target)) + "\t" + str(r) + "\t" + str(c/len(ref)) + "\t" + str(c), file=logfile)
 									print(">primer" + str(len(primers)) + "\n" + str(pprimer), file=fasfile)
 								else:
