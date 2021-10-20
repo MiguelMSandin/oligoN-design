@@ -2,6 +2,10 @@
 
 import argparse
 from Bio import SeqIO
+import sys
+import time
+
+start_time = time.time()
 
 parser = argparse.ArgumentParser(description="From a targeted fasta file (t/target), find all possible specific primers/probes of length 'l', that matches at least 'm%' of the sequences (or 'M' sequences) in the targeted file and has a maximum specificity of 's%' of the sequences (or 'S' sequences) to the reference (r/reference) database.",
 								 epilog="*The basic melting temperature (Tm) is an approximation and should be considered as a baseline for comparison. Briefly, for short primers (<14 bp): Tm = 2*(A+T) + 4*(G+C); and for longer primers (>13 bp): Tm = 64.9 + 41*(G+C - 16.4) / (A+G+C+T); where A, C, G and T are the number of bases of A, G, C and T respectively.")
@@ -9,17 +13,17 @@ parser = argparse.ArgumentParser(description="From a targeted fasta file (t/targ
 # Add the arguments to the parser
 requiredArgs = parser.add_argument_group('required arguments')
 
-requiredArgs.add_argument("-t", "--target", required=True,
-					help="A fasta file with the sequences you want to find a primer to.")
+requiredArgs.add_argument("-t", "--target", dest="target", required=True,
+					help="A fasta file with the sequences you want to find a primer/probe to.")
 
 requiredArgs.add_argument("-r", "--reference", dest="reference", required=True,
 					help="A reference file to look against. The targeted group shouldn't be included in the reference. If you are not sure whether it is included or not use the option '-s/--specificity'.")
 
-requiredArgs.add_argument("-o", "--output", dest="output", required=True,
-					help="The name of the output fasta and log files. Please note the extensions '.fasta' and '.tsv' will be added to the specify name respectively ('output.fasta' and 'output.tsv'). The output file contains the follwing columns: the primer name, the length of the sequence, the sequence, the reverse complement sequence (if selected), the GC content, the basic melting temperature*, the proportion of hits in the reference file, the number of hits in the reference file, the proportion of hits in the target file and the number of hits in the target file.")
+parser.add_argument("-o", "--output", dest="output", required=False,
+					help="The name of the output fasta and log files. Please note the extensions '.fasta' and '.tsv' will be added to the specify name respectively ('output.fasta' and 'output.tsv'). The output file contains the follwing columns: the primer name, the length of the sequence, the sequence, the reverse complement sequence (if selected), the GC content, the basic melting temperature*, the proportion of hits in the reference file, the number of hits in the reference file, the proportion of hits in the target file and the number of hits in the target file. By default will add '_probes.fasta' and '_probes.tsv' to the target file.")
 
-parser.add_argument("-l", "--length", dest="length", required=False, action='store', default='18+22',
-					help="The desire length of the primers to be searched. Several lengths can be selected by specifying a range with a '+' sign in between. By default it will look for primers of length 18, 19, 20, 21 and 22 base pairs ('18+22').")
+parser.add_argument("-l", "--length", dest="length", required=False, action='store', default='18-22',
+					help="The desire length of the primers to be searched. A range can be specified with the '-' sign or several lengths can be selected by separating them with a '+' sign in between. By default it will look for primers of length 18, 19, 20, 21 and 22 base pairs ('18-22'). A decreasing range could be given, increasing speed and avoiding redundancy of smaller potential primers (i.e.; '22-18').")
 
 parser.add_argument("-s", "--specificity", dest="specificity", required=False, action='store', type=float, default=0.01,
 					help="The maximum percentage of sequences that can contain the primer in the reference file (0 >= s >= 1). Default = 0.001")
@@ -33,8 +37,8 @@ parser.add_argument("-S", "--specificityAbs", dest="specificityAbs", required=Fa
 parser.add_argument("-M", "--minimumAbs", dest="minimumAbs", required=False, action='store', type=int, default=None,
 					help="Same as '-m/--minimum' but absolute values.")
 
-parser.add_argument("-p", "--probe", dest="probe", required=False, default=None, action="store_true",
-					help="If selected, will also return in the logfile the reverse complement of the primer to be used for reverse primers or probes.")
+parser.add_argument("-p", "--probe", dest="probe", required=False, action="store_false",
+					help="If selected, will also NOT return in the logfile the reverse complement of the primer to be used for reverse primers or probes.")
 
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
 					help="If selected, will print information to the console.")
@@ -48,10 +52,23 @@ else:
 	verbose = False
 
 # Setting the range of lengths _____________________________________________________________________
-if '+' in args.length:
-	mi = args.length.split('+')[0]
-	ma = args.length.split('+')[1]
-	lengths = range(int(mi), int(ma)+1)
+if '+' in args.length and '-' in args.length:
+	print("  Warning! Please select either a range with '-' or specific lengths with '+', but not both.")
+	sys.exit(1)
+elif '+' in args.length:
+	tmp = args.length.strip().split('+')
+	lengths = list()
+	for l in tmp:
+		lengths.append(int(l))
+elif '-' in args.length:
+	if args.length.count('-') > 1:
+		print("    Warning! More than one range has been specified. Taking only the first two elements...")
+	first = args.length.split('-')[0]
+	last = args.length.split('-')[1]
+	if first < last:
+		lengths = range(int(first), int(last)+1)
+	elif first > last:
+		lengths = range(int(first), int(last)-1, -1)
 else:
 	lengths = int(args.length)
 if verbose:
@@ -88,10 +105,11 @@ else:
 if verbose:
 	print("    Minimum:    ", minimum, ext)
 
-if args.probe is not None:
+if args.probe:
 	from Bio.Seq import Seq
+else:
 	if verbose:
-		print("    Reverse-complement option selected (-p/--probe)")
+		print("    Reverse-complement option deactivated (-p/--probe)")
 
 # Reading target file ______________________________________________________________________________
 if verbose:
@@ -125,12 +143,19 @@ if verbose:
 	if w2 > 0:
 		print("    Warning!!", args.reference, "contains gaps")
 
+# Setting output file name _________________________________________________________________________
+if args.output is None:
+	import re
+	output = re.sub("\\.[^\\.]+$", "_probes", args.target)
+else:
+	output = args.output
+
 # Start the search _________________________________________________________________________________
 primers = set()
-logFile = str(args.output + ".tsv")
-fasFile = str(args.output + ".fasta")
+logFile = str(output + ".tsv")
+fasFile = str(output + ".fasta")
 with open(logFile, "w") as logfile, open(fasFile, "w") as fasfile:
-	if args.probe is not None:
+	if args.probe:
 		print("identifier\tlength\tsequence\tsequence_reverseComplement\tGC\tTm\thits_target\thits_target_absolute\thits_reference\thits_reference_absolute", file=logfile)
 	else:
 		print("identifier\tlength\tsequence\tGC\tTm\thits_target\thits_target_absolute\thits_reference\thits_reference_absolute", file=logfile)
@@ -145,45 +170,50 @@ with open(logFile, "w") as logfile, open(fasFile, "w") as fasfile:
 				if i == len(target):
 					print("\r    Completed")
 			l = len(tv)
-			for p in range(0, l-length+1):  # Split the target ith sequence into potential primers of length 'l' 
+			for p in range(0, l-length+1):  # Split the target ith sequence into potential primers of length 'l'
 				pprimer = tv[int(p):(int(p+length))]
-				if pprimer not in primers:  # Check if the potential primer is already in the list
-					r = 0
-					c = 0
-					for toCheck in target.values():  # Check how many times the potential primer is repeated in the target file
-						if pprimer in toCheck:
-							r += 1
+				if sum(pprimer in i for i in primers) == 0:  # Check if the potential primer is already in the list or is smaller than an already existing primer in the list
+					r = sum(pprimer in i for i in target.values())  # Count how many times the potential primer is repeated in the target file
 					if args.minimumAbs is not None:  # Check if the potential primer is repeated more than 'M' times
 						R = r
 					else:  # Check if the potential primer is repeated more than 'm' times
 						R = r/len(target)
 					if R >= minimum:  # Check if the potential primer matches the requirements against the target file
-						for toCheck in ref.values():  # Check how many times the potential primer is repeated in the reference file
-							if pprimer in toCheck:
-								c += 1
-					if args.specificityAbs is not None:  # Check if the potential primer is repeated less than 'S' times
-						C = c
-					else:  # Check if the potential primer is repeated less than 's' times
-						C = c/len(ref)
-					if C <= specificity and R >= minimum:  # Check if the potential primer matches the requirements
-							primers.add(pprimer)
-							# Estimate the GC content
-							gcs = pprimer.upper().count("G") + pprimer.upper().count("C")
-							length = len(pprimer)
-							GC = round((gcs) / length, 4)
-							# Estimate the theoretical melting temperature
-							if length < 14:
-								Tm = 2 * (pprimer.upper().count("A") + pprimer.upper().count("T")) + 4 * (gcs)
-							else:
-								Tm = 64.9 + 41*(gcs - 16.4) / length
-							Tm = round(Tm, 2)
-							# And export
-							if args.probe is not None:
-								print("primer" + str(len(primers)) + "\t" + str(len(pprimer)) + "\t" + str(pprimer) + "\t" + str(Seq(pprimer).reverse_complement()) + "\t" + str(GC) + "\t" + str(Tm) + "\t" + str(r/len(target)) + "\t" + str(r) + "\t" + str(c/len(ref)) + "\t" + str(c), file=logfile)
-								print(">primer" + str(len(primers)) + "\n" + str(pprimer), file=fasfile)
-							else:
-								print("primer" + str(len(primers)) + "\t" + str(len(pprimer)) + "\t" + str(pprimer) + "\t" + str(GC) + "\t" + str(Tm) + "\t" + str(r/len(target)) + "\t" + str(r) + "\t" + str(c/len(ref)) + "\t" + str(c), file=logfile)
-								print(">primer" + str(len(primers)) + "\n" + str(pprimer), file=fasfile)
+						c = sum(pprimer in i for i in ref.values()) # Count how many times the potential primer is repeated in the reference file
+						if args.specificityAbs is not None:  # Check if the potential primer is repeated less than 'S' times
+							C = c
+						else:  # Check if the potential primer is repeated less than 's' times
+							C = c/len(ref)
+						if C <= specificity:  # Check if the potential primer matches the requirements against the reference file
+								primers.add(pprimer)
+								# Estimate the GC content
+								gcs = pprimer.upper().count("G") + pprimer.upper().count("C")
+								length = len(pprimer)
+								GC = round((gcs) / length, 4)
+								# Estimate the theoretical melting temperature
+								if length < 14:
+									Tm = 2 * (pprimer.upper().count("A") + pprimer.upper().count("T")) + 4 * (gcs)
+								else:
+									Tm = 64.9 + 41*(gcs - 16.4) / length
+								Tm = round(Tm, 2)
+								# And export
+								if args.probe:
+									print("primer" + str(len(primers)) + "\t" + str(len(pprimer)) + "\t" + str(pprimer) + "\t" + str(Seq(pprimer).reverse_complement()) + "\t" + str(GC) + "\t" + str(Tm) + "\t" + str(r/len(target)) + "\t" + str(r) + "\t" + str(c/len(ref)) + "\t" + str(c), file=logfile)
+									print(">primer" + str(len(primers)) + "\n" + str(pprimer), file=fasfile)
+								else:
+									print("primer" + str(len(primers)) + "\t" + str(len(pprimer)) + "\t" + str(pprimer) + "\t" + str(GC) + "\t" + str(Tm) + "\t" + str(r/len(target)) + "\t" + str(r) + "\t" + str(c/len(ref)) + "\t" + str(c), file=logfile)
+									print(">primer" + str(len(primers)) + "\n" + str(pprimer), file=fasfile)
 
 if verbose:
+	t = time.time() - start_time
+	t = round(t/60, 2)
+	print("  It took", t, "minutes to complete")
+	c = len(primers)
+	if c == 0:
+		print("  No primers/probes were found with the given parameters...", sep="")
+	if c == 1:
+		print("  In total ", c, " primer/probe haa been exported to '", fasFile, "' and '", logFile, "'", sep="")
+	if c > 1:
+		print("  In total ", c, " primers/probes have been exported to '", fasFile, "' and '", logFile, "'", sep="")
+	
 	print("Done")
