@@ -16,7 +16,7 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 - [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py)  
 - [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/alignmentConsensus.py)  
   
-Download, move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`) and start running the pipeline. You might need to make the scripts executable as follows: `chmod +x *.py`.  
+Download, move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`) and start running the pipeline. You might need to make the scripts executable as follows: `chmod +x script`.  
   
 ## Quick start  
 If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the **laziest option** is simply running the wrapper `oligoNdesign.sh` as follows:  
