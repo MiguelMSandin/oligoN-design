@@ -15,6 +15,7 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 ### In-house dependencies
 - [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py)  
 - [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/alignmentConsensus.py)  
+- [multi2linefasta.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/multi2linefasta.py)  
   
 Download, move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`) and start running the pipeline. You might need to make the scripts executable as follows: `chmod +x script`.  
   
