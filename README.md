@@ -10,6 +10,7 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 - [python](https://www.python.org/)  
     -   **Required modules**: argparse, Bio, regex, re, networkx, pandas, re, sys.  
 - [mafft](https://mafft.cbrc.jp/alignment/software/)  
+- [agrep](http://manpages.ubuntu.com/manpages/bionic/man1/agrep.1.html)  
 - An alignment editor software, such as [aliview](https://ormbunkar.se/aliview/) or [seaview](http://doua.prabi.fr/software/seaview)  
 ### In-house dependencies
 - [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py)  
