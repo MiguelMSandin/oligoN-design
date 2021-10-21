@@ -20,9 +20,9 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 Download, move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`) and start running the pipeline. You might need to make the scripts executable as follows: `chmod +x script`.  
   
 ## Quick start  
-If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the **laziest option** is simply running the wrapper `oligoNdesign.sh` as follows:  
+If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the **laziest option** is simply running the wrapper `oligoNdesign` as follows:  
   
-`oligoNdesign -t target.fasta -r reference.fasta -o probes`  
+`oligoNdesign -t target.fasta -r reference.fasta -o probes -l probes`  
   
 And you will obtain a fasta file containing all candidate probes a log file with all the characteristics for each primer and a filtered fasta file and log file containing only the best scoring probes.  
   
