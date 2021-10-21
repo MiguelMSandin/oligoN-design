@@ -28,13 +28,13 @@ And you will obtain a fasta file containing all candidate probes a log file with
   
 However, if you want to tune parameters, or have access to intermediate files you can run the pipeline as follows (explained in detail in the following section):   
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
-`testPrimer.py -r reference.fasta -f output.fasta -o output_TP.tsv`  
+`testPrimer.py -r reference.fasta -f output.fasta -o output_tested.tsv`  
 `alignPrimers.sh -t target.fasta -p output.fasta -o target_primers.fasta`  
 `rateAccess.py -f target_primers.fasta -o output_access.tsv`  
   
 Briefly: First candidate primers are selected with `findPrimer.py`, then they are tested for unespecific hits with `testPrimer.py`. A consensus sequence is created from the target file and along with the candidate primers are aligned to the *Saccharomyces cerivisae* template  18S rDNA sequence with `alignPrimers.sh` to estimate the accessibility with `rateAccess.py`.  
 And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments, for example:  
-`bindLogs.py -f probes.tsv output_TP.tsv output_access.tsv -o output_log.tsv`  
+`bindLogs.py -f probes.tsv output_tested.tsv output_access.tsv -o output_log.tsv`  
 `filterPrimer.py -l output_log.tsv -s 0.4 -m 0.0001 -M 0.0001 -c III -v`  
   
   
