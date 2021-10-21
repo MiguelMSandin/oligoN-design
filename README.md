@@ -22,7 +22,7 @@ Download, move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`) and s
 ## Quick start  
 If you already have a target fasta file and a reference fasta file (note that the reference file **should not** contain sequences associated to your targeted group), the **laziest option** is simply running the wrapper `oligoNdesign` as follows:  
   
-`oligoNdesign -t target.fasta -r reference.fasta -o probes -l probes`  
+`oligoNdesign -t target.fasta -r reference.fasta -o probes.fasta -l probes.tsv`  
   
 And you will obtain a fasta file containing all candidate probes a log file with all the characteristics for each primer and a filtered fasta file and log file containing only the best scoring probes.  
   
