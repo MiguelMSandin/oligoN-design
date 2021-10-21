@@ -27,6 +27,7 @@ If you already have a target fasta file and a reference fasta file (note that th
 And you will obtain a fasta file containing all candidate probes a log file with all the characteristics for each primer and a filtered fasta file and log file containing only the best scoring probes.  
   
 However, if you want to tune parameters, or have access to intermediate files you can run the pipeline as follows (explained in detail in the following section):   
+  
 `findPrimer.py -t target.fasta -r reference.fasta -o output`  
 `testPrimer.py -r reference.fasta -f output.fasta -o output_tested.tsv`  
 `alignPrimers.sh -t target.fasta -p output.fasta -o target_primers.fasta`  
