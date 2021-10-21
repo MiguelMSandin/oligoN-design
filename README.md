@@ -34,6 +34,7 @@ However, if you want to tune parameters, or have access to intermediate files yo
   
 Briefly: First candidate primers are selected with `findPrimer.py`, then they are tested for unespecific hits with `testPrimer.py`. A consensus sequence is created from the target file and along with the candidate primers are aligned to the *Saccharomyces cerivisae* template  18S rDNA sequence with `alignPrimers.sh` to estimate the accessibility with `rateAccess.py`.  
 And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments, for example:  
+  
 `bindLogs.py -f probes.tsv output_tested.tsv output_access.tsv -o output_log.tsv`  
 `filterPrimer.py -l output_log.tsv -s 0.4 -m 0.0001 -M 0.0001 -c III -v`  
   
