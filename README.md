@@ -60,7 +60,7 @@ Go to your working directory, download and unzip the PR2 database file:
 `wget https://github.com/pr2database/pr2database/releases/download/v4.14.0/pr2_version_4.14.0_SSU_taxo_long.fasta.gz`  
 `gunzip -k pr2_version_4.14.0_SSU_taxo_long.fasta.gz`  
   
-## 1. Prepare files
+## 0. Prepare files
 Now we are going to create the **target** and **reference** fasta files. To do so, we extract all sequences affiliated to *Guinardia* from the reference database and save them into the target file. We could do this with the script [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py) as follows:  
   
 `sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v`  
@@ -68,7 +68,7 @@ Now we are going to create the **target** and **reference** fasta files. To do s
   
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
   
-## 2. Find candidate primers  
+## 1. Find candidate primers  
 **(TO BE IMPLEMENTED: Parallelization of the for loop and start the search in the target file and not the reference file)**  
 Once we have the target and reference files, we are going to search for specific regions of different lengths in the target file that are not present in the reference file. It is important to know that:  
 - Not all sequences in a database are of the same length; and therefore the region of interest might not be present in all sequences from the target file.
@@ -91,33 +91,39 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
 - the absolute number of hits in the reference file.
   
 
-| identifier |length | sequence | (sequence_reverseComplement) | GC | Tm | hits_target | hits_target_absolute | hits_reference | hits_reference_absolute |
+| identifier |length | sequence | sequence_reverseComplement | GC | Tm | hits_target | hits_target_absolute | hits_reference | hits_reference_absolute |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| primer1 | 18 | CAAGTTTCTGCCCTATTA | (TAATAGGGCAGAAACTTG) | 0.3889 | 43.49 | 0.8157 | 31 | 0.0002 | 45 |
-| primer2 | 20 | AATATGACACTGTCGGCATC | (GATGCCGACAGTGTCATATT) | 0.45 | 49.73 | 0.8421 | 32 | 0.00002 | 5 |
-| ... | ... | ... | (...) | ... | ... | ... | ... | ... | ... |
+| primer1 | 18 | CAAGTTTCTGCCCTATTA | TAATAGGGCAGAAACTTG | 0.3889 | 43.49 | 0.8157 | 31 | 0.0002 | 45 |
+| primer2 | 20 | AATATGACACTGTCGGCATC | GATGCCGACAGTGTCATATT | 0.45 | 49.73 | 0.8421 | 32 | 0.00002 | 5 |
+| ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
   
->**Note1**: For further details on the usage of the script, use the help: `findPrimer.py -h`.  
+>**Note1**: For further details on the usage of the script, use the help: `findPrimer -h`.  
   
-## 3. Test candidate primers
-Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database using the script **[testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer.py)** as follows:  
+## 2. Test candidate primers
+Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database using the script **[testPrimer](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer)** as follows:  
   
-`testPrimer.py -r reference.fasta -f guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_TP_m2.tsv -m 2 -v`  
+`testPrimer -r reference.fasta -p guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_tested.tsv -v`  
   
-Here we are using the fasta file generated in the previous step and containing all potential primers/probes (`-f guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 0, 1 and 2 mismatches (`-m 2`). Again, we save the output file with parameters of the command (`-o guinardia_PR2_m8_s001_TP_m2.tsv`). It will ouput a tsv file with the sequence identifier, the sequence itself and two columns for every mismacth with the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:
+Here we are using the fasta file generated in **step 1** and containing all potential primers/probes (`-p guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 1 and 2 mismatches. We save the output file with the option (`-o guinardia_PR2_m8_s001_tested.tsv`). This script will ouput a tsv file with the sequence identifier, the sequence itself and two columns for hits with 1 and 2 mismacth containing the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:
   
 
-| identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs | ... |
-| ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| primer1 | CAAGTTTCTGCCCTATTA | 0.0509 | 9343 | 0.3855 | 70638 | ... |
-| primer2 | AATATGACACTGTCGGCATC | 0.00002 | 5 | 0.00002 | 5 | ... |
-| ... | ... | ... | ... | ... | ... | ... |
+| identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs |
+| ----- | ----- | ----- | ----- | ----- | ----- |
+| primer1 | CAAGTTTCTGCCCTATTA | 0.0509 | 9343 | 0.3855 | 70638 |
+| primer2 | AATATGACACTGTCGGCATC | 0.00002 | 5 | 0.00002 | 5 |
+| ... | ... | ... | ... | ... | ... |
   
-We can now merge the outputs from **Step 2** and **Step 3** with the wrapper script [bindFindTest.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/bindFindTest.sh), so we can have a look at the complete output in a single file. Note this wrapper script understands that the two files contain the primers in matching order of appearance, as it is output from the original scripts.
+If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific primer/probe with the selected number of mismatches. And if you are very interested in exploring hits allowing more mismatches you can go fancy with the following script: [testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/others/testPrimer.py), yet it's very slow at the moment.  
   
-If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific primer/probe with the selected number of mismatches.  
-  
-## 4. Generate a consensus sequence of the target file
+## 3. Rate access of the candidate primers
+
+
+
+
+
+
+
+
 First we have to align the file, and for that we use [mafft](https://mafft.cbrc.jp/alignment/software/). Depending on the size and similarity of sequences you have in the target group you may want to explore the different options and algorithms of mafft. The simplest command uses an automatic selection of best parameters according to your file size, as follows:  
   
 `mafft target.fasta > target_align.fasta`  
