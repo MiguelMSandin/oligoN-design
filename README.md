@@ -145,30 +145,34 @@ This script will generate a log file with the following columns
 | tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp |
 | tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+  
 
 ## 4. Select the best candidate primers
+To ease identification of the best candidate primers, we can now merge all the different log files obtained through this pipeline into one single log file with the script [bindLogs](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/bindLogs) as follows:  
   
+`bindLogs -f guinardia_PR2_m80_s001.tsv guinardia_PR2_m8_s001_tested.tsv guinardia_PR2_m80_s001_access.tsv -o guinardia_PR2_m80_s001_log.tsv -r -v`  
+  
+> **Note**: Since we are merging the threee different log files into one, we can automaticallt remove the individual files adding the option `-r`.  
+  
+By integrating the length, GC content, theoretical melting temperature and number of hits allowing mismatches and the accesibility of the desire region, it is possible to **manually select the best candidate primers/probes** for your group. In this sense you want to select 2-4 primers/probes in order to **empirically test and cross-validate its specificity and functioning**, and therefore you will select candidate primers/probes:
+- that covers most of the targeted diversity,  
+- with a high GC content,  
+- with similar theoretical melting temperature,  
+- with low hits to the reference file allowing mismatches (or at least with hits to a known and morphologically distant group, i.e.; diatoms Vs copepods),  
+- highly accessible,  
+- and that avoids self-binding (**to be implemented**, i.e.; ACGTnnnnACGT).  
+  
+It is also possible to filter the log file and automatically select all probes that matches several criteria with the script [filterLog](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/filterLog), for example we could be interested in probes with:  
+- GC content equal or higher than 40%,
+- with less than 0.0001% hits against the reference file allowing 1 mismatch,
+- with less than 0.001% hits against the reference file allowing 2 mismatch,
+- and with an accessibility class equal or higher than 'III' (so either 'I', 'II' or 'III').  
+And to do so we run the following command:  
+`filterLog -l guinardia_PR2_m80_s001_log.tsv -s "0.4" -m "0.001" -M "0.0001" -c "III" -v`  
 
-## 5. Align candidate primers to consensus sequence(s)
-With this step we want to know in what positions of the 18S rDNA gene the candidate regions are:  
+**(TO BE IMPLEMENTED: Add a script to automatically select the X% best probes)**  
   
-`mafft --addfragments guinardia_PR2_m8_s001.fasta target_consensus.fasta > target_consensus_regions.fasta`
-  
-or **newly implemented**, if you want to also include the *Saccharomyces cerevisiae* template 18S sequence you can do it with the follwoing script (and if you have more than one sequence in the consensus file there is no need for previously align the file):  
-  
-`alignPrimers.sh -c target_consensus.fasta -p guinardia_PR2_m8_s001.fasta -o target_consensus_regions.fasta`
-
-## 6. Estimate accessibility regions
-
-`rateAccess.py -f target_consensus_regions.fasta -o guinardia_probes_access.tsv`  
-  
-## (TO BE DONE: 7 Add a script to automatically filter probes)
-(Based on length, GC content, number of matches,...)
-  
-## (TO BE DONE: 7 Add a script to automatically select the X% best probes)
-
-
-## 6. Estimate the secondary structure
+## 5. Estimate the secondary structure
 ### (to be implemented)
 By using the recently develop tool [R2DT](https://github.com/rnacentral/R2DT) ([Sweeney et al., 2021](https://www.nature.com/articles/s41467-021-23555-5#citeas) ), it is possible to infer the secondary structure of (almost) any 18S rDNA.  
 An easy example of using this tool can be uploading the consensus sequence created in **Step 3** to the [R2DT website](https://rnacentral.org/r2dt) an automatically generate the secondary structure of the rDNA by comparing to the best fitting profile.  
