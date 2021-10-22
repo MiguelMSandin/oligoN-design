@@ -69,7 +69,6 @@ Now we are going to create the **target** and **reference** fasta files. To do s
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
   
 ## 1. Find candidate primers  
-**(TO BE IMPLEMENTED: Parallelization of the for loop and start the search in the target file and not the reference file)**  
 Once we have the target and reference files, we are going to search for specific regions of different lengths in the target file that are not present in the reference file. It is important to know that:  
 - Not all sequences in a database are of the same length; and therefore the region of interest might not be present in all sequences from the target file.
 - Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. Therefore it is possible that the region of interest might also be present in the reference file due to chimeric sequences, badly annotated sequences or simply high similarity to other groups.  
@@ -97,12 +96,14 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
 | primer2 | 20 | AATATGACACTGTCGGCATC | GATGCCGACAGTGTCATATT | 0.45 | 49.73 | 0.8421 | 32 | 0.00002 | 5 |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
   
->**Note1**: For further details on the usage of the script, use the help: `findPrimer -h`.  
+>**Note**: For further details on the usage of the script, use the help: `findPrimer -h`.  
+  
+**(TO BE IMPLEMENTED: Parallelization of the for loop and start the search in the target file and not the reference file)**  
   
 ## 2. Test candidate primers
 Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database using the script **[testPrimer](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer)** as follows:  
   
-`testPrimer -r reference.fasta -p guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_tested.tsv -v`  
+`testPrimer -r reference.fidentifierasta -p guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_tested.tsv -v`  
   
 Here we are using the fasta file generated in **step 1** and containing all potential primers/probes (`-p guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 1 and 2 mismatches. We save the output file with the option (`-o guinardia_PR2_m8_s001_tested.tsv`). This script will ouput a tsv file with the sequence identifier, the sequence itself and two columns for hits with 1 and 2 mismacth containing the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:
   
@@ -115,25 +116,38 @@ Here we are using the fasta file generated in **step 1** and containing all pote
   
 If you are interested in further exploring the hits allowing mismatches of a specific primer/probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific primer/probe with the selected number of mismatches. And if you are very interested in exploring hits allowing more mismatches you can go fancy with the following script: [testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/others/testPrimer.py), yet it's very slow at the moment.  
   
-## 3. Rate access of the candidate primers
-
-
-
-
-
-
-
-
-First we have to align the file, and for that we use [mafft](https://mafft.cbrc.jp/alignment/software/). Depending on the size and similarity of sequences you have in the target group you may want to explore the different options and algorithms of mafft. The simplest command uses an automatic selection of best parameters according to your file size, as follows:  
+## 3. Estimate accessibility of the candidate primers
+In this step, potential primers are going to be compared to the *Saccharomyces cerivisae* 18S rDNA sequence template to estimate the accessibility of the ribosomal region, based on [Behrens et al. (2003)](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003).  
+To do so, we are going to create a consensus sequence of the target group, align it to the *S. cerivisae* 18S rDNA sequence template and then align the candidate primers to both sequences. We can do all of this with the wrapper script [alignPrimers](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/alignPrimers) (this script uses [mafft](https://mafft.cbrc.jp/alignment/software/)) as follows:  
   
-`mafft target.fasta > target_align.fasta`  
+`alignPrimers  -t target.fasta -p guinardia_PR2_m80_s001.fasta -o guinardia_PR2_m80_s001_probes_align.fasta`  
   
-Might be worth checking the alignment manually for possible missalignments with (e.g.;) [aliview](https://ormbunkar.se/aliview/) or [seaview](http://doua.prabi.fr/software/seaview).  
-From the aligned file, we can now build a consensus sequence with the script [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/alignmentConsensus.py) as follows:  
+>**Note**:  The wrapper script will automatically generate two consensus sequences, one resolving ambiguities with the most abundant base and another keeping ambiguities. If you are interested in exploring the consensus options, have a look at the script [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/alignmentConsensus.py). You can even generate different consensus sequences to quickly explore big target files with the wraper [alignmentConsensus_compare.sh](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/wrappers/alignmentConsensus_compare.sh).  
   
-`alignmentConsensus.py -f target_align.fasta -o target_consensus.fasta -t 70 -b 30 -g 80 -r -m -v`  
+Now with this file, it is possible to estimate the accessibility of the candidate primers with the script 
   
-The consensus sequences is using a 70% consensus threshold (`-t 70`), considering bases that are present in at least 30% of the sequences (`-b 30`) and considering gaps if a position contains more than 80% of gaps (`-g 80`). In this example we are using the most abundant base (`-m` option) to resolve ambiguities (oherwise results in the IUPAC code) and removing gaps in the output sequence (`-r` option) to be used for downstream analysis. However you can go fancy and use different thresholds at the same time in order to have a better representation of the diversity within the group using the wrapper script [alignmentConsensus_compare.sh](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/wrappers/alignmentConsensus_compare.sh).  
+`rateAccess -f guinardia_PR2_m80_s001_probes_align.fasta -o guinardia_PR2_m80_s001_access.tsv -v`  
+  
+This script will generate a log file with the following columns
+- the sequence identifier,
+- the sequence,
+- the starting position of the primer/probe in the consensus sequence,
+- the approximate region in the 18S rDNA,
+- the starting position of the primer/probe in the *S. cerivisae* 18S rDNA sequence template,
+- the average maximum brightness,
+- the average minimum brightness,
+- the average brightness,
+- the estimated accessibility class (From 'I' to 'VI', understanding 'class I' as the most accessible).
+  
+
+| identifier | sequence | start_position | region | Scerevisae_start_position | average_max_brightness | average_min_brightness | average_brightness | class |
+| ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
+| tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp |
+| tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp | tmp |
+| ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+## 4. Select the best candidate primers
+  
 
 ## 5. Align candidate primers to consensus sequence(s)
 With this step we want to know in what positions of the 18S rDNA gene the candidate regions are:  
@@ -179,8 +193,8 @@ It is also possible to [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=
 Other online resources (such as [oligoCalc](http://biotools.nubic.northwestern.edu/OligoCalc.html)) provide useful properties to start testing the primers/probe in the laboratory.  
 
 ## References
--Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R. In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol. 2003 Mar;69(3):1748-58. doi: [10.1128/AEM.69.3.1748-1758.2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)  
--Bernier CR, Petrov AS, Kovacs NA, Penev PI, Williams LD. Translation: The Universal Structural Core of Life. Mol Biol Evol. 2018 Aug 1;35(8):2065-2076. doi: [10.1093/molbev/msy101](https://academic.oup.com/mbe/article/35/8/2065/5000151)  
--Sweeney, B.A., Hoksza, D., Nawrocki, E.P. et al. R2DT is a framework for predicting and visualising RNA secondary structure using templates. Nat Commun 12, 3494 (2021). doi:[10.1038/s41467-021-23555-5](https://www.nature.com/articles/s41467-021-23555-5#citeas)  
+-Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R. (2003) In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol.69(3):1748-58. doi: [10.1128/AEM.69.3.1748-1758.2003](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003)  
+-Bernier CR, Petrov AS, Kovacs NA, Penev PI, Williams LD. (2018) Translation: The Universal Structural Core of Life. Mol Biol Evol. 35(8):2065-2076. doi: [10.1093/molbev/msy101](https://academic.oup.com/mbe/article/35/8/2065/5000151)  
+-Sweeney, B.A., Hoksza, D., Nawrocki, E.P. et al. (2021) R2DT is a framework for predicting and visualising RNA secondary structure using templates. Nat Commun 12, 3494. doi:[10.1038/s41467-021-23555-5](https://www.nature.com/articles/s41467-021-23555-5#citeas)  
   
   
