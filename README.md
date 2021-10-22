@@ -39,7 +39,7 @@ Briefly: First candidate primers are searched with `findPrimer`, then they are t
   
 And based on your preferred parameters you select the best candidate primers/probes for preliminary laboratory experiments, as follows:  
   
-`filterLog -l output_log.tsv -s 0.4 -m 0.0001 -M 0.0001 -c III -v`  
+`filterLog -l output_log.tsv -s 0.4 -m 0.001 -M 0.0001 -c III -v`  
   
   
 ## Overview
@@ -69,14 +69,14 @@ Now we are going to create the **target** and **reference** fasta files. To do s
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
   
 ## 2. Find candidate primers  
-### TO BE IMPLEMENTED: Parallelization of the for loop and start the search in the target file and not the reference file
+**(TO BE IMPLEMENTED: Parallelization of the for loop and start the search in the target file and not the reference file)**  
 Once we have the target and reference files, we are going to search for specific regions of different lengths in the target file that are not present in the reference file. It is important to know that:  
 - Not all sequences in a database are of the same length; and therefore the region of interest might not be present in all sequences from the target file.
 - Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. Therefore it is possible that the region of interest might also be present in the reference file due to chimeric sequences, badly annotated sequences or simply high similarity to other groups.  
   
-With this in mind, we can search for specific regions using the script **[findPrimer.py](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer.py)** as follows:  
+With this in mind, we can search for specific regions using the script **[findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer)** as follows:  
   
-`findPrimer.py -t target.fasta -r reference.fasta -o guinardia_PR2_m80_s001 -l '18+22' -m 0.8 -s 0.001 -v`  
+`findPrimer -t target.fasta -r reference.fasta -o guinardia_PR2_m80_s001 -l '18+22' -m 0.8 -s 0.001 -v`  
   
 With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18+22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`). In order to carry out different searches, we have included in the output file name key parameters of the search (`-o guinardia_PR2_m8_s001`). It will output two files: a fasta file containing all the primers that passed the search thresholds and a log file with parameters of the primer and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
 - a sequence identifier,
