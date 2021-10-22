@@ -8,7 +8,8 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
   
 ## Dependencies  
 - [python](https://www.python.org/)  
-    -   **Required modules**: argparse, Bio, regex, re, networkx, pandas, re, sys.  
+    -   **Required modules**: argparse, Bio, sys, time, os, statistics, re, pandas.
+    -   Optional modules: regex.  
 - [mafft](https://mafft.cbrc.jp/alignment/software/)  
 - [agrep](http://manpages.ubuntu.com/manpages/bionic/man1/agrep.1.html)  
 - An alignment editor software, such as [aliview](https://ormbunkar.se/aliview/) or [seaview](http://doua.prabi.fr/software/seaview)  
