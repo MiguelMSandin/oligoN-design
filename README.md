@@ -27,23 +27,7 @@ If you already have a target fasta file and a reference fasta file (note that th
 `oligoNdesign -t target.fasta -r reference.fasta -o probes.fasta -l probes.tsv`  
   
 And you will obtain a fasta file containing all candidate probes a log file with all the characteristics for each probe and a filtered fasta file and log file containing only the best scoring probes.  
-  
-However, if you want to have access to intermediate files you can **quickly run the pipeline** with default parameters as follows (explained in detail in the following section):   
-  
-`findPrimer -t target.fasta -r reference.fasta -o output`  
-`testPrimer -r reference.fasta -f output.fasta -o output_tested.tsv`  
-`alignPrimers -t target.fasta -p output.fasta -o target_probes.fasta`  
-`rateAccess -f target_probes.fasta -o output_access.tsv`  
-  
-Briefly: First candidate probes are searched with `findPrimer`, then they are tested for unespecific hits with `testPrimer`. A consensus sequence is created from the target file and along with the candidate probes are aligned to the *Saccharomyces cerivisae* template  18S rDNA sequence with `alignPrimers` to estimate the accessibility with `rateAccess`. You can merge all log files as follows:  
-  
-`bindLogs -f probes.tsv output_tested.tsv output_access.tsv -o output_log.tsv`  
-  
-And based on your preferred parameters you select the best candidate probes for preliminary laboratory experiments, as follows:  
-  
-`filterLog -l output_log.tsv -s 0.4 -m 0.001 -M 0.0001 -c III`  
-  
-  
+   
 ## Getting started with the detailed pipeline
 First decide on which organism/group you want to be working with and your favourite reference file.  
 In this example we are going to be using public data from the [PR2 database](https://pr2-database.org/), and focusing on the Diatom *Guinardia* as targeted group.  
