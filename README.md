@@ -64,15 +64,15 @@ Once we have the target and reference files, we are going to search for specific
 - Not all sequences in a database are of the same length; and therefore the region of interest might not be present in all sequences from the target file.
 - Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. Therefore it is possible that the region of interest might also be present in the reference file due to chimeric sequences, badly annotated sequences or simply high similarity to other groups.  
   
-With this in mind, we can search for specific regions using the script **[findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer)** as follows:  
+With this in mind, we can search for specific regions using the script [findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer) as follows:  
   
-`findPrimer -t target.fasta -r reference.fasta -o guinardia_PR2_m80_s001 -l '18-22' -m 0.8 -s 0.001`  
+`findPrimer -t target.fasta -r reference.fasta -o probes -l '18-22' -m 0.8 -s 0.001`  
   
-With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18-22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`). In order to carry out different searches, we have included in the output file name key parameters of the search (`-o guinardia_PR2_m8_s001`). It will output two files: a fasta file containing all the probes that passed the search thresholds and a log file with parameters of the probe and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
+With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18-22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`) and we simply safe the output with the prefix "probes" (`-o probes`). This command will output two files: a fasta file containing all the probes that passed the search thresholds and a log file with parameters of the probe and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
 - a sequence identifier,
 - the length of the sequence,
 - the sequence,
-- the reverse complement of the sequence (if selected),
+- the reverse complement of the sequence,
 - the GC content (GC),
 - the basic melting temperature (Tm),
 - the proportion of hits in the target file,
@@ -87,17 +87,18 @@ With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs
 | primer2 | 20 | AATATGACACTGTCGGCATC | GATGCCGACAGTGTCATATT | 0.45 | 49.73 | 0.8421 | 32 | 0.00002 | 5 |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
   
->**Note1**: For further details on the usage of the script, use the help: `findPrimer -h`.  
->**Note2**: Sequences in the output fasta file are given in the input sense, most commonly 5'-3'. It is possible to quickly reverse complement the file with the script [fastaRevCom.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/fastaRevCom.py) as follows: `fastaRevCom.py -f guinardia_PR2_m80_s001.fasta -o guinardia_PR2_m80_s001_revCom.fasta`.  
+>**Note**: For further details on the usage of the script, use the help: `findPrimer -h`.  
+  
+Sequences in the output fasta file are given in the input sense, most commonly 5'-3'. It is possible to quickly reverse complement the file with the script [fastaRevCom.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/fastaRevCom.py) as follows: `fastaRevCom.py -f probes.fasta -o probes_revCom.fasta`.  
   
 **(TO BE IMPLEMENTED: Parallelization/multithreading of the for loop)**  
   
 ## 2. Test candidate probes
-Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database using the script [testPrimer](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer) as follows:  
+Regions found in the previous step are now going to be tested for hits **allowing mismatches** against the same reference database using the script [testPrimer](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer) (this script uses [agrep](http://manpages.ubuntu.com/manpages/bionic/man1/agrep.1.html)) as follows:  
   
-`testPrimer -r reference.fidentifierasta -p guinardia_PR2_m8_s001.fasta -o guinardia_PR2_m8_s001_tested.tsv`  
+`testPrimer -r reference.fasta -p probes.fasta -o probes_tested.tsv`  
   
-Here we are using the fasta file generated in **step 1** and containing all potential probes (`-p guinardia_PR2_m8_s001.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 1 and 2 mismatches. We save the output file with the option (`-o guinardia_PR2_m8_s001_tested.tsv`). This script will ouput a tsv file with the sequence identifier, the sequence itself and two columns for hits with 1 and 2 mismacth containing the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:
+Here we are using the fasta file generated in **step 1** and containing all potential probes (`-p probes.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 1 and 2 mismatches, and with the option `-o` we safe the output (`-o probes_tested.tsv`). This script will ouput a tsv file with the sequence identifier, the sequence itself and two columns for hits with 1 and 2 mismacth containing the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:  
   
 
 | identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs |
@@ -110,17 +111,17 @@ If you are interested in further exploring the hits allowing mismatches of a spe
   
 ## 3. Estimate accessibility of the candidate probes
 In this step, potential probes are going to be compared to the *Saccharomyces cerivisae* 18S rDNA sequence template to estimate the accessibility of the ribosomal region, based on [Behrens et al. (2003)](https://journals.asm.org/doi/10.1128/AEM.69.3.1748-1758.2003).  
-To do so, we are going to create a consensus sequence of the target group, align it to the *S. cerivisae* 18S rDNA sequence template and then align the candidate probes to both sequences. We can do all of this with the wrapper script [alignPrimers](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/alignPrimers) (this script uses [mafft](https://mafft.cbrc.jp/alignment/software/)) as follows:  
+To do so, we are going to create a consensus sequence of the target group, align it to the *S. cerivisae* 18S rDNA sequence template and then align the candidate probes to the reference alignment. We can do all of this with the wrapper script [alignPrimers](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/alignPrimers) (this script uses [mafft](https://mafft.cbrc.jp/alignment/software/)) as follows:  
   
-`alignPrimers  -t target.fasta -p guinardia_PR2_m80_s001.fasta -o guinardia_PR2_m80_s001_probes_align.fasta`  
+`alignPrimers  -t target.fasta -p probes.fasta -o probes_align.fasta`  
   
 This script will generate an aligned fasta file with the *S. cerivisae* 18S rDNA sequence template, a consensus sequence of the target file resolving ambiguities with the most abundant base, a consensus sequence of the target file (with a consensus threshold of 70%, a base detection threshold of 30% and a gap threshold of 80%) and all the candidate probes.  
   
->**Note**:  If you are interested in exploring the consensus options, have a look at the script [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/alignmentConsensus.py). You can even generate different consensus sequences to quickly explore big target files with the wraper [alignmentConsensus_compare.sh](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/wrappers/alignmentConsensus_compare.sh).  
+> If you are interested in exploring the consensus options, have a look at the script [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/alignmentConsensus.py). You can even generate different consensus sequences to quickly explore big target files with the wraper [alignmentConsensus_compare.sh](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/wrappers/alignmentConsensus_compare.sh).  
   
-Now with this file, it is possible to estimate the accessibility of the candidate  with the script 
+Now with this file, it is possible to **estimate the accessibility of the candidate probes** with the script [rateAccess](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/rateAccess) as follows:  
   
-`rateAccess -f guinardia_PR2_m80_s001_probes_align.fasta -o guinardia_PR2_m80_s001_access.tsv`  
+`rateAccess -f probes_align.fasta -o probes_access.tsv`  
   
 This script will generate a log file with the following columns
 - the sequence identifier,
@@ -142,9 +143,9 @@ This script will generate a log file with the following columns
   
 
 ## 4. Select the best candidate probes
-To ease identification of the best candidate probes, we can now merge all the different log files obtained through this pipeline into one single log file with the script [bindLogs](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/bindLogs) as follows:  
+To ease identification of the best candidate probes, we can now **merge all the different log files** obtained through this pipeline into one single log file with the script [bindLogs](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/bindLogs) as follows:  
   
-`bindLogs -f guinardia_PR2_m80_s001.tsv guinardia_PR2_m8_s001_tested.tsv guinardia_PR2_m80_s001_access.tsv -o guinardia_PR2_m80_s001_log.tsv -r`  
+`bindLogs -f probes.tsv probes_tested.tsv probes_access.tsv -o probes_log.tsv -r`  
   
 > **Note**: Since we are merging the threee different log files into one, we can remove the individual files adding the option `-r`.  
   
@@ -162,9 +163,10 @@ It is also possible to **automatically filter** the log file and select all prob
 - and with an accessibility class equal or higher than 'III' (so either 'I', 'II' or 'III').  
   
 And to do so we run the following command:  
+  
 `filterLog -l guinardia_PR2_m80_s001_log.tsv -s "0.4" -m "0.001" -M "0.0001" -c "III"`  
   
- It is important to understand that any bioinformatic work only provides theoretical values and information. Therefore it is mandatory to **empirically test and cross-validate the specificity and functioning of each probe** for the final decission.  
+It is important to understand that any bioinformatic work only provides theoretical values and information. Therefore it is mandatory to **empirically test and cross-validate the specificity and functioning of each probe** for the final decission.  
   
 **(TO BE IMPLEMENTED: Add a script to automatically select the X% best probes)**  
 **(TO BE IMPLEMENTED: Add a function to test for self-binding (i.e.; ACGTnnnnACG))**  
