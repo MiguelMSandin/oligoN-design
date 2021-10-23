@@ -175,7 +175,7 @@ Briefly, let's assume we call the target file **target.fasta**, the reference fi
 `filterLog -l $OUTPUT"_log.tsv" -s "0.4" -m "0.0001" -M "0.001" -c "III"`  
   
 At the end there are 4 different files:
-- probes.fasta: A fasta file with all the probes in the input sense (most commonly 5`-3`).  
+- probes.fasta: A fasta file with all the probes in the input sense (most commonly 5'-3').  
 - probes_align.fasta: Contains an alignment of the *S. cerivisae* 18S rDNA sequence template, a consensus sequence of the target file resolving ambiguities with the most abundant base, a consensus sequence of the target file and all the candidate probes.  
 - probes_log.tsv: A tsv file with all the information for each probe.  
 - probes_log_filtered.fasta: The previous log file filtered with probes that match all the selected criteria.  
