@@ -170,7 +170,7 @@ Briefly, let's assume we call the target file **target.fasta**, the reference fi
 `findPrimer -t $TARGET -r $REFERENCE -o $OUTPUT -l '18-22' -m 0.8 -s 0.001`  
 `testPrimer -r $REFERENCE -p "$OUTPUT.fasta" -o $OUTPUT"_tested.tsv"`  
 `alignPrimers -t $TARGET -p "$OUTPUT.fasta" -o $OUTPUT"_align.fasta"`  
-`rateAccess -f $OUTPUT"_probes_align.fasta" -o $OUTPUT"_access.tsv"`  
+`rateAccess -f $OUTPUT"_align.fasta" -o $OUTPUT"_access.tsv"`  
 `bindLogs -f "$OUTPUT.tsv" $OUTPUT"_tested.tsv" $OUTPUT"_access.tsv" -o $OUTPUT"_log.tsv" -r`  
 `filterLog -l $OUTPUT"_log.tsv" -s "0.4" -m "0.0001" -M "0.001" -c "III"`  
   
