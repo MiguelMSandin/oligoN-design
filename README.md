@@ -149,7 +149,7 @@ It is also possible to **automatically filter** the log file and select all prob
   
 And to do so we run the following command:  
   
-`filterLog -l guinardia_PR2_m80_s001_log.tsv -s "0.4" -m "0.001" -M "0.0001" -c "III"`  
+`filterLog -l probes_log.tsv -s "0.4" -m "0.001" -M "0.0001" -c "III"`  
   
 It is important to understand that any bioinformatic work only provides theoretical values and information. Therefore it is mandatory to **empirically test and cross-validate the specificity and functioning of each probe** for the final decission.  
   
