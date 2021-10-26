@@ -151,9 +151,12 @@ And to do so we run the following command:
   
 `filterLog -l probes_log.tsv -s "0.4" -m "0.001" -M "0.0001" -c "III"`  
   
+Finally, we can select (for example) the best 4 probes based on the number of hits allowing mismatches with the script [selectLog](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/selectLog), as follows:  
+
+`selectLog -l probes_log_filtered.tsv -n "4"`  
+  
 It is important to understand that any bioinformatic work only provides theoretical values and information. Therefore it is mandatory to **empirically test and cross-validate the specificity and functioning of each probe** for the final decission.  
   
-**(TO BE IMPLEMENTED: Add a script to automatically select the X% best probes)**  
 **(TO BE IMPLEMENTED: Add a function to test for self-binding (i.e.; ACGTnnnnACG))**  
   
 ## (TO BE IMPLEMENTED: 5. Estimate the secondary structure)
