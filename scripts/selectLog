@@ -1,0 +1,123 @@
+#!/usr/bin/env python3
+
+import argparse
+import pandas as pd
+import re
+
+parser = argparse.ArgumentParser(description="Select the N (or n%) best probes from a logFile. By default will select the 6 best scoring probes after hits allowing 1 mismatch, class and hits allowing 2 mismatches.")
+
+# Add the arguments to the parser
+requiredArgs = parser.add_argument_group('required arguments')
+
+requiredArgs.add_argument("-l", "--logFile", dest="logFile", required=True,
+					help="The name of the input logFile to be filtered.")
+
+parser.add_argument("-o", "--outFile", dest="outFile", required=False, default=None,
+					help="The name of the output log file. By default, will add '_bestN.tsv' to the input logFile, being 'N' the threshold selected.")
+
+parser.add_argument("-n", "--proportion", dest="proportion", required=False, action='store', type=float, default=None,
+					help="The proportion of the best probes to be filtered (0-1).")
+
+parser.add_argument("-N", "--absolute", dest="absolute", required=False, action='store', type=int, default=6,
+					help="The number of the best probes to be filtered.")
+
+parser.add_argument("-c", "--columns", dest="columns", nargs="+", required=False, action='store', default= "default",
+					help="The columns to be ordered for selecting the best candidate probes. By default: 'mismatch1_abs class mismatch2_abs'")
+
+parser.add_argument("-f", "--fasta", dest="fasta", required=False, default=None,
+					help="A fasta file containing the probes to be filtered. ")
+
+parser.add_argument("-O", "--outFasta", dest="outFasta", required=False, default=None,
+					help="The name of the output fasta file. By default, will add _bestN.fasta' to the input fastaFile, being 'N' the threshold selected.")
+
+parser.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+					help="If selected, will not print information to the console.")
+
+args = parser.parse_args()
+
+# Setting output file name _________________________________________________________________________
+if args.outFile is None:
+	if args.proportion is not None:
+		tmp = str("_best" + str(args.proportion) + ".tsv")
+	elif args.absolute is not None:
+		tmp = str("_best" + str(args.absolute) + ".tsv")
+	else:
+		tmp = "_best6.tsv"
+	outFile = re.sub("\\.[^\\.]+$", tmp, args.logFile)
+else:
+	outFile = args.outFile
+
+if args.verbose:
+	print("    File in:  ", args.logFile)
+	print("    File out: ", outFile)
+
+# Start filtering __________________________________________________________________________________
+infile = pd.read_csv(args.logFile, sep="\t")
+
+if args.columns == "default":
+	columns = ['mismatch1_abs', 'class', 'mismatch2_abs']
+else:
+	columns = list(args.columns)
+
+if args.verbose:
+	print("  Filtering by:", *columns)
+
+ordering = list()
+for i in list(columns):
+	if str(i) == "class":
+		ordering.append(False)
+	else:
+		ordering.append(True)
+
+outfile = infile.sort_values(columns, ascending=ordering)
+
+if args.proportion is not None:
+	N = int(round(args.proportion * len(outfile), 0))
+elif args.absolute is not None:
+	N = args.absolute
+else:
+	N = 6
+
+outfile = outfile.head(n=N)
+
+# Exporting ----------------------------------------------------------------------------------------
+outfile.to_csv(outFile, sep="\t", index=False)
+
+# Filtering fasta file if given --------------------------------------------------------------------
+if args.fasta is not None:
+	if args.verbose:
+		print("  Filtering fasta file...")
+	if args.outFasta is None:
+		if args.proportion is not None:
+			tmp = str("_best" + str(args.proportion) + ".fasta")
+		elif args.absolute is not None:
+			tmp = str("_best" + str(args.absolute) + ".fasta")
+		else:
+			tmp = "_best6.fasta"
+		outFasta = re.sub("\\.[^\\.]+$", tmp, args.fasta)
+	else:
+		outFasta = args.outFasta
+	
+	from Bio import SeqIO
+	
+	with open(outFasta, "w") as outfasta:
+		ids = set()
+		for i in SeqIO.parse(open(args.fasta), "fasta"):
+			ids.add(i.id)
+			if i.id in list(outfile['identifier']):
+				SeqIO.write([i], outfasta, "fasta")
+	
+	notPresent = set()
+	for i in list(outfile['identifier']):
+		if i not in ids:
+			notPresent.add(i)
+	
+	if len(notPresent) > 0:
+		print("    Warning, the following identifiers were not found in the fasta file:")
+		for e in notPresent:
+			print("      -", e, sep="")
+
+if args.verbose:
+	print("  Primers in:  ", len(infile))
+	print("  Primers out: ", len(outfile))
+	print("Done")
