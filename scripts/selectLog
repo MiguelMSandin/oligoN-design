@@ -4,7 +4,7 @@ import argparse
 import pandas as pd
 import re
 
-parser = argparse.ArgumentParser(description="Select the N (or n%) best probes from a logFile. By default will select the 6 best scoring probes after hits allowing 1 mismatch, class and hits allowing 2 mismatches.")
+parser = argparse.ArgumentParser(description="Select the N (or n%) best probes from a logFile. By default will select the 6 best scoring probes after hits allowing 1 and 2 mismatches.")
 
 # Add the arguments to the parser
 requiredArgs = parser.add_argument_group('required arguments')
@@ -22,7 +22,7 @@ parser.add_argument("-N", "--absolute", dest="absolute", required=False, action=
 					help="The number of the best probes to be filtered.")
 
 parser.add_argument("-c", "--columns", dest="columns", nargs="+", required=False, action='store', default= "default",
-					help="The columns to be ordered for selecting the best candidate probes. By default: 'mismatch1_abs class mismatch2_abs'")
+					help="The columns to be ordered for selecting the best candidate probes. By default: 'mismatch1 mismatch2'")
 
 parser.add_argument("-f", "--fasta", dest="fasta", required=False, default=None,
 					help="A fasta file containing the probes to be filtered. ")
@@ -55,7 +55,7 @@ if args.verbose:
 infile = pd.read_csv(args.logFile, sep="\t")
 
 if args.columns == "default":
-	columns = ['mismatch1_abs', 'class', 'mismatch2_abs']
+	columns = ['mismatch1', 'mismatch2']
 else:
 	columns = list(args.columns)
 
