@@ -80,6 +80,13 @@ else:
 
 outfile = outfile.head(n=N)
 
+# Add a warning if the ordering is random (due to several similar values)
+for c in columns:
+	if len(set(outfile[c])) == 1:
+		tmp = infile[infile[c] ==  outfile[c].iloc[0]]
+		tmp = len(tmp)
+		print("    Warning! In column '", c, "' there are ", tmp, "repeated values. The ordering is therefore meaningless.")
+
 # Exporting ----------------------------------------------------------------------------------------
 outfile.to_csv(outFile, sep="\t", index=False)
 
