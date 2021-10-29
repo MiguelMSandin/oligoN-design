@@ -186,6 +186,8 @@ At the end there are 4 different files:
 Remember, that it is possible to quickly reverse complement the fasta file containing the probes as follows:  
 `fastaRevCom.py -f $OUTPUT.fasta -o $OUTPUT"_revCom.fasta"`  
   
+You can find this script commented in [pipeline.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/pipeline.sh).  
+  
 ## Concluding remarks and further resources
 Probe design is a tedious work that requires a final empirical test for its completion. Therefore, bioinformatic pipelines will only provide theoretical candidate regions, that have to be tested in the laboratory. With this pipeline we attempted to generate an easy-to-use tool for the high-throughput design of probes. However the [ARB](http://www.arb-home.de/) software from the [SILVA](https://www.arb-silva.de/) project is the choice of preference when studying a targeted group.  
 It is also possible to [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) the desired primer/probe and test for the specificity in the most exhaustive databases. Or when using the 18S rDNA gene it is even possible to test for mismatches and taxonomic affiliation in the [PR2-primers](https://app.pr2-primers.org/) database.  
