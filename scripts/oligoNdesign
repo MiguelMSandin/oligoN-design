@@ -46,7 +46,7 @@ EXT="${OUT_FASTA##*.}"
 
 # Search for candidate primers
 echo "Searching candidate primers"
-findPrimer -t $TARGET -r $REFERENCE -o $OUT_FASTA_NOEXT -v
+findPrimer -t $TARGET -r $REFERENCE -o $OUT_FASTA_NOEXT
 
 if [ "$OUT_FASTA_NOEXT.fasta" != "$OUT_FASTA" ]; then
 	mv "$OUT_FASTA_NOEXT.fasta" $OUT_FASTA
@@ -61,7 +61,7 @@ echo ""
 # test the candidate primers
 echo "Testing candidate primers"
 tmp1=$(mktemp --tmpdir=$(pwd))
-testPrimer -r $REFERENCE -f $OUT_FASTA -o $tmp1 -v
+testPrimer -r $REFERENCE -p $OUT_FASTA -o $tmp1
 
 echo ""
 
@@ -75,7 +75,7 @@ echo ""
 # Estimate accessibility of the primers
 echo "Estimating accessibility of the primers"
 tmp3=$(mktemp --tmpdir=$(pwd))
-rateAccess -f $tmp2 -o $tmp3 -v
+rateAccess -f $tmp2 -o $tmp3
 
 echo ""
 
@@ -83,16 +83,16 @@ echo ""
 echo "Merging log files to $OUT_LOG"
 
 if [ "$OUT_FASTA_NOEXT.tsv" == "$OUT_LOG" ]; then
-	bindLogs -f "$OUT_FASTA_NOEXT.2.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG" -v -r
+	bindLogs -f "$OUT_FASTA_NOEXT.2.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG"
 else
-	bindLogs -f "$OUT_FASTA_NOEXT.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG" -v -r
+	bindLogs -f "$OUT_FASTA_NOEXT.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG"
 fi
 
 echo ""
 
 # Filtering primers
 echo "Filtering primers"
-filterLog -l "$OUT_LOG" -s "0.4" -m "0.0001" -M "0.001" -c "III" -f $OUT_FASTA -v
+filterLog -l "$OUT_LOG" -s "0.4" -m "0.0001" -M "0.001" -c "III" -f $OUT_FASTA
 
 echo ""
 

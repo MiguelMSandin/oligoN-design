@@ -20,14 +20,14 @@ parser.add_argument("-i", "--identifier", dest="identifier", required=False, def
 parser.add_argument("-r", "--remove", dest="remove", required=False, default=None, action="store_true",
 					help="If selected, will delete the input files before exiting.")
 
-parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
-					help="If selected, will print information to the console.")
+parser.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+					help="If selected, will not print information to the console.")
 
 args = parser.parse_args()
 
 # Reading input files ______________________________________________________________________________
 if args.verbose:
-	print("  Reading files")
+	print("  Reading files: ", *args.files_in)
 
 out = pd.DataFrame()
 first = True

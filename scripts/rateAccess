@@ -25,8 +25,8 @@ parser.add_argument("-e", "--exportAccessMap", dest="export", required=False, de
 parser.add_argument("-o", "--output", dest="file_out", required=False, default=None,
 					help="The name of the output file. Default will remove the extension of the primers/probes file and add '_access.tsv'. The file contains the following columns: the name of the primer/probe, the sequence, the first position in the target consensus sequence, the approximate region in the 18S (C1-C10, V1-V9), the first position regarding the Saccharomyces cerevisiae 18S rDNA template, the average maximun relative brightness (0-1), the average minimum relative brightness (0-1), the average relative brightness (0-1) and the given brightness class (VI-I).")
 
-parser.add_argument("-v", "--verbose", dest="verbose", required=False, default=None, action="store_true",
-					help="If selected, will print information to the console.")
+parser.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+					help="If selected, will not print information to the console.")
 
 args = parser.parse_args()
 

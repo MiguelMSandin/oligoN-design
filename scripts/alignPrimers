@@ -69,12 +69,12 @@ while getopts "hc:t:p:o:sS:" opt; do
 done
 
 if [ -z ${TARGET+x} ]; then
-	echo "Input file: $CONSENSUS"
-	echo "Primers:    $PRIMERS"
+	echo "  Input file: $CONSENSUS"
+	echo "  Primers:    $PRIMERS"
 	echo ""
 else
-	echo "Input file: $TARGET"
-	echo "Primers:    $PRIMERS"
+	echo "  Input file: $TARGET"
+	echo "  Primers:    $PRIMERS"
 	echo ""
 	# Creat temporary files
 	tmp1=$(mktemp --tmpdir=$(pwd))
