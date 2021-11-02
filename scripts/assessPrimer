@@ -3,7 +3,7 @@
 usage()
 {
     echo ""
-    echo "A wrapper to quickly search primers against a target file and test them against reference database allowing 0, 1 and 2 mismatches. Basically, from a fasta file containing potential probes, provides the same output as found by findPrimer and testPrimer."
+    echo "A wrapper to quickly search primers against a target file and test them against a reference database allowing 0, 1 and 2 mismatches. Basically, from a fasta file containing potential probes, provides the same output as given by findPrimer and testPrimer commands."
     echo ""
     echo "Usage: testPrimers.sh -p PRIMERS -r REFERENCE -o OUTPUT"
     echo ""
