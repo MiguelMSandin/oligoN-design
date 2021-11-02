@@ -1,0 +1,106 @@
+#!/bin/bash
+
+usage()
+{
+    echo ""
+    echo "A wrapper to quickly search primers against a target file and test them against reference database allowing 0, 1 and 2 mismatches. Basically, from a fasta file containing potential probes, provides the same output as found by findPrimer and testPrimer."
+    echo ""
+    echo "Usage: testPrimers.sh -p PRIMERS -r REFERENCE -o OUTPUT"
+    echo ""
+    echo "  -h    Print this information"
+    echo ""
+    echo "  -p    Primers/probes fasta file."
+    echo "  -t    Target fasta file."
+    echo "  -r    Reference fasta file."
+    echo "  -o    Output log file."
+    echo ""
+    echo "This script uses 'agrep'"
+}
+
+while getopts "hp:t:r:o:" opt; do
+        case ${opt} in
+                h )
+                        usage
+                        exit
+                        ;;
+                p )
+                        PRIMERS=$OPTARG
+                        ;;
+                t )
+                        TARGET=$OPTARG
+                        ;;
+                r )
+                        REFERENCE=$OPTARG
+                        ;;
+                o )
+                        OUT=$OPTARG
+                        ;;
+        esac
+done
+
+PRIMERSSEQS=$(grep -c ">" $PRIMERS)
+echo "  Primers file:        $PRIMERS"
+echo "  Number of sequences: $PRIMERSSEQS"
+
+TARSEQS=$(grep -c ">" $TARGET)
+echo "  Reference file:      $TARGET"
+echo "  Number of sequences: $TARSEQS"
+
+REFSEQS=$(grep -c ">" $REFERENCE)
+echo "  Reference file:      $REFERENCE"
+echo "  Number of sequences: $REFSEQS"
+
+echo "  Searching..."
+echo -e "identifier\tlength\tsequence\tsequence_reverseComplement\tGC\tTm\thits_target\thits_target_absolute\thits_reference\thits_reference_absolute\tmismatch1\tmismatch1_abs\tmismatch2\tmismatch2_abs" > $OUT
+
+i=0
+while read LINE; do
+	EXPORT="FALSE"
+	if echo $LINE | grep -q ">"; then
+		NAME=${LINE/>/}
+		((i=i+1))
+		echo -n -e "\r    $i/$PRIMERSSEQS"
+	else
+		LEN=${#LINE}
+		
+		REVERSE=$(echo $LINE | tr ACGTacgtMRWYSKVDHB TGCATGCAKMRSWYBDHV | rev)
+		
+		if [ $(echo $LINE | grep -v "A|a|C|c|G|g|T|t") == "" ]; then
+			echo "  Warning!! Primer: $NAME contains ambiguities"
+		fi
+		
+		GC=$(echo $LINE | tr -d ATatWw)
+		GC=${#GC}
+		
+		AT=$(echo $LINE | tr -d GCgcSs)
+		AT=${#AT}
+		
+		if (( $LEN < 14 )); then
+			Tm=$(echo "scale=3 2*$AT + 4*$GC" | bc)
+		else
+			Tm=$(echo "scale=3; 64.9+41*($GC-16.4)/$LEN" | bc)
+		fi
+		
+		GC=$(echo "scale=4; $GC/$LEN" | bc)
+		
+		ABS=$(grep -c "$LINE" $TARGET)
+		COUNT=$(echo "scale=6; $ABS/$TARSEQS" | bc)
+		
+		ABS0=$(grep -c "$LINE" $REFERENCE)
+		COUNT0=$(echo "scale=6; $ABS0/$REFSEQS" | bc)
+		
+		ABS1=$(agrep -c -1 "$LINE" $REFERENCE)
+		COUNT1=$(echo "scale=6; $ABS1/$REFSEQS" | bc)
+		
+		ABS2=$(agrep -c -2 "$LINE" $REFERENCE)
+		COUNT2=$(echo "scale=6; $ABS2/$REFSEQS" | bc)
+		
+		EXPORT="TRUE"
+	fi
+	if [ "$EXPORT" == "TRUE" ]; then
+		echo -e "$NAME\t$LEN\t$LINE\t$REVERSE\t0$GC\t$Tm\t0$COUNT\t$ABS\t0$COUNT0\t$ABS0\t0$COUNT1\t$ABS1\t0$COUNT2\t$ABS2" >> $OUT
+	fi
+done < "${PRIMERS}"
+
+echo ""
+echo "Done"
