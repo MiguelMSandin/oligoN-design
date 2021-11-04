@@ -155,7 +155,7 @@ And to do so we run the following command:
   
 Finally, we can select (for example) the best 4 probes based on the number of hits allowing mismatches with the script [selectLog](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/selectLog), as follows:  
 
-`selectLog -l probes_log_filtered.tsv -n "4"`  
+`selectLog -l probes_log_filtered.tsv -N "4"`  
   
 It is important to understand that any bioinformatic work only provides theoretical values and information. Therefore it is mandatory to **empirically test and cross-validate the specificity and functioning of each probe** for the final decission.  
   
