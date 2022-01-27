@@ -34,11 +34,11 @@ while getopts "hp:r:o:" opt; do
         esac
 done
 
-PRIMERSSEQS=$(grep -c ">" $PRIMERS)
+PRIMERSSEQS=$(grep -c "^>" $PRIMERS)
 echo "  Primers file:        $PRIMERS"
 echo "  Number of sequences: $PRIMERSSEQS"
 
-REFSEQS=$(grep -c ">" $REFERENCE)
+REFSEQS=$(grep -c "^>" $REFERENCE)
 echo "  Reference file:      $REFERENCE"
 echo "  Number of sequences: $REFSEQS"
 
@@ -48,7 +48,7 @@ echo -e "identifier\tsequence\tmismatch1\tmismatch1_abs\tmismatch2\tmismatch2_ab
 i=0
 while read LINE; do
 	EXPORT="FALSE"
-	if echo $LINE | grep -q ">"; then
+	if echo $LINE | grep -q "^>"; then
 		NAME=${LINE/>/}
 		((i=i+1))
 		echo -n -e "\r    $i/$PRIMERSSEQS"
