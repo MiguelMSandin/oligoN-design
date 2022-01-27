@@ -38,15 +38,15 @@ while getopts "hp:t:r:o:" opt; do
         esac
 done
 
-PRIMERSSEQS=$(grep -c ">" $PRIMERS)
+PRIMERSSEQS=$(grep -c "^>" $PRIMERS)
 echo "  Primers file:        $PRIMERS"
 echo "  Number of sequences: $PRIMERSSEQS"
 
-TARSEQS=$(grep -c ">" $TARGET)
+TARSEQS=$(grep -c "^>" $TARGET)
 echo "  Reference file:      $TARGET"
 echo "  Number of sequences: $TARSEQS"
 
-REFSEQS=$(grep -c ">" $REFERENCE)
+REFSEQS=$(grep -c "^>" $REFERENCE)
 echo "  Reference file:      $REFERENCE"
 echo "  Number of sequences: $REFSEQS"
 
@@ -56,7 +56,7 @@ echo -e "identifier\tlength\tsequence\tsequence_reverseComplement\tGC\tTm\thits_
 i=0
 while read LINE; do
 	EXPORT="FALSE"
-	if echo $LINE | grep -q ">"; then
+	if echo $LINE | grep -q "^>"; then
 		NAME=${LINE/>/}
 		((i=i+1))
 		echo -n -e "\r    $i/$PRIMERSSEQS"
