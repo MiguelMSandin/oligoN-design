@@ -71,11 +71,9 @@ done
 if [ -z ${TARGET+x} ]; then
 	echo "  Input file: $CONSENSUS"
 	echo "  Primers:    $PRIMERS"
-	echo ""
 else
 	echo "  Input file: $TARGET"
 	echo "  Primers:    $PRIMERS"
-	echo ""
 	# Creat temporary files
 	tmp1=$(mktemp --tmpdir=$(pwd))
 	
@@ -119,7 +117,5 @@ else
 	rm -f $tmp1 $tmp2 $tmp3 $CONSENSUS
 fi
 
-echo ""
-echo "Output file writen to: $OUT"
+echo "  Output file writen to: $OUT"
 echo "Done"
-
