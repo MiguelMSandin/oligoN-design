@@ -111,7 +111,7 @@ In this step, potential probes are going to be compared to the *Saccharomyces ce
 To do so, we are going to create a consensus sequence of the target group, align it to the *S. cerivisae* 18S rDNA sequence template and then align the candidate probes to the reference alignment. We can do all of this with the wrapper script [alignPrimers](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/alignPrimers) (this script uses [mafft](https://mafft.cbrc.jp/alignment/software/) and [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/alignmentConsensus.py)) as follows:  
   
 ```bash  
-alignPrimers  -t target.fasta -p probes.fasta -o probes_align.fasta  
+alignPrimers -t target.fasta -p probes.fasta -o probes_align.fasta  
 ```  
   
 This script will generate an aligned fasta file with the *S. cerivisae* 18S rDNA sequence template, a consensus sequence of the target file resolving ambiguities with the most abundant base, a consensus sequence of the target file (with a consensus threshold of 70%, a base detection threshold of 30% and a gap threshold of 80%) and all the candidate probes.  
