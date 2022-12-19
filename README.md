@@ -41,14 +41,14 @@ gunzip -k pr2_version_4.14.0_SSU_taxo_long.fasta.gz
 ```  
   
 ## 0. Prepare files
-Now we are going to create the **target** and **reference** fasta files. To do so, we extract all sequences affiliated to *Guinardia* from the reference database and safe them into the target file. We could do this with the script [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py) as follows:  
+Now we are going to create the **target** and **reference** fasta files. To do so, we extract all sequences affiliated to *Guinardia* from the reference database and save them into the target file. We could do this with the script [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py) as follows:  
   
 ```bash  
 sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v  
 sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o reference.fasta -p Guinardia -a r -v  
 ```  
   
->**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be safed with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
+>**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
   
 ## 1. Find candidate probes  
 Once we have the target and reference files, we are going to search for specific regions of different lengths in the target file that are not present in the reference file. It is important to know that:  
@@ -61,7 +61,7 @@ With this in mind, we can search for specific regions using the script [findPrim
 findPrimer -t target.fasta -r reference.fasta -o probes -l '18-22' -m 0.8 -s 0.001  
 ```  
   
-With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18-22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`) and we simply safe the output with the prefix "probes" (`-o probes`). This command will output two files: a fasta file containing all the probes that passed the search thresholds and a log file with parameters of the probe and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
+With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18-22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`) and we simply save the output with the prefix "probes" (`-o probes`). This command will output two files: a fasta file containing all the probes that passed the search thresholds and a log file with parameters of the probe and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
 - a sequence identifier,
 - the length of the sequence,
 - the sequence,
@@ -93,7 +93,7 @@ Regions found in the previous step are now going to be tested for hits **allowin
 testPrimer -r reference.fasta -p probes.fasta -o probes_tested.tsv  
 ```  
   
-Here we are using the fasta file generated in **step 1** and containing all potential probes (`-p probes.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 1 and 2 mismatches, and with the option `-o` we safe the output (`-o probes_tested.tsv`). This script will ouput a tsv file with the sequence identifier, the sequence itself and two columns for hits with 1 and 2 mismacth containing the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:  
+Here we are using the fasta file generated in **step 1** and containing all potential probes (`-p probes.fasta`) to search if it is present in the reference file (`-r reference.fasta`) allowing 1 and 2 mismatches, and with the option `-o` we save the output (`-o probes_tested.tsv`). This script will ouput a tsv file with the sequence identifier, the sequence itself and two columns for hits with 1 and 2 mismacth containing the proportion of hits and the absolute number of hits for the given mismatch, as in the following example:  
   
 
 | identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs |
