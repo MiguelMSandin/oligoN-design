@@ -2,9 +2,9 @@
   
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7473220.svg)](https://doi.org/10.5281/zenodo.7473220)  
   
-The purpose of this pipeline is to produce oligonucleotide candidates to be used for fluorescence *in situ* hybridisation (probes), yet primers for PCR amplification can also be searched. It focuses on the rDNA operon (specially the Small-SubUnit of the rDNA or the 18S rDNA gene), yet it can potentially be used for other genes.  
+The purpose of this pipeline is to produce oligonucleotide candidates for fluorescence *in situ* hybridisation (probes), yet primers for PCR amplification can also be searched. It focuses on the rDNA operon (specially the small subunit of the rDNA or the 18S rDNA gene), but can potentially be used for other genes.  
   
-Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/FASTA) file and searches for specific regions of the sequences against a **reference** fasta file. Later, based on the specificity, GC content, theoretical melting temperature and the accessibility of the selected region the best probes are selected for empirical test in the laboratory.  
+Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/FASTA) file and searches for specific regions of the sequences against a **reference** fasta file. Later, based on the specificity, GC content, theoretical melting temperature and the accessibility of the selected region, the best probes are selected for empirical test in the laboratory.  
   
 ![brief_pipeline](/resources/bioinfo_pipeline_ppt.png)   
   
@@ -55,15 +55,15 @@ sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o reference.fasta -
 ## 1. Find candidate probes  
 Once we have the target and reference files, we are going to search for specific regions of different lengths in the target file that are not present in the reference file. It is important to know that:  
 - Not all sequences in a database are of the same length; and therefore the region of interest might not be present in all sequences from the target file.
-- Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. Therefore it is possible that the region of interest might also be present in the reference file due to chimeric sequences, badly annotated sequences or simply high similarity to other groups.  
+- Despite enourmous and unvaluable efforts in manually curating reference databases, taxonomic annotation is not perfect. Therefore, it is possible that the region of interest might also be present in the reference file due to chimeric sequences, badly annotated sequences or simply high similarity to other groups.  
   
-With this in mind, we can search for specific regions using the script [findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer) as follows:  
+With this in mind, we can search for specific regions using the script [findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer). Here is an example how to run it:  
   
 ```bash  
 findPrimer -t target.fasta -r reference.fasta -o probes -l '18-22' -m 0.8 -s 0.001  
 ```  
   
-With this command we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18-22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`) and we simply save the output with the prefix "probes" (`-o probes`). This command will output two files: a fasta file containing all the probes that passed the search thresholds and a log file with parameters of the probe and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
+With this command, we are looking for regions of 18, 19, 20, 21 and 22 base pairs (bp: `-l '18-22'`) that are present in at least 80% (`-m 0.8`) of the sequences in the target file (`-t target.fasta`) and at most 0.001% (`-s 0.001`) in the reference file (`-r reference.fasta`) and we simply save the output with the prefix "probes" (`-o probes`). This command will output two files: (1) a fasta file containing all the probes that passed the search thresholds and (2) a log file with parameters of the probe and the search in a [tsv](https://en.wikipedia.org/wiki/Tab-separated_values) file with the following columns:
 - a sequence identifier,
 - the length of the sequence,
 - the sequence,
@@ -155,11 +155,11 @@ bindLogs -f probes.tsv probes_tested.tsv probes_access.tsv -o probes_log.tsv -r
 > **Note**: Since we are merging the threee different log files into one, we can remove the individual files adding the option `-r`.  
   
 By integrating the length, GC content, theoretical melting temperature and number of hits allowing mismatches and the accesibility of the desire region, it is possible to **manually select the best candidate probes** for your group. In this sense you want to select 2-4 probes:
-- that covers most of the targeted diversity,  
-- with a high GC content,  
-- with similar theoretical melting temperature,  
-- with low hits to the reference file allowing mismatches (or at least with hits to a known and morphologically distant group, i.e.; diatoms Vs copepods),  
-- highly accessible.    
+- that cover most of the targeted diversity,  
+- have a high GC content,  
+- have similar theoretical melting temperature,  
+- show low number of hits in the reference file allowing mismatches (or at least with hits to a known and morphologically distant group, i.e.; diatoms Vs copepods),  
+- traget highly accessible sites.    
   
 It is also possible to **automatically filter** the log file and select all probes that matches several criteria with the script [filterLog](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/filterLog), for example we could be interested in probes with:  
 - GC content equal or higher than 40%,
@@ -167,8 +167,8 @@ It is also possible to **automatically filter** the log file and select all prob
 - with less than 0.001% hits against the reference file allowing 2 mismatch,
 - and with an accessibility class equal or higher than 'III' (so either 'I', 'II' or 'III').  
   
-And to do so we run the following command:  
-  
+To do so we run the following command:  
+
 ```bash  
 filterLog -l probes_log.tsv -s "0.4" -m "0.001" -M "0.0001" -c "III"  
 ```  
@@ -217,7 +217,7 @@ fastaRevCom.py -f $OUTPUT.fasta -o $OUTPUT"_revCom.fasta"
 You can find this script commented in [pipeline.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/pipeline.sh).  
   
 ## Concluding remarks and further resources
-Probe design is a tedious work that requires a final empirical test for its completion. Therefore, bioinformatic pipelines will only provide theoretical candidate regions, that have to be tested in the laboratory. With this pipeline we attempted to generate an easy-to-use tool for the high-throughput design of probes. However the [ARB](http://www.arb-home.de/) software from the [SILVA](https://www.arb-silva.de/) project is the choice of preference when studying a targeted and well documented group. It is also worth trying the [DECIPHER](http://www2.decipher.codes/OligoDesign.html) package from [R](https://www.r-project.org/).  
+Probe design is a tedious work that requires a final empirical test for its completion. Therefore, bioinformatic pipelines will only provide theoretical candidate regions, that have to be tested in the laboratory. With this pipeline, we attempted to generate an easy-to-use tool for the high-throughput design of probes. However the [ARB](http://www.arb-home.de/) software from the [SILVA](https://www.arb-silva.de/) project is the choice of preference when studying a targeted and well documented group. It is also worth trying the [DECIPHER](http://www2.decipher.codes/OligoDesign.html) package from [R](https://www.r-project.org/).  
 It is also possible to [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi?PROGRAM=blastn&PAGE_TYPE=BlastSearch&LINK_LOC=blasthome) the desired primer/probe and test for the specificity in the most exhaustive databases. Or when using the 18S rDNA gene it is even possible to test for mismatches and taxonomic affiliation in the [PR2-primers](https://app.pr2-primers.org/) database.  
 Other online resources (such as [oligoCalc](http://biotools.nubic.northwestern.edu/OligoCalc.html)) provide useful properties to start testing the primers/probe in the laboratory.  
   
