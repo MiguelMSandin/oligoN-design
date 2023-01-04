@@ -1,3 +1,4 @@
+cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 "Sandin Miguel M, Walde Marie (2022). oligoN-design: A pipeline for the high throughput design of specific primers/probes. Zenodo. https://doi.org/10.5281/zenodo.7473220"
 authors:
