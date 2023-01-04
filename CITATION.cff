@@ -7,7 +7,7 @@ authors:
 - family-names: "Walde"
   given-names: "Marie"
   orcid: "https://orcid.org/0000-0002-4071-7677"
-title: "oligoN-design v0.1.0"
+title: "oligoN-design v0.1.0: A pipeline for the high throughput design of specific primers/probes"
 doi: 10.5281/zenodo.7473220
 version: v0.1.0
 date-released: 2022-12-22
