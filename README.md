@@ -16,10 +16,10 @@ Briefly, this pipeline takes a **target** [fasta](https://en.wikipedia.org/wiki/
 - [agrep](http://manpages.ubuntu.com/manpages/bionic/man1/agrep.1.html)  
 - An alignment editor software, such as [aliview](https://ormbunkar.se/aliview/) or [seaview](http://doua.prabi.fr/software/seaview)  
 ### In-house dependencies
-- [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py)  
-- [multi2linefasta.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/multi2linefasta.py)  
-- [fastaRevCom.py](https://github.com/MiguelMSandin/fasta-functions/blob/main/scripts/fastaRevCom.py)  
-- [alignmentConsensus.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/alignmentConsensus.py)  
+- [sequenceSelect.py](https://github.com/MiguelMSandin/random/blob/main/fasta/sequenceSelect.py)  
+- [multi2linefasta.py](https://github.com/MiguelMSandin/random/blob/main/scripts/multi2linefasta.py)  
+- [fastaRevCom.py](https://github.com/MiguelMSandin/random/blob/main/scripts/fastaRevCom.py)  
+- [alignmentConsensus.py](https://github.com/MiguelMSandin/random/tree/main/scripts/alignmentConsensus.py)  
   
 Download, move the scripts to you prefered folder (e.g.;`/usr/lobal/bin/`) and start running the pipeline. You might need to make the scripts executable as follows: `chmod +x script`.  
   
