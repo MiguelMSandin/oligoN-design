@@ -76,10 +76,10 @@ With this command, we are looking for regions of 18, 19, 20, 21 and 22 base pair
 - the absolute number of hits in the reference file.
   
 
-| identifier |length | sequence | sequence_reverseComplement | GC | Tm | hits_target | hits_target_absolute | hits_reference | hits_reference_absolute |
+| id |length | sequence | revCom | GC | Tm | hitsT | hitsT_abs | hitsR | hitsR_abs |
 | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- | ----- |
-| primer1 | 18 | CAAGTTTCTGCCCTATTA | TAATAGGGCAGAAACTTG | 0.3889 | 43.49 | 0.8157 | 31 | 0.0002 | 45 |
-| primer2 | 20 | AATATGACACTGTCGGCATC | GATGCCGACAGTGTCATATT | 0.45 | 49.73 | 0.8421 | 32 | 0.00002 | 5 |
+| oligoN1 | 18 | CAAGTTTCTGCCCTATTA | TAATAGGGCAGAAACTTG | 0.3889 | 43.49 | 0.8157 | 31 | 0.0002 | 45 |
+| oligoN2 | 20 | AATATGACACTGTCGGCATC | GATGCCGACAGTGTCATATT | 0.45 | 49.73 | 0.8421 | 32 | 0.00002 | 5 |
 | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
   
 >**Note**: For further details on the usage of the script, use the help: `findPrimer -h`.  
@@ -100,8 +100,8 @@ Here we are using the fasta file generated in **step 1** and containing all pote
 
 | identifier | sequence | mismatch1 | mismatch1_abs | mismatch2 | mismatch2_abs |
 | ----- | ----- | ----- | ----- | ----- | ----- |
-| primer1 | CAAGTTTCTGCCCTATTA | 0.0509 | 9343 | 0.3855 | 70638 |
-| primer2 | AATATGACACTGTCGGCATC | 0.00002 | 5 | 0.00002 | 5 |
+| oligoN1 | CAAGTTTCTGCCCTATTA | 0.0509 | 9343 | 0.3855 | 70638 |
+| oligoN2 | AATATGACACTGTCGGCATC | 0.00002 | 5 | 0.00002 | 5 |
 | ... | ... | ... | ... | ... | ... |
   
 If you are interested in further exploring the hits allowing mismatches of a specific probe you could use the wrapper script [extractMismatches.sh](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/wrappers/extractMismatches.sh). This will export a fasta file containing all sequences that matched the specific probe with the selected number of mismatches. And if you are very interested in exploring hits allowing more mismatches you can go fancy with the following script: [testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/others/testPrimer.py), yet it's very slow at the moment.  
