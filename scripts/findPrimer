@@ -142,7 +142,7 @@ primers = set()
 logFile = str(output + ".tsv")
 fasFile = str(output + ".fasta")
 with open(logFile, "w", buffering=1) as logfile, open(fasFile, "w", buffering=1) as fasfile:
-	print("id\tlength\tsequence\trevCom\tGC\tTm\thitsT\thitsT_abs\thitsR\thitsR_abs", file=logfile)
+	print("identifier\tlength\tsequence\trevCom\tGC\tTm\thitsT\thitsT_abs\thitsR\thitsR_abs", file=logfile)
 	for length in lengths:  # Loop through the different lengths
 		if args.verbose:
 			print("  Searching oligos of", str(length), "base pairs...", end="", flush=True)
