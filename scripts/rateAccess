@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(description="Estimate the accessibility of the 
 requiredArgs = parser.add_argument_group('required arguments')
 
 requiredArgs.add_argument("-f", "--file", dest="file_in", required=False,
-					help="A fasta file with the (1) Saccharomyces cerevisiae template, (2) the consensus sequence(s) of the target file and (3) the primers/probes aligned. Note sequences will be identified by containing the words 'Saccharomyces', 'consensus' and 'primer' respectively, and prefereably will take the consensus sequence with the most abundant base as consensus to avoid ambiguities.")
+					help="A fasta file with the (1) Saccharomyces cerevisiae template, (2) the consensus sequence(s) of the target file and (3) the oligonucleotides aligned. Note sequences will be identified by containing the words 'Saccharomyces', 'consensus' and 'oligoN' respectively, and prefereably will take the consensus sequence with the most abundant base as consensus to avoid ambiguities.")
 
 parser.add_argument("-a", "--accessMap", dest="accessMap", required=False, default="default",
 					help="The accessibility map table. By default will use a predefined table that can be exported with the option 'exportAccessMap' to the desired location. The table must have the following columns in the given order and tab delimited: position, region, base, brightness Class, maximum relative brightness and minimum relative brightness.")
@@ -1919,7 +1919,7 @@ for line in SeqIO.parse(open(args.file_in), "fasta"):
 	
 	# And now the primers/probes
 	# But to safe memory we will only extract relevant positions
-	if "primer" in name:
+	if "oligoN" in name:
 		p += 1
 		primers[name] = extractPositionsPrimers(seq)
 
