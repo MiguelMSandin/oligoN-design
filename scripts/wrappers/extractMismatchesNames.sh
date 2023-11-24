@@ -3,7 +3,7 @@
 usage()
 {
     echo ""
-    echo "A wrapper to find hits of a primer/probe in a reference database allowing mismatches and returning a fasta file."
+    echo "A wrapper to find hits of a primer/probe in a reference database allowing mismatches and returning the sequence identifiers."
     echo "Uses 'agrep' to search allowing mismatches."
     echo ""
     echo "Usage: extractMismatches.sh -m mismatches -p pattern -f file -o outFile"
@@ -58,7 +58,7 @@ do
 done
 
 echo "  Removing duplicates"
-awk '/^>/{f=!d[$1];d[$1]=1}f' $tmp2 >> $OUT
+grep "^>" $tmp2 | sed 's/>//g' | sort | uniq > $OUT
 
 rm -f $tmp1 $tmp2
 
