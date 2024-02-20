@@ -32,7 +32,7 @@ oligoNdesign -t target.fasta -r reference.fasta -o probes.fasta -l probes.tsv
 
 Briefly, this script will:  
 1) find all potential oligos with the script [findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer),
-2) test all potential oligos for hits allowing 1 and 2 mismatches with the script [testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/others/testPrimer.py),
+2) test all potential oligos for hits allowing 1 and 2 mismatches with the script [testPrimer](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/testPrimer),
 3) align the selected template (where an accessibility map has been empirically tested) to the consensus of the target file and the oligos with the script [alignPrimers](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/alignPrimers),
 4) rate the accessibility of all oligos with the script [rateAccess](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/rateAccess),
 5) bind all different log files with the script [bindLogs](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/bindLogs),
