@@ -31,12 +31,12 @@ oligoNdesign -t target.fasta -r reference.fasta -o probes.fasta -l probes.tsv
 ```  
 
 Briefly, this script will:  
-- 1) find all potential oligos with the script [findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer),
-- 2) test all potential oligos for hits allowing 1 and 2 mismatches with the script [testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/others/testPrimer.py),
-- 3) align the selected template (where an accessibility map has been empirically tested) to the consensus of the target file and the oligos with the script [alignPrimers](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/alignPrimers),
-- 4) rate the accessibility of all oligos with the script [rateAccess](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/rateAccess),
-- 5) bind all different log files with the script [bindLogs](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/bindLogs),
-- 6) filter the oligos to obtain only the highest quality statistics with the script [filterLog](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/filterLog).
+1) find all potential oligos with the script [findPrimer](https://github.com/MiguelMSandin/oligoN-design/tree/main/scripts/findPrimer),
+2) test all potential oligos for hits allowing 1 and 2 mismatches with the script [testPrimer.py](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/others/testPrimer.py),
+3) align the selected template (where an accessibility map has been empirically tested) to the consensus of the target file and the oligos with the script [alignPrimers](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/alignPrimers),
+4) rate the accessibility of all oligos with the script [rateAccess](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/rateAccess),
+5) bind all different log files with the script [bindLogs](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/bindLogs),
+6) filter the oligos to obtain only the highest quality statistics with the script [filterLog](https://github.com/MiguelMSandin/oligoN-design/blob/main/scripts/filterLog).
  
 And you will obtain a fasta file containing all candidate probes a log file with all the characteristics for each probe and a filtered fasta file and log file containing only the best scoring probes.  
    
