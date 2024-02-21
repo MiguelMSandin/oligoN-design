@@ -1,6 +1,6 @@
 # oligoN-design (version v0.3.0-beta)
   
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7473220.svg)](https://doi.org/10.5281/zenodo.7473220)  
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10688602.svg)](https://doi.org/10.5281/zenodo.10688602)
   
 The purpose of this pipeline is to produce oligonucleotide candidates for fluorescence *in situ* hybridisation (probes), yet primers for PCR amplification can also be searched. It focuses on the rDNA operon (specially the small subunit of the rDNA: 18S rDNA and 16S rDNA), but can potentially be used for other genes.  
   
