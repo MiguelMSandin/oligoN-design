@@ -1,0 +1,173 @@
+#!/bin/bash
+
+usage()
+{
+    echo ""
+    echo "A wrapper to align selected oligonucleotides to the Saccharomyces cerevisiae (18S rDNA) or Escherichia coli (16S rDNA) templates and the consensus sequence(s) from the target file."
+    echo ""
+    echo "Usage: alignOligo -c CONSENSUS -p OLIGOS -o outFile"
+    echo ""
+    echo "Mandatory fields (as input file either -t or -c):"
+    echo "  -t    The fasta file containing the target group"
+    echo " (-c    The fasta file containing the consensus sequence(s) from the target file.)"
+    echo "  -g    The gene template. Either '18S' (from S. cervisae, default) or '16S' (from E. coli)."
+    echo "  -p    The fasta file containing the selected oligonucleotide."
+    echo "  -o    The output file name."
+    echo ""
+    echo "Other options:"
+    echo "  -s    Prints the S. cerevisiae template to the console."
+    echo "  -S    Prints the S. cerevisiae template to the specified file. If the file exists, the S. cerevisae template sequence will be appended at the end."
+    echo "  -e    Prints the E. coli template to the console."
+    echo "  -E    Prints the E. coli template to the specified file. If the file exists, the E. coli template sequence will be appended at the end."
+    echo ""
+    echo "  -h    Print this information"
+    echo "  -v    Print version information only"
+    echo ""
+    echo ""
+    echo "This wrapper uses MAFFT: https://mafft.cbrc.jp/alignment/software/"
+    echo ""
+    echo "Please cite:"
+    echo "Katoh, Misawa, Kuma, Miyata (2002) MAFFT: a novel method for rapid multiple sequence alignment based on fast Fourier transform. Nucleic Acids Res. 30:3059-3066"
+    echo ""
+}
+
+SCER="TATCTGGTTGATCCTGCCAGTAGTCATATGCTTGTCTCAAAGATTAAGCCATGCATGTCTAAGTATAAGCAATTTATACAGTGAAACTGCGAATGGCTCATTAAATCAGTTATCGTTTATTTGATAGTTCCTTTACTACATGGTATAACTGTGGTAATTCTAGAGCTAATACATGCTTAAAATCTCGACCCTTTGGAAGAGATGTATTTATTAGATAAAAAATCAATGTCTTCGGACTCTTTGATGATTCATAATAACTTTTCGAATCGCATGGCCTTGTGCTGGCGATGGTTCATTCAAATTTCTGCCCTATCAACTTTCGATGGTAGGATAGTGGCCTACCATGGTTTCAACGGGTAACGGGGAATAAGGGTTCGATTCCGGAGAGGGAGCCTGAGAAACGGCTACCACATCCAAGGAAGGCAGCAGGCGCGCAAATTACCCAATCCTAATTCAGGGAGGTAGTGACAATAAATAACGATACAGGGCCCATTCGGGTCTTGTAATTGGAATGAGTACAATGTAAATACCTTAACGAGGAACAATTGGAGGGCAAGTCTGGTGCCAGCAGCCGCGGTAATTCCAGCTCCAATAGCGTATATTAAAGTTGTTGCAGTTAAAAAGCTCGTAGTTGAACTTTGGGCCCGGTTGGCCGGTCCGATTTTTTCGTGTACTGGATTTCCAACGGGGCCTTTCCTTCTGGCTAACCTTGAGTCCTTGTGGCTCTTGGCGAACCAGGACTTTTACTTTGAAAAAATTAGAGTGTTCAAAGCAGGCGTATTGCTCGAATATATTAGCATGGAATAATAGAATAGGACGTTTGGTTCTATTTTGTTGGTTTCTAGGACCATCGTAATGATTAATAGGGACGGTCGGGGGCATCAGTATTCAATTGTCAGAGGTGAAATTCTTGGATTTATTGAAGACTAACTACTGCGAAAGCATTTGCCAAGGACGTTTTCATTAATCAAGAACGAAAGTTAGGGGATCGAAGATGATCAGATACCGTCGTAGTCTTAACCATAAACTATGCCGACTAGGGATCGGGTGGTGTTTTTTTAATGACCCACTCGGCACCTTACGAGAAATCAAAGTCTTTGGGTTCTGGGGGGAGTATGGTCGCAAGGCTGAAACTTAAAGGAATTGACGGAAGGGCACCACCAGGAGTGGAGCCTGCGGCTTAATTTGACTCAACACGGGGAAACTCACCAGGTCCAGACACAATAAGGATTGACAGATTGAGAGCTCTTTCTTGATTTTGTGGGTGGTGGTGCATGGCCGTTCTTAGTTGGTGGAGTGATTTGTCTGCTTAATTGCGATAACGAACGAGACCTTAACCTACTAAATAGTGGTGCTAGCATTTGCTGGTTATCCACTTCTTAGAGGGACTATCGGTTTCAAGCCGATGGAAGTTTGAGGCAATAACAGGTCTGTGATGCCCTTAGACGTTCTGGGCCGCACGCGCGCTACACTGACGGAGCCAGCGAGTCTAACCTTGGCCGAGAGGTCTTGGTAATCTTGTGAAACTCCGTCGTGCTGGGGATAGAGCATTGTAATTATTGCTCTTCAACGAGGAATTCCTAGTAAGCGCAAGTCATCAGCTTGCGTTGATTACGTCCCTGCCCTTTGTACACACCGCCCGTCGCTAGTACCGATTGAATGGCTTAGTGAGGCCTCAGGATCTGCTTAGAGAAGGGGGCAACTCCATCTCAGAGCGGAGAATTTGGACAAACTTGGTCATTTAGAGGAACTAAAAGTCGTAACAAGGTTTCCGTAGGTGAACCTGCGGAAGGATCATTA"
+ECOLI="AAATTGAAGAGTTTGATCATGGCTCAGATTGAACGCTGGCGGCAGGCCTAACACATGCAAGTCGAACGGTAACAGGAAGAAGCTTGCTTCTTTGCTGACGAGTGGCGGACGGGTGAGTAATGTCTGGGAAACTGCCTGATGGAGGGGGATAACTACTGGAAACGGTAGCTAATACCGCATAACGTCGCAAGACCAAAGAGGGGGACCTTCGGGCCTCTTGCCATCGGATGTGCCCAGATGGGATTAGCTAGTAGGTGGGGTAACGGCTCACCTAGGCGACGATCCCTAGCTGGTCTGAGAGGATGACCAGCCACACTGGAACTGAGACACGGTCCAGACTCCTACGGGAGGCAGCAGTGGGGAATATTGCACAATGGGCGCAAGCCTGATGCAGCCATGCCGCGTGTATGAAGAAGGCCTTCGGGTTGTAAAGTACTTTCAGCGGGGAGGAAGGGAGTAAAGTTAATACCTTTGCTCATTGACGTTACCCGCAGAAGAAGCACCGGCTAACTCCGTGCCAGCAGCCGCGGTAATACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTTTGTTAAGTCAGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATCTGATACTGGCAAGCTTGAGTCTCGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACGAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGGATTAGATACCCTGGTAGTCCACGCCGTAAACGATGTCGACTTGGAGGTTGTGCCCTTGAGGCGTGGCTTCCGGAGCTAACGCGTTAAGTCGACCGCCTGGGGAGTACGGCCGCAAGGTTAAAACTCAAATGAATTGACGGGGGCCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGATGCAACGCGAAGAACCTTACCTGGTCTTGACATCCACGGAAGTTTTCAGAGATGAGAATGTGCCTTCGGGAACCGTGAGACAGGTGCTGCATGGCTGTCGTCAGCTCGTGTTGTGAAATGTTGGGTTAAGTCCCGCAACGAGCGCAACCCTTATCCTTTGTTGCCAGCGGTCCGGCCGGGAACTCAAAGGAGACTGCCAGTGATAAACTGGAGGAAGGTGGGGATGACGTCAAGTCATCATGGCCCTTACGACCAGGGCTACACACGTGCTACAATGGCGCATACAAAGAGAAGCGACCTCGCGAGAGCAAGCGGACCTCATAAAGTGCGTCGTAGTCCGGATTGGAGTCTGCAACTCGACTCCATGAAGTCGGAATCGCTAGTAATCGTGGATCAGAATGCCACGGTGAATACGTTCCCGGGCCTTGTACACACCGCCCGTCACACCATGGGAGTGGGTTGCAAAAGAAGTAGGTAGCTTAACCTTCGGGAGGGCGCTTACCACTTTGTGATTCATGACTGGGGTGAAGTCGTAACAAGGTAACCGTAGGGGAACCTGCGGTTGGATCACCTCCTTA"
+
+GENE="18S"
+
+while getopts "hvc:t:g:p:o:sS:eE:" opt; do
+        case ${opt} in
+                h )
+                        usage
+                        exit
+                        ;;
+                v )
+                        echo "oligoN-design alignOligo v0.3.0-beta"
+                        exit
+                        ;;
+                t )
+                        TARGET=$OPTARG
+                        ;;
+                c )
+                        CONSENSUS=$OPTARG
+                        if [ ! -z ${TARGET+x} ] && [ ! -z ${CONSENSUS+x} ]; then
+                            echo ""
+                            echo "Warning! Please select either a target file (with -t) or a consensus sequence(s) file (with -c), but not both"
+                            echo ""
+                            exit
+                        fi
+                        ;;
+                g )
+                        GENE=$OPTARG
+                        if [ "$GENE" == "18S" ] || [ "$GENE" == "18s" ]; then
+                            GENE="18S"
+                        elif [ "$GENE" == "16S" ] || [ "$GENE" == "16s" ];then
+                            GENE="16S"
+                        else
+                            echo ""
+                            echo "Warning! Please select either '18S' (default) or '16S'."
+                            echo ""
+                            exit
+                        fi
+                        ;;
+                p )
+                        OLIGOS=$OPTARG
+                        ;;
+                o )
+                        OUT=$OPTARG
+                        ;;
+                s )
+                        echo ""
+                        echo "  Saccharomyces cerevisiae template sequence:"
+                        echo "$SCER"
+                        echo ""
+                        exit
+                        ;;
+                S )
+                        TEMPLATE=$OPTARG
+                        echo -e ">Saccharomyces_cerevisiae_template\n$SCER" >> $TEMPLATE
+                        exit
+                        ;;
+                e )
+                        echo ""
+                        echo "  Escherichia coli template sequence:"
+                        echo "$ECOLI"
+                        echo ""
+                        exit
+                        ;;
+                E )
+                        TEMPLATE=$OPTARG
+                        echo -e ">Escherichia_coli_template\n$ECOLI" >> $TEMPLATE
+                        exit
+                        ;;
+        esac
+done
+
+if [ -z ${TARGET+x} ]; then
+	echo "  Input file: $CONSENSUS"
+	echo "  Oligos:     $OLIGOS"
+	echo ""
+else
+	echo "  Input file: $TARGET"
+	echo "  Oligos:     $OLIGOS"
+	echo ""
+	# Creat temporary files
+	tmp1=$(mktemp --tmpdir=$(pwd))
+	
+	# Align target file
+	echo "  Aligning target file"
+	mafft --quiet $TARGET > $tmp1
+	
+	CONSENSUS=$(mktemp --tmpdir=$(pwd))
+	# Create consensus sequences using the most abundant base to resolve ambiguous positions
+	echo "  Generating consensus sequence with the most abundant base"
+	alignmentConsensus.py -f $tmp1 -o $CONSENSUS -r -m
+	# Create consensus sequences allowing ambiguous positions
+	echo "  Generating consensus sequence allowing ambiguities"
+	alignmentConsensus.py -f $tmp1 -o $CONSENSUS -r
+	
+	# Changing the name of the consensus sequence
+	sed -i -E 's/.*tmp/>/g' $CONSENSUS
+	sed -i "s\>_\>$TARGET\g" $CONSENSUS
+	sed -i 's/.fasta/_/g' $CONSENSUS
+fi
+
+# Export a S. cerevisiae template file
+tmp2=$(mktemp --tmpdir=$(pwd))
+if [[ "$GENE" == "18S" ]];then
+	echo -e ">Saccharomyces_cerevisiae_template\n$SCER" > $tmp2
+else
+	echo -e ">Escherichia_coli_template\n$ECOLI" > $tmp2
+fi
+# Merge with the consensus sequences
+tmp3=$(mktemp --tmpdir=$(pwd))
+cat $tmp2 $CONSENSUS > $tmp3
+
+# Align S. cerevisiae template and consensus
+if [[ "$GENE" == "18S" ]];then
+	echo "  Aligning Saccharomyces cerevisiae template and consensus sequence(s)"
+else
+	echo "  Aligning Escherichia coli template and consensus sequence(s)"
+fi
+mafft --quiet $tmp3 > $tmp2
+
+# Now align the oligos to the aligned file
+if [[ "$GENE" == "18S" ]];then
+	echo "  Aligning oligonucleotides to Saccharomyces cerevisiae template and consensus sequence(s)"
+else
+	echo "  Aligning oligonucleotides to Escherichia coli template and consensus sequence(s)"
+fi
+mafft --quiet --addfragments $OLIGOS $tmp2 > $OUT
+
+# And removing temporary files
+if [ -z ${TARGET+x} ]; then
+	rm -f $tmp2 $tmp3
+else
+	rm -f $tmp1 $tmp2 $tmp3 $CONSENSUS
+fi
+
+echo ""
+echo "Output file writen to: $OUT"
+echo "Done"
+

@@ -5,7 +5,7 @@ import pandas as pd
 import re
 import sys
 
-parser = argparse.ArgumentParser(description="Based on several user-defined threshold, the logFile will filter primers that do not meet the selected criteria.")
+parser = argparse.ArgumentParser(description="Based on several user-defined thresholds, the logFile will filter oligonucleotides that do not meet the selected criteria.")
 
 # Add the arguments to the parser
 requiredArgs = parser.add_argument_group('required arguments')
@@ -38,13 +38,17 @@ parser.add_argument("-r", "--region", dest="region", required=False, action='sto
 					help="A desired region in the 18S rDNA (C1-C10, V1-V9).")
 
 parser.add_argument("-f", "--fasta", dest="fasta", required=False, default=None,
-					help="A fasta file containing the probes to be filtered. ")
+					help="A fasta file containing the oligonucleotides to be filtered. ")
 
 parser.add_argument("-O", "--outFasta", dest="outFasta", required=False, default=None,
 					help="The name of the output fasta file. By default, will add '_filtered.fasta' to the input fasta file.")
 
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
 					help="If selected, will not print information to the console.")
+
+parser.add_argument("--version", action='version',
+					version='oligoN-design %(prog)s v0.3.0-beta',
+					help='Show the version number and exit.')
 
 args = parser.parse_args()
 
@@ -77,58 +81,58 @@ outfile = infile
 if args.GCcontent is not None:
 	outfile = outfile[outfile['GC'] >= args.GCcontent]
 	if args.verbose:
-		print("    Probes passing GC criteria: ", len(infile[infile['GC'] >= args.GCcontent]))
+		print("    Oligos passing GC criteria: ", len(infile[infile['GC'] >= args.GCcontent]))
 
 if args.Tm is not None:
 	outfile = outfile[outfile['Tm'] >= args.Tm]
 	if args.verbose:
-		print("    Probes passing Tm criteria: ", len(infile[infile['Tm'] >= args.Tm]))
+		print("    Oligos passing Tm criteria: ", len(infile[infile['Tm'] >= args.Tm]))
 
 if args.mismatch1 is not None:
 	outfile = outfile[outfile['mismatch1'] <= args.mismatch1]
 	if args.verbose:
-		print("    Probes passing mismatch1 criteria: ", len(infile[infile['mismatch1'] <= args.mismatch1]))
+		print("    Oligos passing mismatch1 criteria: ", len(infile[infile['mismatch1'] <= args.mismatch1]))
 
 if args.mismatch2 is not None:
 	outfile = outfile[outfile['mismatch2'] <= args.mismatch2]
 	if args.verbose:
-		print("    Probes passing mismatch2 criteria: ", len(infile[infile['mismatch2'] <= args.mismatch2]))
+		print("    Oligos passing mismatch2 criteria: ", len(infile[infile['mismatch2'] <= args.mismatch2]))
 
 if args.region is not None:
 	outfile = outfile[outfile['region'].str.contains(args.region)]
 	if args.verbose:
-		print("    Probes passing region criteria: ", len(infile[infile['region'].str.contains(args.region)]))
+		print("    Oligos passing region criteria: ", len(infile[infile['region'].str.contains(args.region)]))
 
 if args.classb is not None:
 	if args.classb == 'I':
 		outfile = outfile[outfile['class'] == "I"]
 		if args.verbose:
-			print("    Probes passing class criteria: ", len(infile[infile['class'] == "I"]))
+			print("    Oligos passing class criteria: ", len(infile[infile['class'] == "I"]))
 	
 	elif args.classb == 'II':
 		outfile = outfile[(outfile['class'] == "I") | (outfile['class'] == "II")]
 		if args.verbose:
-			print("    Probes passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II")]))
+			print("    Oligos passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II")]))
 	
 	elif args.classb == 'III':
 		outfile = outfile[(outfile['class'] == "I") | (outfile['class'] == "II") | (outfile['class'] == "III")]
 		if args.verbose:
-			print("    Probes passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III")]))
+			print("    Oligos passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III")]))
 	
 	elif args.classb == 'IV':
 		outfile = outfile[(outfile['class'] == "I") | (outfile['class'] == "II") | (outfile['class'] == "III") | (outfile['class'] == "IV")]
 		if args.verbose:
-			print("    Probes passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III") | (infile['class'] == "IV")]))
+			print("    Oligos passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III") | (infile['class'] == "IV")]))
 	
 	elif args.classb == 'V':
 		outfile = outfile[outfile['class'] != "VI"]
 		if args.verbose:
-			print("    Probes passing class criteria: ", len(infile[infile['class'] != "VI"]))
+			print("    Oligos passing class criteria: ", len(infile[infile['class'] != "VI"]))
 
 if args.brightness is not None:
 	outfile = outfile[outfile['average_brightness'] >= args.brightness]
 	if args.verbose:
-		print("    Probes passing brightness criteria: ", len(infile[infile['average_brightness'] >= args.brightness]))
+		print("    Oligos passing brightness criteria: ", len(infile[infile['average_brightness'] >= args.brightness]))
 
 # Exporting ----------------------------------------------------------------------------------------
 outfile.to_csv(outFile, sep="\t", index=False)
@@ -162,6 +166,6 @@ if args.fasta is not None:
 			print("      -", e, sep="")
 
 if args.verbose:
-	print("  Primers in:  ", len(infile))
-	print("  Primers out: ", len(outfile))
+	print("  Oligonucleotides in:  ", len(infile))
+	print("  Oligonucleotides out: ", len(outfile))
 	print("Done")

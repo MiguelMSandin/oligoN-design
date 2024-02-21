@@ -3,7 +3,7 @@
 import argparse
 import pandas as pd
 
-parser = argparse.ArgumentParser(description="Binds the columns from the log outputs of findPrimer.py, testPrimer.py and/or rateAccess.py.")
+parser = argparse.ArgumentParser(description="Binds the columns from the log outputs of findOligo, testOligo and/or rateAccess.")
 
 # Add the arguments to the parser
 requiredArgs = parser.add_argument_group('required arguments')
@@ -22,6 +22,10 @@ parser.add_argument("-r", "--remove", dest="remove", required=False, default=Non
 
 parser.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
 					help="If selected, will not print information to the console.")
+
+parser.add_argument("--version", action='version',
+					version='oligoN-design %(prog)s v0.3.0-beta',
+					help='Show the version number and exit.')
 
 args = parser.parse_args()
 
