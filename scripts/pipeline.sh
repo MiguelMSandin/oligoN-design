@@ -15,19 +15,19 @@ OUTPUT=""
 # rm -f tmp
 
 # First find candidate regions ---------------------------------------------------------------------
-findPrimer -t $TARGET -r $REFERENCE -o $OUTPUT -l '18-22' -m "0.8" -s "0.001"
+findOligo -t $TARGET -r $REFERENCE -o $OUTPUT -l '18-22' -m "0.8" -s "0.001"
 
 # Test the candidate regions -----------------------------------------------------------------------
-testPrimer -r $REFERENCE -p "$OUTPUT.fasta" -o $OUTPUT"_tested.tsv"
+testOligo -r $REFERENCE -p "$OUTPUT.fasta" -o $OUTPUT"_tested.tsv"
 
 # Rate access of the candidate regions -------------------------------------------------------------
-alignPrimers -t $TARGET -p "$OUTPUT.fasta" -o $OUTPUT"_align.fasta"
+alignOligo -t $TARGET -p "$OUTPUT.fasta" -o $OUTPUT"_align.fasta"
 rateAccess -f $OUTPUT"_align.fasta" -o $OUTPUT"_access.tsv"
 
 # Bind all log files -------------------------------------------------------------------------------
 bindLogs -f "$OUTPUT.tsv" $OUTPUT"_tested.tsv" $OUTPUT"_access.tsv" -o $OUTPUT"_log.tsv" -r
 
 # Filter the log files -----------------------------------------------------------------------------
-filterLog -l $OUTPUT"_log.tsv" -s "0.4" -m "0.0001" -M "0.001" -c "III"
+filterLog -l $OUTPUT"_log.tsv" -s "0.4" -M "0.001" -b "0.4"
 selectLog -l $OUTPUT"_log_filtered.tsv" -N 4
 
