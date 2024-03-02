@@ -54,8 +54,8 @@ gunzip pr2_version_5.0.0_SSU_taxo_long.fasta.gz
 Now we are going to create the **target** and **reference** fasta files. To do so, we extract all sequences affiliated to *Guinardia* from the reference database and save them into the target file. We could do this with the script [sequenceSelect.py](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/sequenceSelect.py) as follows:  
   
 ```bash  
-sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v  
-sequenceSelect.py -f pr2_version_4.14.0_SSU_taxo_long.fasta -o reference.fasta -p Guinardia -a r -v  
+sequenceSelect.py -f pr2_version_5.0.0_SSU_taxo_long.fasta -o target.fasta -p Guinardia -a k -v  
+sequenceSelect.py -f pr2_version_5.0.0_SSU_taxo_long.fasta -o reference.fasta -p Guinardia -a r -v  
 ```  
   
 >**Note**: The target file might be created faster by using grep (`grep -A 1 Guinardia pr2_version_4.14.0_SSU_taxo_long.fasta > target.fasta`). Yet, the fasta file has to be saved with the sequences in one line, and not in several lines. You could use this [script](https://github.com/MiguelMSandin/fasta-functions/tree/main/scripts/multi2linefasta.py) to change a multi-line fasta to single-line fasta if needed.  
