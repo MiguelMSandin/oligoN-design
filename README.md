@@ -46,8 +46,8 @@ In this example we are going to be using public data from the [PR2 database](htt
 Go to your working directory, download and unzip the PR2 database file:  
   
 ```bash  
-wget https://github.com/pr2database/pr2database/releases/download/v4.14.0/pr2_version_4.14.0_SSU_taxo_long.fasta.gz  
-gunzip -k pr2_version_4.14.0_SSU_taxo_long.fasta.gz  
+wget https://github.com/pr2database/pr2database/releases/download/v5.0.0/pr2_version_5.0.0_SSU_taxo_long.fasta.gz  
+gunzip pr2_version_5.0.0_SSU_taxo_long.fasta.gz  
 ```  
   
 ## 0. Prepare files
