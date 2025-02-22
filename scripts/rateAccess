@@ -53,7 +53,7 @@ if args.accessMap != "18S" and args.accessMap != "16S" and args.accessMap != "18
 		access[line[0]]['brightClass'] = line[3]
 		access[line[0]]['brightMax'] = line[4]
 		access[line[0]]['brightMin'] = line[5]
-elif args.accessMap == "18S" or args.accessMap != "18S":
+elif args.accessMap == "18S" or args.accessMap == "18S":
 	access={'1': {'region': 'C1', 'base': 'T', 'brightClass': 'II', 'brightMax': '0.8', 'brightMin': '0.61'},
 	'2': {'region': 'C1', 'base': 'A', 'brightClass': 'II', 'brightMax': '0.8', 'brightMin': '0.61'},
 	'3': {'region': 'C1', 'base': 'T', 'brightClass': 'II', 'brightMax': '0.8', 'brightMin': '0.61'},
