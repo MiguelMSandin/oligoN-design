@@ -1,4 +1,4 @@
-# oligoN-design (version v0.3.0-beta)
+# oligoN-design (version v0.3.1-beta)
   
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10688602.svg)](https://doi.org/10.5281/zenodo.10688602)
   
