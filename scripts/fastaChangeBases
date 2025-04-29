@@ -2,7 +2,7 @@
 
 import argparse
 
-version='1.0'
+version='0.4'
 
 parser = argparse.ArgumentParser(description="%s v%s: Replaces nucleotides characters, such as Us to Ts, ambiguities to Ns or lower to upper cases." % ('%(prog)s', version), add_help=False)
 

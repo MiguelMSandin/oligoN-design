@@ -7,7 +7,7 @@ import itertools
 from Bio.Seq import Seq
 
 start_time = time.time()
-version='1.0'
+version='0.4'
 
 parser = argparse.ArgumentParser(description="%s v%s: Test thoroughly a fasta file containing oligonucleotides against a excluding fasta file. It will test for self-dimers, hairpins, consecutive bases and/or mismatches." % ('%(prog)s', version), add_help=False,
 								 epilog="Given the amount of information provided by this script, it will speed analysis if a small selection of oligonucleotides is provided.")

@@ -3,7 +3,7 @@
 import argparse
 import re
 
-version='1.0'
+version='0.4'
 
 parser = argparse.ArgumentParser(description="%s v%s: Select sequence in a fasta file either from a list or that match a pattern and extract them or remove them." % ('%(prog)s', version), add_help=False)
 

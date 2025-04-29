@@ -5,7 +5,7 @@ import re
 import pandas as pd
 import sys
 
-version='1.0'
+version='0.4'
 
 parser = argparse.ArgumentParser(description="%s v%s: Based on several user-defined thresholds from a given log file, it will filter oligonucleotides that do not meet the selected criteria." % ('%(prog)s', version), add_help=False)
 

@@ -3,7 +3,7 @@ O#!/usr/bin/env python3
 import argparse
 from Bio.Seq import Seq
 
-version='1.0'
+version='0.4'
 
 parser = argparse.ArgumentParser(description="%s v%s: Reverse and(/or) complement sequences in a fasta file." % ('%(prog)s', version), add_help=False)
 
