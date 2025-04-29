@@ -1,0 +1,13 @@
+name: oligoN-design
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.12
+  - biopython=1.83
+  - matplotlib=3.10.1
+  - pandas=2.1.4
+  - hmmer=3.4
+  - mafft=7.526
+  - glimpse
+
