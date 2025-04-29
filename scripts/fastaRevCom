@@ -1,0 +1,81 @@
+O#!/usr/bin/env python3
+
+import argparse
+from Bio.Seq import Seq
+
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Reverse and(/or) complement sequences in a fasta file." % ('%(prog)s', version), add_help=False)
+
+requirArgs = parser.add_argument_group('Required arguments')
+outputArgs = parser.add_argument_group('Optional arguments related to the output')
+optionArgs = parser.add_argument_group('Other optional arguments')
+
+requirArgs.add_argument("-f", "--file", dest="file_in", required=True,
+						help="Input fasta file.")
+
+outputArgs.add_argument("-o", "--output", dest="file_out", required=False, default=None,
+						help="Output fasta file. By default will add '_revCom', '_reversed' or '_complement' (depending on the chosen arguments) before the extension.")
+
+outputArgs.add_argument("-c", "--complement", dest="complement", required=False, action="store_true",
+						help="If selected, returns only the complement sequences.")
+
+outputArgs.add_argument("-r", "--reverse", dest="reverse", required=False, action="store_true",
+						help="If selected, returns only the reverse sequences.")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will not print information to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
+
+args = parser.parse_args()
+
+# Define functions _________________________________________________________________________________
+def readFasta(fastafile):
+	out = {}
+	for line in open(fastafile):
+		if line.startswith(">"):
+			name = line.replace(">", "")
+			name = name.replace("\n", "")
+			out[name] = str()
+		else:
+			sequence = line.replace("\n", "")
+			out[name] = (out[name] + sequence)
+	return out
+
+# Output file ______________________________________________________________________________________
+if args.file_out is None:
+	import re
+	if (args.complement is False and args.reverse is False) or (args.complement and args.reverse):
+		outFile = re.sub("\\.[^\\.]+$", "_revCom", args.file_in) + re.sub(".*\\.", ".", args.file_in)
+	if args.complement and args.reverse is False:
+		outFile = re.sub("\\.[^\\.]+$", "_complement", args.file_in) + re.sub(".*\\.", ".", args.file_in)
+	if args.reverse and args.complement is False:
+		outFile = re.sub("\\.[^\\.]+$", "_reversed", args.file_in) + re.sub(".*\\.", ".", args.file_in)
+else:
+	outFile = args.file_out
+
+# Reading files ____________________________________________________________________________________
+if args.verbose:
+	print("  Reading input file:    ", args.file_in)
+infile = readFasta(args.file_in)
+
+# Transform fasta file _____________________________________________________________________________
+with open(outFile, "a") as outfile:
+	for name, sequence in infile.items():
+		if (args.complement is False and args.reverse is False) or (args.complement and args.reverse):
+			sequence = Seq(sequence).reverse_complement()
+		if args.complement and args.reverse is False:
+			sequence = Seq(sequence).complement()
+		if args.reverse and args.complement is False:
+			sequence = sequence[::-1]
+		print(">" + str(name) + "\n" + str(sequence), file=outfile)
+
+if args.verbose:
+	print("  Output file written to:", outFile)
+	print("Done")

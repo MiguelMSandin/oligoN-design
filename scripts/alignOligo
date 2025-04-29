@@ -1,9 +1,12 @@
 #!/bin/bash
 
+version='1.0'
+name=$(basename "$0")
+
 usage()
 {
     echo ""
-    echo "A wrapper to align selected oligonucleotides to the Saccharomyces cerevisiae (18S rDNA) or Escherichia coli (16S rDNA) templates and the consensus sequence(s) from the target file."
+    echo "$name v$version: A wrapper to align selected oligonucleotides to the Saccharomyces cerevisiae (18S rDNA) or Escherichia coli (16S rDNA) templates and the consensus sequence(s) from the target file."
     echo ""
     echo "Usage: alignOligo -c CONSENSUS -p OLIGOS -o outFile"
     echo ""
@@ -19,9 +22,9 @@ usage()
     echo "  -S    Prints the S. cerevisiae template to the specified file. If the file exists, the S. cerevisae template sequence will be appended at the end."
     echo "  -e    Prints the E. coli template to the console."
     echo "  -E    Prints the E. coli template to the specified file. If the file exists, the E. coli template sequence will be appended at the end."
-    echo ""
-    echo "  -h    Print this information"
-    echo "  -v    Print version information only"
+    echo "  -h    Show this help message and exit."
+    echo "  -v    If selected, will not print information to the console."
+    echo "  -V    Print version information and exit"
     echo ""
     echo ""
     echo "This wrapper uses MAFFT: https://mafft.cbrc.jp/alignment/software/"
@@ -35,15 +38,19 @@ SCER="TATCTGGTTGATCCTGCCAGTAGTCATATGCTTGTCTCAAAGATTAAGCCATGCATGTCTAAGTATAAGCAATT
 ECOLI="AAATTGAAGAGTTTGATCATGGCTCAGATTGAACGCTGGCGGCAGGCCTAACACATGCAAGTCGAACGGTAACAGGAAGAAGCTTGCTTCTTTGCTGACGAGTGGCGGACGGGTGAGTAATGTCTGGGAAACTGCCTGATGGAGGGGGATAACTACTGGAAACGGTAGCTAATACCGCATAACGTCGCAAGACCAAAGAGGGGGACCTTCGGGCCTCTTGCCATCGGATGTGCCCAGATGGGATTAGCTAGTAGGTGGGGTAACGGCTCACCTAGGCGACGATCCCTAGCTGGTCTGAGAGGATGACCAGCCACACTGGAACTGAGACACGGTCCAGACTCCTACGGGAGGCAGCAGTGGGGAATATTGCACAATGGGCGCAAGCCTGATGCAGCCATGCCGCGTGTATGAAGAAGGCCTTCGGGTTGTAAAGTACTTTCAGCGGGGAGGAAGGGAGTAAAGTTAATACCTTTGCTCATTGACGTTACCCGCAGAAGAAGCACCGGCTAACTCCGTGCCAGCAGCCGCGGTAATACGGAGGGTGCAAGCGTTAATCGGAATTACTGGGCGTAAAGCGCACGCAGGCGGTTTGTTAAGTCAGATGTGAAATCCCCGGGCTCAACCTGGGAACTGCATCTGATACTGGCAAGCTTGAGTCTCGTAGAGGGGGGTAGAATTCCAGGTGTAGCGGTGAAATGCGTAGAGATCTGGAGGAATACCGGTGGCGAAGGCGGCCCCCTGGACGAAGACTGACGCTCAGGTGCGAAAGCGTGGGGAGCAAACAGGATTAGATACCCTGGTAGTCCACGCCGTAAACGATGTCGACTTGGAGGTTGTGCCCTTGAGGCGTGGCTTCCGGAGCTAACGCGTTAAGTCGACCGCCTGGGGAGTACGGCCGCAAGGTTAAAACTCAAATGAATTGACGGGGGCCCGCACAAGCGGTGGAGCATGTGGTTTAATTCGATGCAACGCGAAGAACCTTACCTGGTCTTGACATCCACGGAAGTTTTCAGAGATGAGAATGTGCCTTCGGGAACCGTGAGACAGGTGCTGCATGGCTGTCGTCAGCTCGTGTTGTGAAATGTTGGGTTAAGTCCCGCAACGAGCGCAACCCTTATCCTTTGTTGCCAGCGGTCCGGCCGGGAACTCAAAGGAGACTGCCAGTGATAAACTGGAGGAAGGTGGGGATGACGTCAAGTCATCATGGCCCTTACGACCAGGGCTACACACGTGCTACAATGGCGCATACAAAGAGAAGCGACCTCGCGAGAGCAAGCGGACCTCATAAAGTGCGTCGTAGTCCGGATTGGAGTCTGCAACTCGACTCCATGAAGTCGGAATCGCTAGTAATCGTGGATCAGAATGCCACGGTGAATACGTTCCCGGGCCTTGTACACACCGCCCGTCACACCATGGGAGTGGGTTGCAAAAGAAGTAGGTAGCTTAACCTTCGGGAGGGCGCTTACCACTTTGTGATTCATGACTGGGGTGAAGTCGTAACAAGGTAACCGTAGGGGAACCTGCGGTTGGATCACCTCCTTA"
 
 GENE="18S"
+verbose="True"
 
-while getopts "hvc:t:g:p:o:sS:eE:" opt; do
+while getopts "hvVc:t:g:p:o:sS:eE:" opt; do
         case ${opt} in
                 h )
                         usage
                         exit
                         ;;
                 v )
-                        echo "oligoN-design alignOligo v0.3.0-beta"
+                        verbose="False"
+                        ;;
+                V )
+                        echo "oligoN-design $name v$version"
                         exit
                         ;;
                 t )
@@ -52,23 +59,23 @@ while getopts "hvc:t:g:p:o:sS:eE:" opt; do
                 c )
                         CONSENSUS=$OPTARG
                         if [ ! -z ${TARGET+x} ] && [ ! -z ${CONSENSUS+x} ]; then
-                            echo ""
-                            echo "Warning! Please select either a target file (with -t) or a consensus sequence(s) file (with -c), but not both"
-                            echo ""
-                            exit
+                                echo ""
+                                echo "\033[91mError!\033[0m Please select either a target file (with -t) or a consensus sequence(s) file (with -c), but not both"
+                                echo ""
+                                exit
                         fi
                         ;;
                 g )
                         GENE=$OPTARG
                         if [ "$GENE" == "18S" ] || [ "$GENE" == "18s" ]; then
-                            GENE="18S"
+                                GENE="18S"
                         elif [ "$GENE" == "16S" ] || [ "$GENE" == "16s" ];then
-                            GENE="16S"
+                                GENE="16S"
                         else
-                            echo ""
-                            echo "Warning! Please select either '18S' (default) or '16S'."
-                            echo ""
-                            exit
+                                echo ""
+                                echo "\033[91mError!\033[0m Please select either '18S' (default) or '16S'."
+                                echo ""
+                                exit
                         fi
                         ;;
                 p )
@@ -105,69 +112,81 @@ while getopts "hvc:t:g:p:o:sS:eE:" opt; do
 done
 
 if [ -z ${TARGET+x} ]; then
-	echo "  Input file: $CONSENSUS"
-	echo "  Oligos:     $OLIGOS"
-	echo ""
+        if [[ $verbose == "True" ]]; then
+                echo "  Input file: $CONSENSUS"
+                echo "  Oligos:     $OLIGOS"
+        fi
 else
-	echo "  Input file: $TARGET"
-	echo "  Oligos:     $OLIGOS"
-	echo ""
-	# Creat temporary files
-	tmp1=$(mktemp --tmpdir=$(pwd))
-	
-	# Align target file
-	echo "  Aligning target file"
-	mafft --quiet $TARGET > $tmp1
-	
-	CONSENSUS=$(mktemp --tmpdir=$(pwd))
-	# Create consensus sequences using the most abundant base to resolve ambiguous positions
-	echo "  Generating consensus sequence with the most abundant base"
-	alignmentConsensus.py -f $tmp1 -o $CONSENSUS -r -m
-	# Create consensus sequences allowing ambiguous positions
-	echo "  Generating consensus sequence allowing ambiguities"
-	alignmentConsensus.py -f $tmp1 -o $CONSENSUS -r
-	
-	# Changing the name of the consensus sequence
-	sed -i -E 's/.*tmp/>/g' $CONSENSUS
-	sed -i "s\>_\>$TARGET\g" $CONSENSUS
-	sed -i 's/.fasta/_/g' $CONSENSUS
+        if [[ $verbose == "True" ]]; then
+                echo "  Input file: $TARGET"
+                echo "  Oligos:     $OLIGOS"
+        fi
+        # Creat temporary files
+        tmp1=$(mktemp --tmpdir=$(pwd))
+
+        # Align target file
+        if [[ $verbose == "True" ]]; then
+                echo "  Aligning target file"
+        fi
+        mafft --quiet $TARGET > $tmp1
+
+        CONSENSUS=$(mktemp --tmpdir=$(pwd))
+        # Create consensus sequences using the most abundant base to resolve ambiguous positions
+        if [[ $verbose == "True" ]]; then
+                echo "  Generating consensus sequence with the most abundant base"
+        fi
+        alignmentConsensus -f $tmp1 -o $CONSENSUS -r -m -v
+        # Create consensus sequences allowing ambiguous positions
+        if [[ $verbose == "True" ]]; then
+                echo "  Generating consensus sequence allowing ambiguities"
+        fi
+        alignmentConsensus -f $tmp1 -o $CONSENSUS -r -v
+
+        # Changing the name of the consensus sequence
+        sed -i -E 's/.*tmp/>/g' $CONSENSUS
+        sed -i "s\>_\>$TARGET\g" $CONSENSUS
+        sed -i 's/.fasta/_/g' $CONSENSUS
 fi
 
 # Export a S. cerevisiae template file
 tmp2=$(mktemp --tmpdir=$(pwd))
 if [[ "$GENE" == "18S" ]];then
-	echo -e ">Saccharomyces_cerevisiae_template\n$SCER" > $tmp2
+        echo -e ">Saccharomyces_cerevisiae_template\n$SCER" > $tmp2
 else
-	echo -e ">Escherichia_coli_template\n$ECOLI" > $tmp2
+        echo -e ">Escherichia_coli_template\n$ECOLI" > $tmp2
 fi
 # Merge with the consensus sequences
 tmp3=$(mktemp --tmpdir=$(pwd))
 cat $tmp2 $CONSENSUS > $tmp3
 
 # Align S. cerevisiae template and consensus
-if [[ "$GENE" == "18S" ]];then
-	echo "  Aligning Saccharomyces cerevisiae template and consensus sequence(s)"
-else
-	echo "  Aligning Escherichia coli template and consensus sequence(s)"
+if [[ $verbose == "True" ]]; then
+        if [[ "$GENE" == "18S" ]];then
+                echo "  Aligning Saccharomyces cerevisiae template and consensus sequence(s)"
+        else
+                echo "  Aligning Escherichia coli template and consensus sequence(s)"
+        fi
 fi
 mafft --quiet $tmp3 > $tmp2
 
 # Now align the oligos to the aligned file
-if [[ "$GENE" == "18S" ]];then
-	echo "  Aligning oligonucleotides to Saccharomyces cerevisiae template and consensus sequence(s)"
-else
-	echo "  Aligning oligonucleotides to Escherichia coli template and consensus sequence(s)"
+if [[ $verbose == "True" ]]; then
+        if [[ "$GENE" == "18S" ]];then
+                echo "  Aligning oligonucleotides to Saccharomyces cerevisiae template and consensus sequence(s)"
+        else
+                echo "  Aligning oligonucleotides to Escherichia coli template and consensus sequence(s)"
+        fi
 fi
 mafft --quiet --addfragments $OLIGOS $tmp2 > $OUT
 
 # And removing temporary files
 if [ -z ${TARGET+x} ]; then
-	rm -f $tmp2 $tmp3
+        rm -f $tmp2 $tmp3
 else
-	rm -f $tmp1 $tmp2 $tmp3 $CONSENSUS
+        rm -f $tmp1 $tmp2 $tmp3 $CONSENSUS
 fi
 
-echo ""
-echo "Output file writen to: $OUT"
-echo "Done"
-
+if [[ $verbose == "True" ]]; then
+        echo "  Output file writen to: $OUT"
+        echo "Done"
+fi

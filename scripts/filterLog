@@ -1,171 +1,369 @@
 #!/usr/bin/env python3
 
 import argparse
-import pandas as pd
 import re
+import pandas as pd
 import sys
 
-parser = argparse.ArgumentParser(description="Based on several user-defined thresholds, the logFile will filter oligonucleotides that do not meet the selected criteria.")
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Based on several user-defined thresholds from a given log file, it will filter oligonucleotides that do not meet the selected criteria." % ('%(prog)s', version), add_help=False)
 
 # Add the arguments to the parser
-requiredArgs = parser.add_argument_group('required arguments')
+requirArgs = parser.add_argument_group('Required arguments')
+functiArgs = parser.add_argument_group('Optional arguments related to the filtering')
+outputArgs = parser.add_argument_group('Optional arguments related to the output')
+optionArgs = parser.add_argument_group('Other optional arguments')
 
-requiredArgs.add_argument("-l", "--logFile", dest="logFile", required=True,
-					help="The name of the input logFile to be filtered.")
+requirArgs.add_argument("-l", "--logFile", dest="logFile", required=True,
+						help="The name of the input logFile to be filtered.")
 
-parser.add_argument("-o", "--outFile", dest="outFile", required=False, default=None,
-					help="The name of the output log file. By default, will add '_filtered.tsv' to the input logFile.")
+outputArgs.add_argument("-o", "--outFile", dest="outFile", required=False, default=None,
+						help="The name of the output file. By default, will add '_filtered.tsv' to the input logFile.")
 
-parser.add_argument("-s", "--GCcontent", dest="GCcontent", required=False, action='store', type=float, default=None,
-					help="A minimum GC content percentage allowed (0-1).")
+functiArgs.add_argument("-s", "--GCcontent", dest="GCcontent", required=False, action='store', nargs="+", type=float,  default=None,
+						help="A minimum and maximum GC content percentage allowed (0-1). If only one provided, it will be interpreted as a minimum.")
 
-parser.add_argument("-t", "--Tm", dest="Tm", required=False, action='store', type=float, default=None,
-					help="A minimum melting temperature allowed.")
+functiArgs.add_argument("-T", "--Tm", dest="Tm", required=False, action='store', nargs="+", type=int, default=None,
+						help="A minimum and maximum melting temperature allowed. If only one provided, it will be interpreted as a minimum.")
 
-parser.add_argument("-m", "--mismatch1", dest="mismatch1", required=False, action='store', type=float, default=None,
-					help="A maximum percentage of of hits allowing 1 mismatch (0-1).")
+functiArgs.add_argument("-t", "--target", dest="target", required=False, action='store', default=None,
+						help="A minimum percentage/number of hits against the target file.")
 
-parser.add_argument("-M", "--mismatch2", dest="mismatch2", required=False, action='store', type=float, default=None,
-					help="A maximum percentage of of hits allowing 2 mismatchs (0-1).")
+functiArgs.add_argument("-e", "--excluding", dest="excluding", required=False, action='store', default=None,
+						help="A maximum percentage/number of hits against the excluding file.")
 
-parser.add_argument("-c", "--class", dest="classb", required=False, action='store', default=None,
-					help="A minimum brightness class (I > II > III > IV > V > VI)")
+functiArgs.add_argument("-m", "--mismatch1", dest="mismatch1", required=False, action='store', default=None,
+						help="A maximum percentage/number of hits allowing 1 mismatch.")
 
-parser.add_argument("-b", "--brightness", dest="brightness", required=False, action='store', type=float, default=None,
-					help="A minimum relative mean brightness (0-1).")
+functiArgs.add_argument("-M", "--mismatch2", dest="mismatch2", required=False, action='store', default=None,
+						help="A maximum percentage/number of hits allowing 2 mismatchs.")
 
-parser.add_argument("-r", "--region", dest="region", required=False, action='store', default=None,
-					help="A desired region in the 18S rDNA (C1-C10, V1-V9).")
+functiArgs.add_argument("-f", "--mismatch1flank", dest="mismatch1f", required=False, action='store', type=int, default=None,
+						help="A maximum number of hits allowing 1 mismatch in flanking positions.")
 
-parser.add_argument("-f", "--fasta", dest="fasta", required=False, default=None,
-					help="A fasta file containing the oligonucleotides to be filtered. ")
+functiArgs.add_argument("-F", "--mismatch2flank", dest="mismatch2f", required=False, action='store', type=int, default=None,
+						help="A maximum number of hits allowing 2 mismatchs in flanking positions.")
 
-parser.add_argument("-O", "--outFasta", dest="outFasta", required=False, default=None,
-					help="The name of the output fasta file. By default, will add '_filtered.fasta' to the input fasta file.")
+functiArgs.add_argument("-c", "--mismatch1center", dest="mismatch1c", required=False, action='store', type=int, default=None,
+						help="A maximum number of hits allowing 1 mismatch in central positions.")
 
-parser.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
-					help="If selected, will not print information to the console.")
+functiArgs.add_argument("-C", "--mismatch2center", dest="mismatch2c", required=False, action='store', type=int, default=None,
+						help="A maximum number of hits allowing 2 mismatchs in central positions.")
 
-parser.add_argument("--version", action='version',
-					version='oligoN-design %(prog)s v0.3.0-beta',
-					help='Show the version number and exit.')
+functiArgs.add_argument("-d", "--selfDimer", dest="selfDimer", required=False, action='store', default=None,
+						help="A maximum number of self-dimer count.")
+
+functiArgs.add_argument("-a", "--hairpin", dest="hairpin", required=False, action='store', default=None,
+						help="A maximum number of hairpin count.")
+
+functiArgs.add_argument("-k", "--class", dest="classb", required=False, action='store', default=None,
+						help="A minimum brightness class (I > II > III > IV > V > VI)")
+
+functiArgs.add_argument("-b", "--brightness", dest="brightness", required=False, action='store', type=float, default=None,
+						help="A minimum relative mean brightness (0-1).")
+
+functiArgs.add_argument("-r", "--region", dest="region", required=False, action='store', nargs="+", default=None,
+						help="Desired region(s) in the 18S rDNA (C1-C10, V1-V9).")
+
+functiArgs.add_argument("-u", "--user", dest="user", required=False, action='store', nargs="+", default=None,
+						help="A user defined column name followed by states to be selected (i.e.; 'selected out')")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will not print information to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
 
 args = parser.parse_args()
 
+# Define functions _________________________________________________________________________________
+
+def string2numeric(string):
+	try:
+		return int(string)
+	except ValueError:
+		try:
+			return float(string)
+		except ValueError:
+			return None
+
+# Troubleshooting parsed arguments _________________________________________________________________
+
+if args.GCcontent is not None:
+	if len(args.GCcontent) > 2:
+		print("  Warning! More than 2 values have been parsed for GC content. Only the first two will be considered.")
+
+if args.Tm is not None:
+	if len(args.Tm) > 2:
+		print("  Warning! More than 2 values have been parsed for melting temperature. Only the first two will be considered.")
+
 choiceRegion=('C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V7', 'V8', 'V9')
-if args.region is not None and args.region not in choiceRegion:
-	print("  Warning! Region must be among the following choices:\n", choiceRegion)
-	sys.exit(1)
+if args.region is not None:
+	for i in args.region:
+		if i not in choiceRegion:
+			print("  \033[91mError!\033[0m Region must be among the following choices:\n", *choiceRegion)
+			sys.exit(1)
 
 choiceClass= ('I', 'II', 'III', 'IV', 'V', 'VI')
-if args.region is not None and args.classb not in choiceClass:
-	print("  Warning! Class must be among the following choices:\n", choiceClass)
+if args.classb is not None and args.classb not in choiceClass:
+	print("  \033[91mError!\033[0m Class must be among the following choices:\n", *choiceClass)
 	sys.exit(1)
+
+if args.user is not None:
+	if len(args.user) < 2:
+		print("  \033[91mError!\033[0m At least 2 arguments must be given in the argument -u/--user")
+		sys.exit(1)
 
 # Setting output file name _________________________________________________________________________
 if args.outFile is None:
-        outFile = re.sub("\\.[^\\.]+$", "_filtered.tsv", args.logFile)
+	outFile = re.sub("\\.[^\\.]+$", "_filtered.tsv", args.logFile)
 else:
-        outFile = args.outFile
-
-if args.verbose:
-	print("    File in:  ", args.logFile)
-	print("    File out: ", outFile)
-	print("  Filtering")
+	outFile = args.outFile
 
 # Start filtering __________________________________________________________________________________
+if args.verbose:
+	print("  Reading file:\t", args.logFile, sep="")
 infile = pd.read_csv(args.logFile, sep="\t")
+
+if args.verbose:
+	print("    Oligonucleotides in:\t", len(infile), sep="")
+	print("  Filters:")
+	if args.GCcontent is not None:
+		if len(args.GCcontent) == 1:
+			print("    GC content ≥", args.GCcontent)
+		else:
+			print("    GC content ≥", args.GCcontent[0], "and ≤", args.GCcontent[1])
+	if args.Tm is not None:
+		if len(args.Tm) == 1:
+			print("    Melting temperature ≥", args.Tm)
+		else:
+			print("    Melting temperature ≥", args.Tm[0], "and ≤", args.Tm[1])
+	if args.target is not None:
+		tmp = string2numeric(args.target)
+		if type(tmp) is float:
+			print("    Proportion of hits against the target file ≥", tmp)
+		else:
+			print("    Hits against the target file ≥", tmp)
+	if args.excluding is not None:
+		tmp = string2numeric(args.excluding)
+		if type(tmp) is float:
+			print("    Proportion of hits against the excluding file ≤", tmp)
+		else:
+			print("    Hits against the excluding file ≤", tmp)
+	if args.mismatch1 is not None:
+		tmp = string2numeric(args.mismatch1)
+		if type(tmp) is float:
+			print("    Proportion of hits allowing 1 mismatch ≤", tmp)
+		else:
+			print("    Hits allowing 1 mismatch ≤", tmp)
+	if args.mismatch2 is not None:
+		tmp = string2numeric(args.mismatch2)
+		if type(tmp) is float:
+			print("    Proportion of hits allowing 2 mismatch ≤", tmp)
+		else:
+			print("    Hits allowing 2 mismatch ≤", tmp)
+	if args.mismatch1f is not None:
+		print("    Hits allowing 1 mismatch in flanking positions ≤", args.mismatch1f)
+	if args.mismatch2f is not None:
+		print("    Hits allowing 2 mismatch in flanking positions ≤", args.mismatch2f)
+	if args.mismatch1c is not None:
+		print("    Hits allowing 1 mismatch in central positions ≤", args.mismatch1c)
+	if args.mismatch2c is not None:
+		print("    Hits allowing 2 mismatch in central positions ≤", args.mismatch2c)
+	if args.selfDimer is not None:
+		print("    Self-dimer count ≤", args.selfDimer)
+	if args.hairpin is not None:
+		print("    Hairpin count ≤", args.selfDimer)
+	if args.classb is not None:
+		print("    Minimum brightness class =", args.classb)
+	if args.brightness is not None:
+		print("    Minimum relative brightness ≥", args.brightness)
+	if args.region is not None:
+		print("    Desired region in =", *args.region)
+	if args.user is not None:
+		print("    User define column:", args.user[0], "\tstates:", *args.user[1:])
+	print("  Filtering...")
 
 outfile = infile
 
 if args.GCcontent is not None:
-	outfile = outfile[outfile['GC'] >= args.GCcontent]
+	if len(args.GCcontent) == 1:
+		outfile = outfile[outfile['GC'] >= args.GCcontent]
+	else:
+		outfile = outfile[(outfile['GC'] >= args.GCcontent[0]) & (outfile['GC'] <= args.GCcontent[1])]
 	if args.verbose:
-		print("    Oligos passing GC criteria: ", len(infile[infile['GC'] >= args.GCcontent]))
+		if len(args.GCcontent) == 1:
+			tmp = len(infile[infile['GC'] >= args.GCcontent])
+		else:
+			tmp = len(infile[(infile['GC'] >= args.GCcontent[0]) & (infile['GC'] <= args.GCcontent[1])])
+		print("    Oligos passing GC criteria:\t", tmp)
 
 if args.Tm is not None:
-	outfile = outfile[outfile['Tm'] >= args.Tm]
+	if len(args.Tm) == 1:
+		outfile = outfile[outfile['Tm'] >= args.Tm]
+	else:
+		outfile = outfile[(outfile['Tm'] >= args.Tm[0]) & (outfile['Tm'] <= args.Tm[1])]
 	if args.verbose:
-		print("    Oligos passing Tm criteria: ", len(infile[infile['Tm'] >= args.Tm]))
+		if len(args.Tm) == 1:
+			tmp = len(infile[infile['Tm'] >= args.Tm])
+		else:
+			tmp = len(infile[(infile['Tm'] >= args.Tm) & (infile['Tm'] <= args.Tm[1])])
+		print("    Oligos passing Tm criteria:\t", tmp)
+
+if args.target is not None:
+	tmp = string2numeric(args.target)
+	if type(tmp) is float:
+		outfile = outfile[outfile['hitsT'] >= tmp]
+	elif type(tmp) is int:
+		outfile = outfile[outfile['hitsT_abs'] >= tmp]
+	if args.verbose:
+		if type(tmp) is float:
+			tmp = len(infile[infile['hitsT'] >= tmp])
+		elif type(tmp) is int:
+			tmp = len(infile[infile['hitsT_abs'] >= tmp])
+		print("    Oligos passing target hits criteria:\t", tmp)
+
+if args.excluding is not None:
+	tmp = string2numeric(args.excluding)
+	if type(tmp) is float:
+		outfile = outfile[outfile['hitsE'] <= tmp]
+	elif type(tmp) is int:
+		outfile = outfile[outfile['hitsE_abs'] <= tmp]
+	if args.verbose:
+		if type(tmp) is float:
+			tmp = len(infile[infile['hitsE'] <= tmp])
+		elif type(tmp) is int:
+			tmp = len(infile[infile['hitsE_abs'] <= tmp])
+		print("    Oligos passing excluding hits criteria:\t", tmp)
 
 if args.mismatch1 is not None:
-	outfile = outfile[outfile['mismatch1'] <= args.mismatch1]
+	tmp = string2numeric(args.mismatch1)
+	column = None
+	for i in list(infile.columns):
+		if type(tmp) is float:
+			if i.startswith("mismatch1") and not i.endswith("_abs") and "flanks" not in i:
+				column = i
+		if type(tmp) is int:
+			if i.startswith("mismatch1") and i.endswith("_abs") and "flanks" not in i:
+				column = i
+	outfile = outfile[outfile[column] <= tmp]
 	if args.verbose:
-		print("    Oligos passing mismatch1 criteria: ", len(infile[infile['mismatch1'] <= args.mismatch1]))
+		tmp = len(infile[infile[column] <= tmp])
+		print("    Oligos passing mismatch1 criteria:\t", tmp)
 
 if args.mismatch2 is not None:
-	outfile = outfile[outfile['mismatch2'] <= args.mismatch2]
+	tmp = string2numeric(args.mismatch2)
+	column = None
+	for i in list(infile.columns):
+		if type(tmp) is float:
+			if i.startswith("mismatch2") and not i.endswith("_abs") and "flanks" not in i:
+				column = i
+		if type(tmp) is int:
+			if i.startswith("mismatch2") and i.endswith("_abs") and "flanks" not in i:
+				column = i
+	outfile = outfile[outfile[column] <= tmp]
 	if args.verbose:
-		print("    Oligos passing mismatch2 criteria: ", len(infile[infile['mismatch2'] <= args.mismatch2]))
+		tmp = len(infile[infile[column] <= tmp])
+		print("    Oligos passing mismatch2 criteria:\t", tmp)
+
+if args.mismatch1f is not None:
+	column = None
+	for i in list(infile.columns):
+		if i.startswith("mismatch1") and "flanks" in i:
+			column = i
+	outfile = outfile[outfile[column] <= args.mismatch1f]
+	if args.verbose:
+		tmp = len(infile[infile[column] <= args.mismatch1f])
+		print("    Oligos passing mismatch1-flanks criteria:\t", tmp)
+
+if args.mismatch2f is not None:
+	column = None
+	for i in list(infile.columns):
+		if i.startswith("mismatch2") and "flanks" in i:
+			column = i
+	outfile = outfile[outfile[column] <= args.mismatch2f]
+	if args.verbose:
+		tmp = len(infile[infile[column] <= args.mismatch2f])
+		print("    Oligos passing mismatch2-flanks criteria:\t", tmp)
+
+if args.mismatch1c is not None:
+	column = None
+	for i in list(infile.columns):
+		if i.startswith("mismatch1") and "central" in i:
+			column = i
+	outfile = outfile[outfile[column] <= args.mismatch1c]
+	if args.verbose:
+		tmp = len(infile[infile[column] <= args.mismatch1c])
+		print("    Oligos passing mismatch1-central criteria:\t", tmp)
+
+if args.mismatch2c is not None:
+	column = None
+	for i in list(infile.columns):
+		if i.startswith("mismatch2") and "central" in i:
+			column = i
+	outfile = outfile[outfile[column] <= args.mismatch2c]
+	if args.verbose:
+		tmp = len(infile[infile[column] <= args.mismatch2c])
+		print("    Oligos passing mismatch2-central criteria:\t", tmp)
 
 if args.region is not None:
-	outfile = outfile[outfile['region'].str.contains(args.region)]
+	outfile = outfile[outfile['region'].str.contains("|".join(args.region))]
 	if args.verbose:
-		print("    Oligos passing region criteria: ", len(infile[infile['region'].str.contains(args.region)]))
+		tmp = len(infile[infile['region'].str.contains("|".join(args.region))])
+		print("    Oligos passing region criteria:\t", tmp)
 
 if args.classb is not None:
 	if args.classb == 'I':
 		outfile = outfile[outfile['class'] == "I"]
 		if args.verbose:
-			print("    Oligos passing class criteria: ", len(infile[infile['class'] == "I"]))
-	
+			tmp = len(infile[infile['class'] == "I"])
+			print("    Oligos passing class criteria:\t", tmp)
 	elif args.classb == 'II':
 		outfile = outfile[(outfile['class'] == "I") | (outfile['class'] == "II")]
 		if args.verbose:
-			print("    Oligos passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II")]))
-	
+			tmp = len(infile[(infile['class'] == "I") | (infile['class'] == "II")])
+			print("    Oligos passing class criteria:\t", tmp)
 	elif args.classb == 'III':
 		outfile = outfile[(outfile['class'] == "I") | (outfile['class'] == "II") | (outfile['class'] == "III")]
 		if args.verbose:
-			print("    Oligos passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III")]))
-	
+			tmp = len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III")])
+			print("    Oligos passing class criteria:\t", tmp)
 	elif args.classb == 'IV':
 		outfile = outfile[(outfile['class'] == "I") | (outfile['class'] == "II") | (outfile['class'] == "III") | (outfile['class'] == "IV")]
 		if args.verbose:
-			print("    Oligos passing class criteria: ", len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III") | (infile['class'] == "IV")]))
-	
+			tmp = len(infile[(infile['class'] == "I") | (infile['class'] == "II") | (infile['class'] == "III") | (infile['class'] == "IV")])
+			print("    Oligos passing class criteria:\t", tmp)
 	elif args.classb == 'V':
 		outfile = outfile[outfile['class'] != "VI"]
 		if args.verbose:
-			print("    Oligos passing class criteria: ", len(infile[infile['class'] != "VI"]))
+			tmp = len(infile[infile['class'] != "VI"])
+			print("    Oligos passing class criteria:\t", tmp)
+	elif args.classb == 'VI':
+		if args.verbose:
+			tmp = len(infile)
+			print("    Oligos passing class criteria:\t", tmp)
 
 if args.brightness is not None:
 	outfile = outfile[outfile['average_brightness'] >= args.brightness]
 	if args.verbose:
-		print("    Oligos passing brightness criteria: ", len(infile[infile['average_brightness'] >= args.brightness]))
+		print("    Oligos passing brightness criteria:\t", len(infile[infile['average_brightness'] >= args.brightness]))
+
+if args.user is not None:
+	outfile = outfile[outfile[args.user[0]].isin(args.user[1:])]
+	if args.verbose:
+		print("    Oligos passing user defined criteria:\t", len(infile[infile[args.user[0]].isin(args.user[1:])]))
+
 
 # Exporting ----------------------------------------------------------------------------------------
+if args.verbose:
+	print("  Writing output to:\t", outFile, sep="")
+	print("    Oligonucleotides out:\t", len(outfile), sep="")
 outfile.to_csv(outFile, sep="\t", index=False)
 
-# Filtering fasta file if given --------------------------------------------------------------------
-if args.fasta is not None:
-	if args.verbose:
-		print("  Filtering fasta file...")
-	if args.outFasta is None:
-			outFasta = re.sub("\\.[^\\.]+$", "_filtered.fasta", args.fasta)
-	else:
-			outFasta = args.outFasta
-	
-	from Bio import SeqIO
-	
-	with open(outFasta, "w") as outfasta:
-		ids = set()
-		for i in SeqIO.parse(open(args.fasta), "fasta"):
-			ids.add(i.id)
-			if i.id in list(outfile['identifier']):
-				SeqIO.write([i], outfasta, "fasta")
-	
-	notPresent = set()
-	for i in list(outfile['identifier']):
-		if i not in ids:
-			notPresent.add(i)
-	
-	if len(notPresent) > 0:
-		print("    Warning, the following identifiers were not found in the fasta file:")
-		for e in notPresent:
-			print("      -", e, sep="")
-
 if args.verbose:
-	print("  Oligonucleotides in:  ", len(infile))
-	print("  Oligonucleotides out: ", len(outfile))
 	print("Done")

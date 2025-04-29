@@ -1,114 +1,265 @@
 #!/bin/bash
 
+version='1.0'
+name=$(basename "$0")
+
 usage()
 {
+    echo "This is $name v$version"
+    echo "https://github.com/MiguelMSandin/oligoN-design"
     echo ""
-    echo "A wrapper to automatically select the best candidate regions from a target and a reference file."
+    echo "This script is a wrapper to run a basic pipeline and select the best oligonucleotides from a target and a excluding file."
     echo ""
-    echo "Usage: oligoNdesign.sh -t TARGET -r REFERENCE -o outputFasta -l outputLog"
+    echo "Usage: oligoNdesign -t TARGET -e EXCLUDING -p PREFIX"
     echo ""
-    echo "  -h    Print this information"
-    echo "  -v    Print version information only"
-    echo ""
+    echo "Required arguments:"
     echo "  -t    The fasta file containing the target group."
-    echo "  -r    The fasta file containing the reference group."
-    echo "  -o    The output fasta file containing the primers."
-    echo "  -l    The output logfile name containing the information."
-    echo "This wrapper uses MAFFT: https://mafft.cbrc.jp/alignment/software/"
+    echo "  -e    The fasta file containing the excluding group."
+    echo "  -o    The prefix for the output files."
     echo ""
+    echo "Optional arguments:"
+    echo "  -l    The lengths of the desired oligonucleotides (in between quotes). Default = '18 20'."
+    echo "  -m    The minimum presence in the target file. Default = 0.8"
+    echo "  -s    The maximum presence in the excluding file. Default = 0.01."
+    echo "  -c    A minimum (and maximum) GC content (in between quotes). Default = 0."
+    echo "  -n    The number of best oligonucleotides to select. Default = 4."
+    echo "  -f    It will not test for indels when searching for 1 and 2 mismatches, speeding up completion."
+    echo "  -a    It will not test accessibility of the oligonucleotides. Recommended for very large target files."
+    echo "  -g    The Small SubUnit of the rDNA: Either '18S' (default) or '16S'."
+    echo "  -k    It will keep intermediate relevant files."
+    echo "  -h    Show this help message and exit."
+    echo "  -v    If selected, will not print information to the console."
+    echo "  -V    Print version information and exit."
+    echo ""
+    echo "-------------------------------- Overview of the pipeline --------------------------------"
+    echo "The basic pipeline will run the following functions in the given order:"
+    echo ""
+    echo "'findOligo': extract all candidate oligos of lengths 18 and 20 bases that are present in at least 80% of the sequences in the target file, and at most 1% in the excluding file."
+    echo ""
+    echo "'testOligo': (if not disabled) test for 1 and 2 mismatches allowing insertions and deletions of the candidate oligos against the excluding file."
+    echo ""
+    echo "'alignOligo': (if not disabled) align all candidate oligos against a template of the SSU and consensus sequences from the target file."
+    echo ""
+    echo "'rateAccess': (if not disabled) test the accessibility in the tertiary structure of the given oligonucleotide region."
+    echo ""
+    echo "'bindLogs': bind all log files."
+    echo ""
+    echo "'selectLog': selects the best 4 oligonucleotides."
+    echo ""
+    echo "For further details of each function call the help command ('-h') on the given function."
+    echo ""
+    echo "--------------------------------- Output of the pipeline ---------------------------------"
+    echo "Its most basic output is composed of three final files:"
+    echo "'PREFIX_log.tsv': A tab delimited table containing details for each candidate oligonucleotide."
+    echo "'PREFIX_candidates.fasta': A fasta file containing all candidate oligonucleotides."
+    echo "'PREFIX_best.tsv': A filtered table containing only the details of the 4 best oligonucleotides ranked."
+    echo ""
+    echo "Although  the '-k' argument will keep other intermediate files:"
+    echo "'PREFIX_aligned.fasta': An aligned fasta file containing the SSU template, 2 consensus sequences of the target file, and all candidate oligos."
+    echo "'PREFIX_best.fasta': A fasta file containing the 4 best oligonucleotides ranked."
+    echo ""
+    echo "------------------------------------------------------------------------------------------"
+    echo ""
+    echo "This wrapper uses MAFFT (https://mafft.cbrc.jp/alignment/software/) and agrep among others"
     echo "Please cite:"
     echo "Katoh, Misawa, Kuma, Miyata (2002) MAFFT: a novel method for rapid multiple sequence alignment based on fast Fourier transform. Nucleic Acids Res. 30:3059-3066"
     echo ""
+    echo "The accessibility map of the SSU of the ribosome is based on Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R (2003) In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol 69(3):1748-58. doi: 10.1128/AEM.69.3.1748-1758.2003"
+    echo ""
 }
 
-while getopts "hvt:r:o:l:" opt; do
+verbose="True"
+fast="False"
+keep="False"
+access="True"
+gene="18S"
+LENGTHS="18 20"
+MINIMUM="0.8"
+SPECIFICITY="0.01"
+GCcontent="0"
+BEST="4"
+
+while getopts "hvVfakg:t:e:o:l:m:s:c:n:" opt; do
         case ${opt} in
                 h )
                         usage
                         exit
                         ;;
                 v )
-                        echo "oligoN-design v0.3.0-beta"
+                        verbose="False"
+                        ;;
+                V )
+                        echo "$name v$version"
                         exit
+                        ;;
+                f )
+                        fast="True"
+                        ;;
+                a )
+                        access="False"
+                        ;;
+                k )
+                        keep="True"
+                        ;;
+                g )
+                        gene=$OPTARG
+                        if [[ $gene != "18S" ]] & [[ $gene != "16S" ]]; then
+                                echo "\033[91mError!\033[0m The given SSU gene (-g) must be either '18S' (default) or '16S'."
+                                exit
+                        fi
                         ;;
                 t )
                         TARGET=$OPTARG
                         ;;
-                r )
-                        REFERENCE=$OPTARG
+                e )
+                        EXCLUDING=$OPTARG
                         ;;
                 o )
-                        OUT_FASTA=$OPTARG
+                        PREFIX=$OPTARG
                         ;;
                 l )
-                        OUT_LOG=$OPTARG
+                        LENGTHS=$OPTARG
+                        ;;
+                m )
+                        MINIMUM=$OPTARG
+                        ;;
+                s )
+                        SPECIFICITY=$OPTARG
+                        ;;
+                c )
+                        GCcontent=$OPTARG
+                        ;;
+                n )
+                        BEST=$OPTARG
                         ;;
         esac
 done
 
-OUT_FASTA_NOEXT=$(echo $OUT_FASTA | rev | cut -f 2- -d '.' | rev)
-EXT="${OUT_FASTA##*.}"
-
 # Search for candidate primers
-echo "Searching candidate primers"
-findOligo -t $TARGET -r $REFERENCE -o $OUT_FASTA_NOEXT
-
-if [ "$OUT_FASTA_NOEXT.fasta" != "$OUT_FASTA" ]; then
-	mv "$OUT_FASTA_NOEXT.fasta" $OUT_FASTA
+if [[ $verbose == "True" ]]; then
+        echo "Searching candidate oligos"
 fi
-
-if [ "$OUT_FASTA_NOEXT.tsv" == "$OUT_LOG" ]; then
-	mv "$OUT_FASTA_NOEXT.tsv" "$OUT_FASTA_NOEXT.2.tsv"
+COMMAND="findOligo -t ${TARGET} -e ${EXCLUDING} -o ${PREFIX}_find.tsv -f ${PREFIX}_candidates.fasta -l ${LENGTHS} -m ${MINIMUM} -s ${SPECIFICITY}"
+if [[ $verbose == "False" ]]; then
+        COMMAND="$COMMAND -v"
 fi
+if [[ $fast == "False" ]]; then
+        COMMAND="$COMMAND -n 0"
+fi
+if [[ $GCcontent != "0" ]]; then
+        COMMAND="$COMMAND -c $GCcontent"
+fi
+echo $COMMAND
+eval $COMMAND
 
-echo ""
+# Test if oligos were found, otherwise stop the pipeline here
+if [ ! -f "${PREFIX}_find.tsv" ]; then
+    exit
+fi
 
 # test the candidate primers
-echo "Testing candidate primers"
-tmp1=$(mktemp --tmpdir=$(pwd))
-testOligo -r $REFERENCE -p $OUT_FASTA -o $tmp1
-
-echo ""
-
-# align primers and consensus sequence to Saccharomyces cerivisae template 18S rDNA sequence
-echo "Aligning primers to the consensus sequence and the Saccharomyces cerivisae template 18S rDNA sequence"
-tmp2=$(mktemp --tmpdir=$(pwd))
-alignOligo -t $TARGET -p $OUT_FASTA -o $tmp2
-
-echo ""
-
-# Estimate accessibility of the primers
-echo "Estimating accessibility of the primers"
-tmp3=$(mktemp --tmpdir=$(pwd))
-rateAccess -f $tmp2 -o $tmp3
-
-echo ""
-
-# Bind all log files into a single log file
-echo "Merging log files to $OUT_LOG"
-
-if [ "$OUT_FASTA_NOEXT.tsv" == "$OUT_LOG" ]; then
-	bindLogs -f "$OUT_FASTA_NOEXT.2.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG"
-else
-	bindLogs -f "$OUT_FASTA_NOEXT.tsv" "$tmp1" "$tmp3" -o "$OUT_LOG"
+if [[ $fast != "True" ]]; then
+        tmp1=$(mktemp --tmpdir=$(pwd))
+        COMMAND="testOligo -e $EXCLUDING -p ${PREFIX}_candidates.fasta -o $tmp1"
+        if [[ $verbose == "True" ]]; then
+                echo ""
+                echo "Testing candidate primers"
+        else
+                COMMAND="$COMMAND -v"
+        fi
+        eval $COMMAND
 fi
 
-echo ""
+# Test accessibility of the oligonucleotides
+if [[ $access == "True" ]]; then
+        # align SSU template sequence, consensus sequences and oligos
+        COMMAND="alignOligo -t $TARGET -p ${PREFIX}_candidates.fasta -o ${PREFIX}_aligned.fasta -g $gene"
+        if [[ $verbose == "True" ]]; then
+                echo ""
+                echo "Aligning primers to the consensus sequence and the SSU template"
+        else
+                COMMAND="$COMMAND -v"
+        fi
+        eval $COMMAND
 
-# Filtering primers
-echo "Filtering primers"
-filterLog -l "$OUT_LOG" -s "0.4" -M "0.001" -b "0.5" -f $OUT_FASTA
+        # Estimate accessibility of the primers
+        tmp2=$(mktemp --tmpdir=$(pwd))
+        COMMAND="rateAccess -f ${PREFIX}_aligned.fasta -o $tmp2 -a $gene"
+        if [[ $verbose == "True" ]]; then
+                echo ""
+                echo "Estimating accessibility of the primers"
+        else
+                COMMAND="$COMMAND -v"
+        fi
+        eval $COMMAND
+fi
 
-echo ""
+# Bind all log files into a single log file
+COMMAND="bindLogs -o ${PREFIX}_log.tsv -r -f ${PREFIX}_find.tsv"
+if [[ $fast == "False" ]]; then
+        COMMAND="$COMMAND $tmp1"
+fi
+if [[ $access == "True" ]]; then
+        COMMAND="$COMMAND $tmp2"
+fi
+if [[ $verbose == "True" ]]; then
+        echo ""
+        echo "Merging log files"
+else
+        COMMAND="$COMMAND -v"
+fi
+eval $COMMAND
+
+# Selecting best oligos
+COMMAND="selectLog -t ${PREFIX}_log.tsv -n ${BEST} -o ${PREFIX}_best.tsv"
+if [[ $verbose == "True" ]]; then
+        echo ""
+        echo "Selecting the $BEST best oligonucleotides"
+else
+        COMMAND="$COMMAND -v"
+fi
+if [[ $fast == "True" ]]; then
+        COMMAND="$COMMAND -c hitsT hitsE mismatch1 mismatch2"
+else
+        COMMAND="$COMMAND -c hitsT hitsE mismatch1_indel mismatch2_indel"
+fi
+if [[ $access == "True" ]]; then
+        COMMAND="$COMMAND average_brightness"
+fi
+eval $COMMAND
+
+# keeping or deleting intermediate files
+if [[ $keep == "True" ]]; then
+        COMMAND="table2fasta -f ${PREFIX}_best.tsv -o ${PREFIX}_best.fasta"
+        if [[ $verbose == "True" ]]; then
+                echo ""
+                echo "Exporting best oligonucleotides"
+        else
+                COMMAND="$COMMAND -v"
+        fi
+        echo $COMMAND
+        eval $COMMAND
+else
+        if [[ $verbose == "True" ]]; then
+                echo ""
+                echo "Deleting temporary files"
+        fi
+        rm -f "${PREFIX}_aligned.fasta"
+fi
 
 # And remove temporary files
-rm -f $tmp1 $tmp2 $tmp3
+rm -f $tmp1 $tmp2
 
-echo ""
-echo "Final fasta file containing all oligos exported to: $OUT_FASTA"
-echo "Final log file containing all oligos information exported to: $OUT_LOG"
-echo "Filtered fasta file containing best oligos exported to: $(echo $OUT_FASTA | rev | cut -f 2- -d '.' | rev)_filtered.fasta"
-echo "Filtered log file containing best oligos exported to: $(echo $OUT_LOG | rev | cut -f 2- -d '.' | rev)_filtered.tsv"
-echo ""
-
-echo "Finished"
+# Print a summary
+if [[ $verbose == "True" ]]; then
+        echo ""
+        echo "-'${PREFIX}_log.tsv': Contains all details for each candidate oligonucleotide in a tab delimited table."
+        echo "-'${PREFIX}_candidates.fasta': Contains all candidate oligonucleotides in fasta format."
+        echo "-'${PREFIX}_best.tsv': Contains a selection of the $BEST best oligonucleotides ranked."
+        if [[ $keep == "True" ]]; then
+                echo "-'${PREFIX}_best.fasta': Contains a selection of the $BEST best oligonucleotides in fasta format."
+                echo "-'${PREFIX}_aligned.fasta': Contains a summary alignment of the SSU template, consensus sequences of ${TARGET} and all candidate oligonucleotides align in fasta format."
+        fi
+        echo ""
+        echo "Finished"
+fi

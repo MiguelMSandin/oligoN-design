@@ -1,0 +1,82 @@
+#!/bin/bash
+
+version='1.0'
+name=$(basename "$0")
+
+usage()
+{
+    echo "This is oligoN-design $name v$version"
+    echo "https://github.com/MiguelMSandin/oligoN-design"
+    echo ""
+    echo "This script is simply to test all scripts from the OligoN-design pipeline. It will run all sripts, and print their version to the console."
+    echo ""
+    echo "Usage: oligoNtest"
+    echo ""
+    echo "  -p    A path to the scripts. By default, it will take the directory name of the command to run this function."
+    echo "  -h    Show this help message and exit."
+    echo "  -V    Print version information and exit."
+    echo ""
+}
+
+PATHTOSCRIPTS="$(dirname "$0")/"
+
+while getopts "hVp:" opt; do
+        case ${opt} in
+                h )
+                        usage
+                        exit
+                        ;;
+                V )
+                        echo "$name v$version"
+                        exit
+                        ;;
+                t )
+                        PATHTOSCRIPTS=$OPTARG
+                        ;;
+        esac
+done
+
+if [[ ${PATHTOSCRIPTS} == */ ]]
+then
+        PATHTOSCRIPTS="${PATHTOSCRIPTS}/"
+fi
+
+echo ""
+echo "Basic pipeline"
+${PATHTOSCRIPTS}oligoNdesign -V
+
+echo ""
+echo "Search functions"
+${PATHTOSCRIPTS}findOligo -V
+${PATHTOSCRIPTS}testOligo -V
+${PATHTOSCRIPTS}testThorough -V
+${PATHTOSCRIPTS}rateAccess -V
+
+echo ""
+echo "Functions to visualize and summarise"
+${PATHTOSCRIPTS}hairPins -V
+${PATHTOSCRIPTS}selfDimer -V
+${PATHTOSCRIPTS}logStats -V
+${PATHTOSCRIPTS}identifyRegions -V
+
+echo ""
+echo "Input functions"
+${PATHTOSCRIPTS}alignmentConsensus -V
+${PATHTOSCRIPTS}alignOligo -V
+
+echo ""
+echo "Output functions"
+${PATHTOSCRIPTS}bindLogs -V
+${PATHTOSCRIPTS}detailed2table -V
+${PATHTOSCRIPTS}table2fasta -V
+${PATHTOSCRIPTS}filterLog -V
+${PATHTOSCRIPTS}selectLog -V
+
+echo ""
+echo "Expert functions"
+${PATHTOSCRIPTS}breakFasta -V
+${PATHTOSCRIPTS}trimRegion -V
+${PATHTOSCRIPTS}getMismatchSeq -V
+${PATHTOSCRIPTS}getHomologRegion -V
+
+echo ""

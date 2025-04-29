@@ -1,0 +1,121 @@
+#!/usr/bin/env python3
+
+import argparse
+
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Exports a fasta file from a tab delimited table." % ('%(prog)s', version), add_help=False)
+
+# Add the arguments to the parser
+requirArgs = parser.add_argument_group('Required arguments')
+functiArgs = parser.add_argument_group('Optional arguments related to ')
+finputArgs = parser.add_argument_group('Optional arguments related to the input')
+outputArgs = parser.add_argument_group('Optional arguments related to the output')
+optionArgs = parser.add_argument_group('Other optional arguments')
+
+requirArgs.add_argument("-f", "--file", dest="file_in", required=True,
+						help="A tab delimited file.")
+
+finputArgs.add_argument("-c", "--columns", dest="columns", required=False, nargs=2, default=[1,2],
+						help="The columns to be exported in the order 'oligonucleotide name' and 'sequence'. It can be given either the column names or the number of the columns. Default = %(default)s (first and second columns).")
+
+finputArgs.add_argument("-n", "--noHeaders", dest="noHeaders", required=False, action="store_true",
+						help="If selected, will interpret the file has no headers.")
+
+outputArgs.add_argument("-o", "--output", dest="file_out", required=False, default=None,
+						  help="The name of the output file. By default will replace the extension to '.fasta'.")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will not print information to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
+
+args = parser.parse_args()
+
+# Setting variables ________________________________________________________________________________
+if args.file_out is None:
+	import re
+	output = re.sub("\\.[^\\.]+$", ".fasta", args.file_in)
+else:
+	output = args.file_out
+
+def testIntOrStr(string):
+	try:
+		return int(string)
+	except ValueError:
+		try:
+			return str(string)
+		except ValueError:
+			return None
+
+# Reading columns __________________________________________________________________________________
+with open(args.file_in) as filein:
+	headers = filein.readline()
+headers = headers.strip("\t").split()
+
+colName = None
+if type(testIntOrStr(args.columns[0])) is int:
+	colName = int(args.columns[0])-1
+elif type(testIntOrStr(args.columns[0])) is str:
+	if args.noHeaders:
+		print("Error: A string cannot be provided if no column names are present in the table.")
+		sys.exit(1)
+	i = 0
+	for h in headers:
+		if h == args.columns[0]:
+			colName = i
+		i += 1
+	if colName is None:
+		import sys
+		print("Error: '", args.columns[0], "' not found in the headers", sep="")
+		sys.exit(1)
+
+colSeq = None
+if type(testIntOrStr(args.columns[1])) is int:
+	colSeq = int(args.columns[1])-1
+elif type(testIntOrStr(args.columns[1])) is str:
+	if args.noHeaders:
+		import sys
+		print("Error: Columns cannot be selected from a string if no headers are present in the table.")
+		print("Please provide the number of the columns instead, or add headers to the table.")
+		sys.exit(1)
+	i = 0
+	for h in headers:
+		if h == args.columns[1]:
+			colSeq = i
+		i += 1
+	if colSeq is None:
+		import sys
+		print("Error: '", args.columns[1], "' not found in the headers", sep="")
+		sys.exit(1)
+
+if args.verbose and args.noHeaders is False:
+	print("  Columns '", headers[colName], "' (", colName+1,") and '", headers[colSeq], "' (", colSeq+1,") will be taken to create the fasta file", sep="")
+if args.verbose and args.noHeaders:
+	print("  Columns '", colName+1, "' and '", colSeq+1,"' will be taken to create the fasta file", sep="")
+
+# Reading input files ______________________________________________________________________________
+if args.verbose:
+	print("  Exporting fasta file to:", output)
+with open(output, "w", buffering=1) as outfile:
+	i = 0
+	for line in open(args.file_in):
+		i += 1
+		if i == 1 and args.noHeaders:
+			line = line.strip("\t").split()
+			print(">" + str(line[colName]) + "\n" + str(line[colSeq]), file=outfile, flush=True)
+		if i > 1:
+			line = line.strip("\t").split()
+			print(">" + str(line[colName]) + "\n" + str(line[colSeq]), file=outfile, flush=True)
+
+if args.verbose:
+	if args.noHeaders:
+		print("  Exported fasta has", i, "sequences")
+	else:
+		print("  Exported fasta has", i-1, "sequences")
+	print("Done")

@@ -1,0 +1,74 @@
+#!/usr/bin/env python3
+
+import argparse
+
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Converts a fasta file where the sequences are in multiple lines to a fasta file where each sequence is in one line." % ('%(prog)s', version), add_help=False)
+
+requirArgs = parser.add_argument_group('Required arguments')
+outputArgs = parser.add_argument_group('Optional arguments related to the output')
+optionArgs = parser.add_argument_group('Other optional arguments')
+
+requirArgs.add_argument("-f", "--file", dest="file_in", required=True,
+						help="Input fasta file.")
+
+outputArgs.add_argument("-o", "--output", dest="file_out", required=False, default=None,
+						help="Output fasta file. By default will add '_1line' before the extension.")
+
+outputArgs.add_argument("-r", "--replace", dest="replace", required=False, action="store_true",
+						help="If selected, will replace the input file instead of creating a new file.")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will not print information to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
+
+args = parser.parse_args()
+
+# Define functions _________________________________________________________________________________
+def readFasta(fastafile):
+	out = {}
+	for line in open(fastafile):
+		if line.startswith(">"):
+			name = line.replace(">", "")
+			name = name.replace("\n", "")
+			out[name] = str()
+		else:
+			sequence = line.replace("\n", "")
+			out[name] = (out[name] + sequence)
+	return out
+
+# Output file ______________________________________________________________________________________
+if args.file_out is None:
+	if args.replace:
+		outFile = args.file_in
+	else:
+		import re
+		outFile = re.sub("\\.[^\\.]+$", "_1line", args.file_in) + re.sub(".*\\.", ".", args.file_in)
+else:
+	outFile = args.file_out
+
+# Reading files ____________________________________________________________________________________
+if args.verbose:
+	print("  Reading input file:    ", args.file_in)
+infile = readFasta(args.file_in)
+
+if args.replace:
+	print("  Deleting input file before writting it")
+	import os
+	os.remove(args.file_in)
+
+# Transform fasta file _____________________________________________________________________________
+with open(outFile, "a") as outfile:
+	for name, sequence in infile.items():
+		print(">" + name + "\n" + sequence, file=outfile)
+
+if args.verbose:
+	print("  Output file written to:", outFile)
+	print("Done")

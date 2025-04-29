@@ -1,0 +1,85 @@
+#!/usr/bin/env python3
+
+import argparse
+
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Replaces nucleotides characters, such as Us to Ts, ambiguities to Ns or lower to upper cases." % ('%(prog)s', version), add_help=False)
+
+# Add the arguments to the parser
+requirArgs = parser.add_argument_group('Required arguments')
+functiArgs = parser.add_argument_group('Optional arguments related to the change')
+outputArgs = parser.add_argument_group('Optional arguments related to the output')
+optionArgs = parser.add_argument_group('Other optional arguments')
+
+requiredArgs = parser.add_argument_group('required arguments')
+
+requirArgs.add_argument("-f", "--file", dest="file_in", required=True,
+						help="Input fasta file.")
+
+functiArgs.add_argument("-c", "--change", dest="change", required=False, nargs=2, default=None,
+						help="Replaces the first given character by the second given character (e.g., '-c U T' will replace all Us by Ts).")
+
+functiArgs.add_argument("-a", "--ambiguities", dest="ambiguities", required=False, action="store_true",
+						help="A shortcut to replace all ambiguities by N.")
+
+functiArgs.add_argument("-u", "--upper", dest="upper", required=False, action="store_true",
+						help="Outputs the nucleotides in upper cases.")
+
+functiArgs.add_argument("-l", "--lower", dest="lower", required=False, action="store_true",
+						help="Outputs the nucleotides in lower cases.")
+
+outputArgs.add_argument("-o", "--output", dest="file_out", required=False,
+						help="Output fasta file. By default will add '_changed' before the extension.")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will not print information to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
+
+args = parser.parse_args()
+
+if args.file_out is None:
+	import re
+	outFile = re.sub("\\.[^\\.]+$", "_changed.", args.file_in) + re.sub(".*\\.", "", args.file_in)
+else:
+	outFile = args.file_out
+
+if args.upper and args.lower:
+	print("  \033[91mError!\033[0m Both -u/--upper and -l/--lower arguments cannot be provided. Please choose one.")
+	import sys
+	sys.exit(1)
+
+if args.verbose:
+	print("  Reading and replacing")
+with open(outFile, "w") as outfile:
+	for line in open(args.file_in):
+		if ">" in line:
+			print(line, end="", file=outfile)
+		else:
+			lineout = list()
+			for l in list(line):
+				o = l
+				if args.change is not None:
+					if l == args.change[0]:
+						o = args.change[1]
+				if args.ambiguities is not None:
+					if l == "A" or l == "C" or l == "G" or l == "T" or l == "U":
+						o = l
+					else:
+						o = "N"
+				lineout.append(o)
+			lineout = "".join(lineout)
+			if args.upper:
+				lineout = lineout.upper()
+			if args.lower:
+				lineout = lineout.lower()
+			print(lineout, end="", file=outfile)
+
+if args.verbose:
+	print("Done")

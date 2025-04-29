@@ -7,32 +7,45 @@ from statistics import mean
 import sys
 import re
 
-parser = argparse.ArgumentParser(description="Estimate the accessibility of the oligonucleotides in the rDNA by comparing the relative positions to the templates of Saccharomyces cerevisiae (18S rDNA, default) or Escherichia coli (16S rDNA) as described in Behrens et al. (2003).",
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Estimate the accessibility of the oligonucleotides in the rDNA by comparing the relative positions to the templates of Saccharomyces cerevisiae (18S rDNA, default) or Escherichia coli (16S rDNA) as described in Behrens et al. (2003)." % ('%(prog)s', version), add_help=False,
 								 epilog="Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R (2003) In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol 69(3):1748-58. doi: 10.1128/AEM.69.3.1748-1758.2003")
 
 # Add the arguments to the parser
-requiredArgs = parser.add_argument_group('required arguments')
+requirArgs = parser.add_argument_group('Required arguments')
+functiArgs = parser.add_argument_group('Optional arguments related to accessibility map')
+outputArgs = parser.add_argument_group('Optional arguments related to the output')
+optionArgs = parser.add_argument_group('Other optional arguments')
 
-requiredArgs.add_argument("-f", "--file", dest="file_in", required=False,
-					help="A fasta file with the (1) DNA template used to estimate the accessibility map (e.g.; S. cerevisiae 18S sequence), (2) the consensus sequence(s) of the target file and (3) the oligonucleotides aligned. Note sequences will be identified by containing the words 'template', 'consensus' and 'oligoN' respectively, and prefereably will take the consensus sequence with the most abundant base as consensus to avoid ambiguities.")
+requirArgs.add_argument("-f", "--file", dest="file_in", required=False, default=None,
+						help="A fasta file with the (1) DNA template used to estimate the accessibility map (e.g.; S. cerevisiae 18S sequence), (2) the consensus sequence(s) of the target file and (3) the oligonucleotides aligned. Note sequences will be identified by containing the words 'template', 'consensus' and 'oligoN' respectively, and prefereably will take the consensus sequence with the most abundant base as consensus to avoid ambiguities.")
 
-parser.add_argument("-a", "--accessMap", dest="accessMap", required=False, default="18S",
-					help="The accessibility map table of the 18S rDNA ('18S', default), 16S rDNA ('16S') or a custom made table. The default 18S and 16S tables are taken from the accessibility maps from Behrens et al. (2003) and they can be exported with the option 'exportAccessMap' to the desired location. The table must have the following columns in the given order and tab delimited: position, region, base, brightness Class, maximum relative brightness and minimum relative brightness.")
+functiArgs.add_argument("-a", "--accessMap", dest="accessMap", required=False, default="18S",
+						help="The accessibility map table of the 18S rDNA ('18S', default), 16S rDNA ('16S') or a custom made table. The default 18S and 16S tables are taken from the accessibility maps from Behrens et al. (2003) and they can be exported with the option 'exportAccessMap' to the desired location. The table must have the following columns in the given order and tab delimited: position, region, base, brightness Class, maximum relative brightness and minimum relative brightness.")
 
-parser.add_argument("-e", "--exportAccessMap", dest="export", required=False, default=None,
-					help="If selected, will export the default accessibility map table to the specified file and exit.")
+outputArgs.add_argument("-o", "--output", dest="file_out", required=False, default=None,
+						help="The name of the output file. Default will remove the extension of the input alignment file and add '_access.tsv'. The file contains the following columns: the name of the oligonucleotide, the sequence, the first position in the target consensus sequence, the approximate region in the 18S (C1-C10, V1-V9), the first position regarding the template, the average maximun relative brightness (0-1), the average minimum relative brightness (0-1), the average relative brightness (0-1) and the given brightness class (VI-I).")
 
-parser.add_argument("-o", "--output", dest="file_out", required=False, default=None,
-					help="The name of the output file. Default will remove the extension of the oligonucleotides file and add '_access.tsv'. The file contains the following columns: the name of the oligonucleotide, the sequence, the first position in the target consensus sequence, the approximate region in the 18S (C1-C10, V1-V9), the first position regarding the template, the average maximun relative brightness (0-1), the average minimum relative brightness (0-1), the average relative brightness (0-1) and the given brightness class (VI-I).")
+outputArgs.add_argument("-e", "--exportAccessMap", dest="export", required=False, default=None,
+						help="If selected, will export the default accessibility map table to the specified file and exit.")
 
-parser.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
-					help="If selected, will not print information to the console.")
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will not print information to the console.")
 
-parser.add_argument("--version", action='version',
-					version='oligoN-design %(prog)s v0.3.0-beta',
-					help='Show the version number and exit.')
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
 
 args = parser.parse_args()
+
+# Troubleshooting arguments ________________________________________________________________________
+if args.file_in is None and args.export is None:
+	print("\033[91mError!\033[0m The following arguments are required: -f/--file")
+	sys.exit(1)
 
 # Reading accessMap ________________________________________________________________________________
 if args.verbose:
@@ -53,7 +66,7 @@ if args.accessMap != "18S" and args.accessMap != "16S" and args.accessMap != "18
 		access[line[0]]['brightClass'] = line[3]
 		access[line[0]]['brightMax'] = line[4]
 		access[line[0]]['brightMin'] = line[5]
-elif args.accessMap == "18S" or args.accessMap == "18S":
+elif args.accessMap == "18S" or args.accessMap == "18s":
 	access={'1': {'region': 'C1', 'base': 'T', 'brightClass': 'II', 'brightMax': '0.8', 'brightMin': '0.61'},
 	'2': {'region': 'C1', 'base': 'A', 'brightClass': 'II', 'brightMax': '0.8', 'brightMin': '0.61'},
 	'3': {'region': 'C1', 'base': 'T', 'brightClass': 'II', 'brightMax': '0.8', 'brightMin': '0.61'},
@@ -3415,6 +3428,22 @@ if args.export is not None:
 if args.verbose:
 	print("  Reading fasta file and extracting positions")
 
+def readFasta(fastafile, revcom=False):
+	out = {}
+	w = False
+	for line in open(fastafile):
+		if line.startswith(">"):
+			name = line.replace(">", "")
+			name = name.replace("\n", "")
+			out[name] = str()
+		else:
+			sequence = line.replace("\n", "")
+			sequence = sequence.upper()
+			if revcom:
+				sequence = Seq(sequence).reverse_complement()
+			out[name] = (out[name] + sequence)
+	return out
+
 # Create a function to extract positions of template sequences
 def extractPositions(sequence):
 	out = {}
@@ -3447,31 +3476,26 @@ t = 0
 c = 0
 oligos = {}
 p = 0
-for line in SeqIO.parse(open(args.file_in), "fasta"):
-	name = line.id
-	seq = line.seq
-	
+fasta = readFasta(args.file_in)
+for name, seq in fasta.items():
 	# First extract the template sequence
 	if "template" in name and t == 0:
 		t += 1
 		template = extractPositions(seq)
 		Tname = name
-	
 	# Extract positions of the consensus sequence with the most abundant base if present
 	if "consensus" in name and "mostAbundant" in name:
 		c += 1
 		consensus = extractPositions(seq)
 		Cname = name
-	
 	# Otherwise take the first consensus sequence present
 	elif "consensus" in name and "mostAbundant" not in name and c == 0:
 		c += 1
 		consensus = extractPositions(seq)
 		Cname = name
-	
 	# And now the oligonucleotides
 	# But to safe memory we will only extract relevant positions
-	if "oligoN" in name:
+	if name.startswith("oligoN") or name.startswith("region"):
 		p += 1
 		oligos[name] = extractPositionsOligos(seq)
 
@@ -3522,6 +3546,8 @@ with open(outFile, "w") as fileOut:
 		region = set()
 		for i in positions:
 			p = template[i]['ungapped']
+			if p == 0:
+				p = 1
 			region.add(access[str(p)]['region'])
 		region = "-".join(region)
 		
@@ -3533,6 +3559,8 @@ with open(outFile, "w") as fileOut:
 		minb = list()
 		for i in positions:
 			p = template[i]['ungapped']
+			if p == 0:
+				p = 1
 			maxb.append(float(access[str(p)]['brightMax']))
 			minb.append(float(access[str(p)]['brightMin']))
 		meanMaxBright = round(mean(maxb), 2)

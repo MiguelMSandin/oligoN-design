@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+
+import argparse
+import re
+
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Given a nucleotide sequence, prints to the console all possible self-dimers." % ('%(prog)s', version), add_help=False)
+
+# Add the arguments to the parser
+requirArgs = parser.add_argument_group('Required arguments')
+functiArgs = parser.add_argument_group('Optional arguments related to self-dimer formation')
+finputArgs = parser.add_argument_group('Optional arguments related to the input')
+optionArgs = parser.add_argument_group('Other optional arguments')
+
+requirArgs.add_argument("-s", "--sequence", dest="sequence", required=True,
+					help="A nucleotide sequence.")
+
+functiArgs.add_argument("-b", "--bases", dest="bases", required=False, action="store", type=int,
+						default=5,
+						help="Minimum number of base pairs required for self-dimerization. Default = %(default)s.")
+
+finputArgs.add_argument("-r", "--revComp", dest="revComp", required=False, action="store_true",
+						help="If selected, will reverse complement the sequences before testing.")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will only print the self-dimers to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
+
+args = parser.parse_args()
+
+# Define functions _________________________________________________________________________________
+
+def complemetary(seqA, seqB):
+	count = 0
+	matches = list()
+	for i in range(0, len(seqA)):
+		a = list(seqA)[i]
+		b = list(seqB)[i]
+		if (a == "A" and b == "T") or (a == "T" and b == "A") or (a == "C" and b == "G") or (a == "G" and b == "C"):
+			count += 1
+			matches.append("|")
+		else:
+			matches.append(" ")
+	out = "".join(matches)
+	return [count, out]
+
+def selfDimerCount(sequence, bases):
+	length = len(sequence)
+	alignedSequence = ("-" * (length-bases)) + sequence + ("-" * (length-bases))
+	iterations = len(alignedSequence)-length+1
+	count = 0
+	printOut = {}
+	for i in range(0, iterations):
+		toCheck = ("-" * i) + sequence[::-1] + ("-" * (iterations - i - 1))
+		test = complemetary(alignedSequence, toCheck)
+		if test[0] >= bases:
+			count += 1
+			toCutb = i
+			if i > length-bases:
+				toCutb = (length-bases)
+			toCute = i + length
+			if toCute < (length-bases) + length:
+				toCute = (length-bases) + length
+			printOut[str(count)] = list()
+			printOut[str(count)].append("5' " + alignedSequence[toCutb:toCute] + " 3'")
+			printOut[str(count)].append("   " + test[1][toCutb:toCute] + "   ")
+			printOut[str(count)].append("3' " + toCheck[toCutb:toCute] + " 5'")
+	return [count, printOut]
+
+# Find self-dimers _________________________________________________________________________________
+if args.verbose:
+	print("  Minimum number of bases to identify self-dimers:", args.bases)
+	if args.revComp:
+		print("  Reverse-complementing the input sequence")
+
+if args.revComp:
+	from Bio.Seq import Seq
+	sequence = Seq(args.sequence).reverse_complement()
+else:
+	sequence = args.sequence
+
+count, out = selfDimerCount(sequence, bases=args.bases)
+
+if args.verbose:
+	if count == 0:
+		print("  No self-dimers were found")
+	elif count == 1:
+		print("  There was 1 self-dimer found:\n")
+	else:
+		print("  There were", count, "self-dimers found:\n")
+else:
+	print("")
+
+for values in out.values():
+	for val in values:
+		print("  ", val)
+	print("")

@@ -1,0 +1,798 @@
+#!/usr/bin/env python3
+
+import argparse
+import re
+import time
+import itertools
+from Bio.Seq import Seq
+
+start_time = time.time()
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Test thoroughly a fasta file containing oligonucleotides against a excluding fasta file. It will test for self-dimers, hairpins, consecutive bases and/or mismatches." % ('%(prog)s', version), add_help=False,
+								 epilog="Given the amount of information provided by this script, it will speed analysis if a small selection of oligonucleotides is provided.")
+
+# Add the arguments to the parser
+requirArgs = parser.add_argument_group('Required arguments')
+finputArgs = parser.add_argument_group('Optional arguments related to the input')
+functiArgs = parser.add_argument_group('Optional arguments related to the testing')
+outputArgs = parser.add_argument_group('Optional arguments related to the output')
+optionArgs = parser.add_argument_group('Other optional arguments')
+
+requirArgs.add_argument("-f", "--file", dest="file_in", required=True,
+						help="A fasta file.")
+
+requirArgs.add_argument("-e", "--excluding", dest="excluding", required=True,
+						help="A excluding fasta file to look against.")
+
+finputArgs.add_argument("-p", "--revComp", dest="revComp", required=False, action="store_true",
+						help="If selected, will reverse complement the sequences in the input file before testing.")
+
+functiArgs.add_argument("-s", "--selfDimer", dest="selfDimer", required=False, action="store", type=int,
+						default=5,
+						help="Minimum number of base pairs required for self-dimerization. Default = %(default)s. If '0', will not test for self dimerization.")
+
+functiArgs.add_argument("-a", "--hairpin", dest="hairpin", required=False, action="store", type=int,
+						default=3,
+						help="Minimum number of base pairs required for hairpin formation. Default = %(default)s. If '0', will not test for hairpin formation.")
+
+functiArgs.add_argument("-k", "--consecutives", dest="consecutives", required=False, action="store_false",
+						help="If selected, will not search the maximum string of repeated consecutive bases.")
+
+functiArgs.add_argument("-m", "--mismatches", dest="mismatches", nargs="+", required=False, action='store', type=str,
+						default=['1','2'],
+						help="The number of mismatches allowed. Default = %(default)s. A range can be specified with the '-' sign (i.e. '1-3'). Please bear in mind that an excessively high number of mismatches will considerably slow down the search. If '0', will not test for mismatches.")
+
+functiArgs.add_argument("-b", "--flank", dest="flank", required=False, action='store', type=str,
+						default="0",
+						help="The number of leading and trailing (flanks) bases to flag when the given number of mismatches are found within. Default = %(default)s, it will not look for leading nor trailing mismatches. If (e.g.,) 3 is selected along with 2 mismatches, it will count how many hits are occurring when 2 mismatches are present within 3 flanking bases. If the value provided is a 'float' [0.0-1.0], it will be interpreted as a percentage of the given oligo length.")
+
+functiArgs.add_argument("-c", "--center", dest="center", required=False, action='store', type=str,
+						default="0",
+						help="Similar to '-b/--flank' but centered. Default = %(default)s, it will not look for centered mismatches. If (e.g.,) 10 is selected along with 2 mismatches, it will count how many hits are occurring when 2 mismatches are present in the 10 centered bases. If the value provided is a 'float' [0.0-1.0], it will be interpreted as a percentage of the given oligo length.")
+
+functiArgs.add_argument("-x", "--indels", dest="indels", required=False, action="store_false",
+						help="If selected, will not test for insertions and/or deletions.")
+
+outputArgs.add_argument("-o", "--output", dest="file_out", required=False,
+						default=None,
+						help="The name of the output file. By default will remove the extension of the input file and add '_testThorough.tsv'. The file will contain and entry for every oligonucleotide with the name of the oligonucleotide, the sequence, the observed number of dimers, the observed number of hairpins, the maximum string of consecutive bases, and the absolute number of hits, the proportion of hits, and the mismatches per position for every number of mismatches selected.")
+
+outputArgs.add_argument("-t", "--table", dest="table", required=False, action="store",
+						help="If selected, will export a summarized output of global analyses in table format to the given output (i.e., total self-dimer counts, but not the examples).")
+
+outputArgs.add_argument("-n", "--extended", dest="extended", required=False, action="store_true",
+						help="If selected, will add a detailed report of the mismatches at every position. It will also add '_testThoroughExt.tsv' to the output name if not provided.")
+
+outputArgs.add_argument("-i", "--identity", dest="identity", required=False, action="store_false",
+						help="If selected, will not append the identity of the mismatched hits. This output can be summarised with the arguments '-u/--unique' and '-d/--delimiter' and target specific elements of the sequence identifiers if properly formatted. This output will not be included in the table (if selected).")
+
+outputArgs.add_argument("-u", "--unique", dest="unique", required=False, nargs="+", action="store", type=str,
+						default=None,
+						help="The unique field of the sequence identifiers in the excluding file.")
+
+outputArgs.add_argument("-d", "--delimiter", dest="delimiter", required=False, action="store", type=str, 
+						default=None,
+						help="The delimiter separating fields from the sequence identifiers in the excluding file.")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will not print information to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", dest="version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
+
+args = parser.parse_args()
+
+# Define functions _________________________________________________________________________________
+
+def seconds2string(seconds, longOut=False):
+	hours = seconds // 3600
+	seconds %= 3600
+	minutes = seconds // 60
+	seconds %= 60
+	if hours == 0:
+		if minutes == 0:
+			if seconds < 10:
+				seconds, remainder = divmod(seconds, 1)
+				millisec = int(remainder * 1000)
+				if longOut:
+					out = str("%2d seconds %02d milliseconds" % (seconds, millisec))
+				else:
+					out = str("%ds %02dms" % (seconds, millisec))
+			else:
+				if longOut:
+					out = str("%02d seconds" % (seconds))
+				else:
+					out = str("%02ds" % (seconds))
+		else:
+			if longOut:
+				out = str("%02d minutes %02d seconds" % (minutes, seconds))
+			else:
+				out = str("%02dm%02ds" % (minutes, seconds))
+	else:
+		if longOut:
+			out = str("%d hours %02d minutes %02d seconds" % (hours, minutes, seconds))
+		else:
+			out = str("%dh%02dm%02ds" % (hours, minutes, seconds))
+	return out
+
+def string2numeric(string):
+	try:
+		return int(string)
+	except ValueError:
+		try:
+			return float(string)
+		except ValueError:
+			return None
+
+def getNumersFromArgs(stringList):
+	out = list()
+	for m in stringList:
+		if '-' in m:
+			first = int(m.split('-')[0])
+			last = int(m.split('-')[1])
+			if first < last:
+				for m2 in range(first, last+1):
+					out.append(m2)
+			elif first > last:
+				for m2 in range(last, first+1):
+					out.append(m2)
+		elif " " in m:
+			tocut = m.strip().split(" ")
+			for m2 in tocut:
+				out.append(int(m2))
+		else:
+			out.append(int(m))
+	out.sort()
+	return  out
+
+def readFasta(fastafile, revcom=False):
+	out = {}
+	w = False
+	for line in open(fastafile):
+		if line.startswith(">"):
+			name = line.replace(">", "")
+			name = name.replace("\n", "")
+			out[name] = str()
+		else:
+			if "-" in line:
+				w = True
+			sequence = line.replace("\n", "")
+			sequence = sequence.upper()
+			if revcom:
+				sequence = Seq(sequence).reverse_complement()
+			out[name] = (out[name] + sequence)
+	if w:
+		print("Warning!!", fastafile, "contains gaps", flush=True)
+	return out
+
+def complemetary(seqA, seqB):
+	count = 0
+	matches = list()
+	for i in range(0, len(seqA)):
+		a = list(seqA)[i]
+		b = list(seqB)[i]
+		if (a == "A" and b == "T") or (a == "T" and b == "A") or (a == "C" and b == "G") or (a == "G" and b == "C"):
+			count += 1
+			matches.append("|")
+		else:
+			matches.append(" ")
+	out = "".join(matches)
+	return [count, out]
+
+def selfDimerCount(sequence, bases, verbose=False):
+	length = len(sequence)
+	alignedSequence = ("-" * (length-bases)) + sequence + ("-" * (length-bases))
+	iterations = len(alignedSequence)-length+1
+	count = 0
+	printOut = {}
+	for i in range(0, iterations):
+		toCheck = ("-" * i) + sequence[::-1] + ("-" * (iterations - i - 1))
+		test = complemetary(alignedSequence, toCheck)
+		if test[0] >= bases:
+			count += 1
+			if verbose:
+				toCutb = i
+				if i > length-bases:
+					toCutb = (length-bases)
+				toCute = i + length
+				if toCute < (length-bases) + length:
+					toCute = (length-bases) + length
+				printOut[str(count)] = list()
+				printOut[str(count)].append("5' " + alignedSequence[toCutb:toCute] + " 3'")
+				printOut[str(count)].append("   " + test[1][toCutb:toCute] + "   ")
+				printOut[str(count)].append("3' " + toCheck[toCutb:toCute] + " 5'")
+	if verbose:
+		return [count, printOut]
+	else:
+		return count
+
+def hairPinCount(sequence, bases, verbose=False):
+	revSeq = sequence[::-1]
+	length = len(sequence)
+	hairpinSeqs = list()
+	countHairpin = 0
+	hairpinOutList = list()
+	for kmer in range(length, bases-1, -1):
+		for p in range(0, length):
+			phairpin = sequence[int(p):(int(p+kmer))]
+			truncSeq = sequence[(int(p+kmer)):]
+			revCom = str(Seq(phairpin).reverse_complement())
+			hairpin = False
+			if revCom in truncSeq:
+				if len([s for s in hairpinSeqs if phairpin in s]) == 0:
+					countHairpin += 1
+					hairpinSeqs.append(phairpin)
+					hairpin = True
+			if hairpin and verbose:
+				hairpinOut = list()
+				hairpinf = list(range(sequence.find(phairpin), sequence.find(phairpin)+len(phairpin)))
+				hairpinr = list(range(p+kmer+truncSeq.find(revCom), p+kmer+truncSeq.find(revCom)+len(revCom)))
+				for i in range(0, length):
+					if i in hairpinf or i in hairpinr:
+						hairpinOut.append("*")
+					else:
+						hairpinOut.append("-")
+				hairpinOutList.append("".join(hairpinOut))
+	if verbose:
+		out = [countHairpin, hairpinOutList]
+		return out
+	else:
+		return countHairpin
+
+def maxConsecutives(sequence, verbose=False):
+	cp = None
+	maxc = 0
+	maxci = 1
+	seqOut = list()
+	i = 0
+	for ci in list(sequence):
+		i += 1
+		if ci == cp:
+			maxci += 1
+			seqOut.append(ci)
+		else:
+			maxci = 1
+			if i != 0:
+				seqOut.append(" ")
+			seqOut.append(ci)
+		if maxci > maxc:
+			maxc = maxci
+		cp = ci
+	if verbose:
+		out = [maxc, "".join(seqOut)]
+		return out
+	else:
+		return maxc
+
+def getMismatchedOligo(oligo, string):
+	oligol = list(oligo)
+	positions = string.strip().split(",")
+	positionsi = list()
+	for p in positions:
+		positionsi.append(int(p))
+	oligoOut = list()
+	for l in range(0, len(oligol)):
+		if l+1 in positionsi:
+			oligoOut.append(".")
+		else:
+			oligoOut.append(oligol[l])
+	oligoOut = "".join(oligoOut)
+	return oligoOut
+
+def getMismatchedOligos(oligo, mismatches, indels=True):
+	out = {}
+	length = len(oligo)
+	for m in mismatches:
+		positions = list(range(1, length+1))
+		if m > 1:
+			positions = list(itertools.combinations(positions,m))
+		for p in positions:
+			moligo = list(oligo)
+			positionsi = list()
+			for l in range(0, length):
+				if m == 1:
+					if l+1 == p:
+						if indels and l+1 != 1 and l+1 != length:
+							moligo[l] = ".{0,2}"
+						else:
+							moligo[l] = "."
+						positionsi.append(str(p))
+				else:
+					if l+1 in p:
+						if indels and l+1 != 1 and l+1 != length:
+							moligo[l] = ".{0,2}"
+						else:
+							moligo[l] = "."
+						positionsi.append(str(l+1))
+			moligo = "".join(moligo)
+			out[moligo] = positionsi
+	return out
+
+def hitsMismatch(oligo, moligo, dictionary, identity=False):
+	hits = 0
+	if identity:
+		identityHits = set()
+	for key, val in dictionary.items():
+		tmp = re.search(moligo, val)
+		if tmp != None and tmp.group(0) != oligo:
+			hits += 1
+			if identity:
+				identityHits.add(key)
+	if identity:
+		out = [hits, identityHits]
+	else:
+		out = hits
+	return out
+
+def summaryIdentity(list_ids, delimiter, unique):
+	uniques = getNumersFromArgs(unique)
+	out = {}
+	for i in list_ids:
+		full = i.strip().split(delimiter)
+		tmp = list()
+		for u in uniques:
+			tmp.append(full[u-1])
+		tmp = delimiter.join(tmp)
+		if tmp not in out.keys():
+			out[tmp] = 1
+		else:
+			out[tmp] += 1
+	out = dict(sorted(out.items(), key=lambda x: x[1], reverse=True))
+	return out
+
+def flankCheck(oligo, positions, bases):
+	length = len(oligo)
+	pos = getNumersFromArgs(positions)
+	if type(bases) == float:
+		bases = int(length*bases)
+	test = False
+	if all(p <= bases for p in pos) or all(p >= length-bases+1 for p in pos):
+		test = True
+	return test
+
+def centeredCheck(oligo, positions, bases):
+	length = len(oligo)
+	pos = getNumersFromArgs(positions)
+	if type(bases) == float:
+		bases = int(length*bases)
+	flanks = (length-bases)/2
+	test = False
+	if all(p > flanks for p in pos) and all(p < length-flanks+1 for p in pos):
+		test = True
+	return test
+
+def hitsMismatchDict(oligo, moligos, dictionary, flanksB, centerB, identity=False, summary=False, delimiter=None, unique=None, verbose=True):
+	lenMoligos = len(moligos)
+	nmismatches = list()
+	for val in moligos.values():
+		if str(len(val)) not in nmismatches:
+			nmismatches.append(str(len(val)))
+	hits = {}
+	positions = {}
+	flanks = {}
+	center = {}
+	hitIDs = {}
+	for n in nmismatches:
+		hits[n] = 0
+		positions[n] = {}
+		flanks[n] = 0
+		center[n] = 0
+		hitIDs[n] = set()
+	if verbose:
+		i = 0
+		pcti = 0
+	for m, p in moligos.items():
+		n = str(len(p))
+		hitsp = 0
+		if verbose:
+			i += 1
+			pct = round(i/lenMoligos*100)
+			if pct > pcti:
+				print("\r    ", pct, "%", sep="", end="")
+		for key, val in dictionary.items():
+			tmp = re.search(m, val)
+			if tmp != None:
+				hitSeq = tmp.group(0)
+				if hitSeq != oligo and key not in hitIDs[n]:
+					hits[n] += 1
+					hitsp += 1
+					if key not in hitIDs[n]:
+						if flankCheck(oligo, p, flanksB):
+							flanks[n] += 1
+						if centeredCheck(oligo, p, centerB):
+							center[n] += 1
+					hitIDs[n].add(key)
+		if hitsp > 0:
+			tmp = ",".join(p)
+			if tmp not in positions[n].keys():
+				positions[n][tmp] = hitsp
+			else:
+				positions[n][tmp] += hitsp
+	hitsOut = list()
+	for val in hits.values():
+		hitsOut.append(val)
+	flanksOut = list()
+	for val in flanks.values():
+		flanksOut.append(val)
+	centerOut = list()
+	for val in center.values():
+		centerOut.append(val)
+	positionOut = list()
+	for val in positions.values():
+		positionOut.append(val)
+	if identity:
+		if summary:
+			hitIDout = list()
+			for key, val in hitIDs.items():
+				tmp = summaryIdentity(val, delimiter, unique)
+				hitIDout.append(tmp)
+		else:
+			hitIDout = list()
+			for key, val in hitIDs.items():
+				hitIDout.append(val)
+	if identity:
+		out = [hitsOut, positionOut, flanksOut, centerOut, hitIDout]
+	else:
+		out = [hitsOut, positionOut, flanksOut, centerOut]
+	return out
+
+# Setting variables and troubleshooting arguments __________________________________________________
+if args.verbose:
+	print("  Setting variables...", flush=True)
+
+# Setting output name
+if args.file_out is None:
+	if args.extended:
+		outFile = re.sub("\\.[^\\.]+$", "_testThoroughExt.tsv", args.file_in)
+	else:
+		outFile = re.sub("\\.[^\\.]+$", "_testThorough.tsv", args.file_in)
+else:
+	outFile = args.file_out
+
+# Parsing indels
+if args.indels is False:
+	print("    Info: -x/--indels has been disabled")
+
+# Parsing summarization of the output
+if args.unique is not None and args.delimiter is not None:
+	summarise = True
+elif args.unique is None and args.delimiter is None:
+	summarise = False
+elif args.unique is not None and args.delimiter is None:
+	print("Warning! -u/--unique has been specified but not -d/--delimiter. I need both to summarise identifiers")
+	if args.identity is False:
+		print("Warning! In addition, -i/--identity has been disabled")
+	summarise = False
+elif args.unique is None and args.delimiter is not None:
+	print("Warning! -d/--delimiter has been specified but not -u/--unique. I need both to summarise identifiers")
+	if args.identity is False:
+		print("Warning! In addition, -i/--identity has been disabled")
+	summarise = False
+
+identity = args.identity
+if summarise and identity is False:
+	print("    Info: -i/--identity has been disabled but patterns to summarise identifiers have been provided, so identity has been re-enabled")
+	identity = True
+
+# Reading mismatches arguments
+mismatches = getNumersFromArgs(args.mismatches)
+flankBases = string2numeric(args.flank)
+if flankBases is None:
+	print("\033[91mError!\033[0m Please provide a numerical value through -b/--flanks")
+	import sys
+	sys.exit(0)
+centerBases = string2numeric(args.center)
+if centerBases is None:
+	print("\033[91mError!\033[0m Please provide a numerical value through -c/--center")
+	import sys
+	sys.exit(0)
+
+mismatchesCheck = True
+if len(mismatches) == 1:
+	if mismatches[0] == 0:
+		mismatchesCheck = False
+
+if args.verbose:
+	if args.selfDimer != 0:
+		print("    Minimum number of base pairs for self-dimerization:", args.selfDimer)
+	if args.hairpin != 0:
+		print("    Minimum number of base pairs for hairpin formation:", args.hairpin)
+	if mismatchesCheck:
+		print("    Mismatches:    ", *mismatches, flush=True)
+		if flankBases != 0:
+			if type(flankBases) == float:
+				print("    Counting mismatches occurring within ", flankBases*100, "% of the leading or trailing bases", sep="", flush=True)
+			else:
+				print("    Counting mismatches occurring within", flankBases, "leading or trailing bases", flush=True)
+		if centerBases != 0:
+			if type(centerBases) == float:
+				print("    Counting mismatches occurring within ", centerBases*100, "% of the central bases", sep="", flush=True)
+			else:
+				print("    Counting mismatches occurring within", centerBases, "central bases", flush=True)
+
+# Reading input file _______________________________________________________________________________
+if args.verbose:
+	print("  Reading file to be tested:", str(args.file_in), flush=True)
+
+oligos = readFasta(args.file_in, revcom=args.revComp)
+lenOligos = len(oligos)
+
+if args.verbose:
+	print("    Sequences in file to be tested:", lenOligos, flush=True)
+
+# Reading excluding file ___________________________________________________________________________
+if args.verbose:
+	print("  Reading excluding file:", str(args.excluding), flush=True)
+
+exc = readFasta(args.excluding)
+lenExc = len(exc)
+
+if args.verbose:
+	print("    Sequences in excluding file:", lenExc, flush=True)
+
+# Testing __________________________________________________________________________________________
+# After defining all functions and parameters, this is just deailing with input and output
+if args.verbose:
+	print("  Testing...", flush=True)
+if args.table:
+	tableOut = list()
+with open(outFile, "w", buffering=1) as outfile:
+	# Print headers of the output file according to the selected parameters ------------------------
+	print("\nThis is oligoN-design testThorough v0.4.0-beta", file=outfile, flush=True)
+	print("\n  Tested file:   \t", args.file_in, file=outfile, flush=True)
+	print("    Sequences in tested file:   \t", lenOligos, file=outfile, flush=True)
+	print("  Excluding file:\t", args.excluding, file=outfile, flush=True)
+	print("    Sequences in excluding file:\t", lenExc, file=outfile, flush=True)
+	print("  Testing...", file=outfile, flush=True)
+	if args.selfDimer != 0:
+		print("    Self-dimerization; minimum homologous bases:\t", args.selfDimer, file=outfile, flush=True)
+	if args.hairpin != 0:
+		print("    Hairpins; minimum base number:\t", args.hairpin, file=outfile, flush=True)
+	if args.consecutives:
+		print("    Identical consecutive bases", file=outfile, flush=True)
+	if mismatchesCheck:
+		print("    Mismatches:\t", *mismatches, file=outfile, flush=True)
+		if flankBases != 0:
+			if type(flankBases) == float:
+				tmp = str(flankBases*100) + "%"
+			else:
+				tmp = str(flankBases)
+			print("      Leading or trailing bases:\t", tmp, "\t(flagged: *)", file=outfile, flush=True)
+		if centerBases != 0:
+			if type(centerBases) == float:
+				tmp = str(centerBases*100) + "%"
+			else:
+				tmp = str(centerBases)
+			print("      Central bases:\t", tmp, "\t(flagged: +)", file=outfile, flush=True)
+		if args.identity:
+			print("      Exporting identity of the mismatches", file=outfile, flush=True)
+	print("\n----------------------------------------\n", file=outfile, flush=True)
+	if args.table:
+		outline = ["identifier", "sequence"]
+		if args.selfDimer != 0:
+			outline.append("self-dimer_count")
+		if args.hairpin != 0:
+			outline.append("hairpin_count")
+		if args.consecutives:
+			outline.append("max_consecutive")
+		if mismatchesCheck:
+			for m in mismatches:
+				outline.append("mismatch" + str(m) + "_prop_thorough")
+				outline.append("mismatch" + str(m) + "_thorough")
+				if flankBases > 0:
+					outline.append("mismatch" + str(m) + "_flanks" + str(flankBases) + "_thorough")
+				if centerBases > 0:
+					outline.append("mismatch" + str(m) + "_center" + str(centerBases) + "_thorough")
+		outline = "\t".join(outline)
+		tableOut = open(args.table, 'w', buffering=1)
+		tableOut.write(outline + "\n")
+	# Initialize variables -------------------------------------------------------------------------
+	oligoCount = 0
+	run_time = list()
+	# Loop through the different sequences in the file to be tested --------------------------------
+	for name, oligo in oligos.items():
+		timei_start = time.time()
+		oligoCount += 1
+		if args.verbose:
+			if len(run_time) == 0:
+				print("\r         Working on oligo ", oligoCount, "/", lenOligos, end="", sep="")
+			else:
+				runLeft = run_time[-1] * (lenOligos - oligoCount + 1)
+				runLeft = seconds2string(runLeft)
+				runAverage = sum(run_time)/len(run_time)
+				runAverage = seconds2string(runAverage)
+				print("\r         Working on oligo ", oligoCount, "/", lenOligos, " (average run time per oligo: ", runAverage, "; ~", runLeft, " left)      ", end="", sep="")
+		print("  Oligo:   \t", name, sep="", file=outfile, flush=True)
+		print("  Sequence:\t", oligo, "\n", sep="", file=outfile, flush=True)
+		# Count self-dimer -------------------------------------------------------------------------
+		if args.selfDimer != 0:
+			tmp = selfDimerCount(oligo, args.selfDimer, verbose=True)
+			print("    Total sef-dimers with at least ", args.selfDimer, " bases:\t", tmp[0], sep="", file=outfile, flush=True)
+			print("", file=outfile, flush=True)
+			for key, val in tmp[1].items():
+				print("      ", val[0], file=outfile, flush=True)
+				print("      ", val[1], file=outfile, flush=True)
+				print("      ", val[2], file=outfile, flush=True)
+				print("", file=outfile, flush=True)
+			dimerCount = None
+			if args.table:
+				dimerCount = tmp[0]
+		# Count hairpin ----------------------------------------------------------------------------
+		if args.hairpin != 0:
+			tmp = hairPinCount(oligo, args.hairpin, verbose=True)
+			print("    Total hairpins with at least ", args.hairpin, " bases:\t", tmp[0], sep="", file=outfile, flush=True)
+			print("", file=outfile, flush=True)
+			for highlight in tmp[1]:
+				print("      ", oligo, file=outfile, flush=True)
+				print("      ", highlight, file=outfile, flush=True)
+				print("", file=outfile, flush=True)
+			hairpinCount = None
+			if args.table:
+				hairpinCount = tmp[0]
+		# Count consecutive bases ------------------------------------------------------------------
+		if args.consecutives:
+			tmp = maxConsecutives(oligo, verbose=True)
+			print("    Maximum consecutive bases:\t", tmp[0], sep="", file=outfile, flush=True)
+			print("      ", tmp[1], file=outfile, flush=True)
+			print("", file=outfile, flush=True)
+			consecutivesCount = None
+			if args.table:
+				consecutivesCount = tmp[0]
+		# Search for mismatches --------------------------------------------------------------------
+		if mismatchesCheck:
+			moligos = getMismatchedOligos(oligo, mismatches, indels=args.indels)
+			if args.table:
+				mismatchesCount = {}
+				mismatchesCountF = {}
+				mismatchesCountC = {}
+				for i in mismatches:
+					mismatchesCount[i] = 0
+					mismatchesCountF[i] = 0
+					mismatchesCountC[i] = 0
+			print("    Mismatches allowed ", *mismatches, file=outfile, flush=True)
+			print("", file=outfile, flush=True)
+			if args.extended:
+				countUniques = {}
+				for i in mismatches:
+					countUniques[i] = set()
+				mismatchesFlank = {}
+				for i in mismatches:
+					mismatchesFlank[i] = 0
+				mismatchesCentered = {}
+				for i in mismatches:
+					mismatchesCentered[i] = 0
+				if args.verbose:
+					i = 0
+					pcti = 0
+				for moligo, positions in moligos.items():
+					mismatch = len(positions)
+					moligoOut = moligo.replace("{0,2}", "")
+					if args.verbose:
+						i += 1
+						pct = round(i/len(moligos)*100)
+						if pct > pcti:
+							print("\r    ", pct, "%", sep="", end="")
+					if flankCheck(oligo, positions, flankBases):
+						testFlank = True
+						suffFlank = "*"
+					else:
+						testFlank = False
+						suffFlank = ""
+					if centeredCheck(oligo, positions, centerBases):
+						testCenter = True
+						suffCenter = "+"
+					else:
+						testCenter = False
+						suffCenter = ""
+					mismatchesOut = hitsMismatch(oligo, moligo, exc, identity=True)
+					for unique in mismatchesOut[1]:
+						if unique not in countUniques[mismatch] and testFlank:
+							mismatchesFlank[mismatch] += 1
+						if unique not in countUniques[mismatch] and testCenter:
+							mismatchesCentered[mismatch] += 1
+						countUniques[mismatch].add(unique)
+					if identity:
+						if summarise:
+							mismatchesOutSum = summaryIdentity(mismatchesOut[1], delimiter=args.delimiter, unique=args.unique)
+							if mismatchesOut[0] > 0:
+								print("      Hits allowing ", mismatch, " mismatches in positions ", ",".join(positions), ":\t", moligoOut, "\t", mismatchesOut[0], "\t", suffFlank, suffCenter, sep="", file=outfile, flush=True)
+								print("        Hits\tIdentifiers", sep="", file=outfile, flush=True)
+								for k, v in mismatchesOutSum.items():
+									print("        ", v, "\t", k, sep="", file=outfile, flush=True)
+						else:
+							if mismatchesOut[0] > 0:
+								print("      Hits allowing ", mismatch, " mismatches in positions ", ",".join(positions), ":\t", moligoOut, "\t", mismatchesOut[0], "\t", suffFlank, suffCenter, sep="", file=outfile, flush=True)
+								for j in mismatchesOut[1]:
+									print("        ", j, sep="", file=outfile, flush=True)
+					else:
+						if mismatchesOut[0] > 0:
+							print("      Hits allowing ", mismatch, " mismatches in positions ", ",".join(positions), ":\t", moligoOut, ")\t", mismatchesOut[0], "\t", suffFlank, suffCenter, sep="", file=outfile, flush=True)
+				for key, val in countUniques.items():
+					print("    Total unique hits allowing ", str(key), " mismatches:\t", len(val), "\t", round(len(val)/lenExc*100, 2), "%", sep="", file=outfile, flush=True)
+					if len(val) > 0:
+						if flankBases > 0:
+							print("      Unique hits allowing ", str(key), " mismatches within ", str(flankBases), " leading or trailing positions\t", mismatchesFlank[key], sep="", file=outfile, flush=True)
+						if centerBases > 0:
+							print("      Unique hits allowing ", str(key), " mismatches within ", str(centerBases), " central positions\t", mismatchesCentered[key], sep="", file=outfile, flush=True)
+					if args.table:
+						mismatchesCount[key] = len(val)
+						if flankBases > 0:
+							mismatchesCountF[key] = mismatchesFlank[key]
+						if centerBases > 0:
+							mismatchesCountC[key] = mismatchesCentered[key]
+			else:
+				mismatchesOut = hitsMismatchDict(oligo, moligos, exc, flankBases, centerBases, identity=identity, summary=summarise, delimiter=args.delimiter, unique=args.unique, verbose=args.verbose)
+				for i in range(0, len(mismatches)):
+					print("      Total number of hits allowing ", mismatches[i], " mismatches:\t", mismatchesOut[0][i], "\t", round(mismatchesOut[0][i]/lenExc*100, 2), "%", sep="", file=outfile, flush=True)
+					if mismatchesOut[0][i] > 0:
+						if flankBases > 0:
+							print("      Unique hits allowing ", mismatches[i], " mismatches within ", str(flankBases), " leading or trailing positions\t", mismatchesOut[2][i], sep="", file=outfile, flush=True)
+						if centerBases > 0:
+							print("      Unique hits allowing ", mismatches[i], " mismatches within ", str(centerBases), " central positions\t", mismatchesOut[3][i], sep="", file=outfile, flush=True)
+						tmp = mismatchesOut[1][i]
+						print("        Positions\tHits\tOligo", sep="", file=outfile, flush=True)
+						for p, c in tmp.items():
+							oligoOut = getMismatchedOligo(oligo, p)
+							tmp = p.strip().split(",")
+							tmpf = ""
+							if flankCheck(oligo, tmp, flankBases):
+								tmpf = "*"
+							tmpc = ""
+							if centeredCheck(oligo, tmp, centerBases):
+								tmpc = "+"
+							print("        ", p, "\t", c, "\t", oligoOut, "\t", tmpf, tmpc, sep="", file=outfile, flush=True)
+						if identity:	
+							print("      These hits correspond to:", sep="", file=outfile, flush=True)
+							if summarise:
+								print("        Hits\tIdentifiers", sep="", file=outfile, flush=True)
+								tmp = mismatchesOut[4][i]
+								for ids, c in tmp.items():
+									print("        ", c, "\t", ids, sep="", file=outfile, flush=True)
+							else:
+								tmp = mismatchesOut[4][i]
+								for j in tmp:
+									print("        ", j, sep="", file=outfile, flush=True)
+									
+						print("", file=outfile, flush=True)
+					if args.table:
+						mismatchesCount[mismatches[i]] = mismatchesCount[mismatches[i]] + mismatchesOut[0][i]
+						if flankBases > 0:
+							mismatchesCountF[mismatches[i]] = mismatchesOut[2][i]
+						if centerBases > 0:
+							mismatchesCountC[mismatches[i]] = mismatchesOut[3][i]
+		# Export table if selected -----------------------------------------------------------------
+		print("\n--------------------\n", sep="", file=outfile, flush=True)
+		if args.table:
+			mismatchesOutTable = list()
+			for key, val in mismatchesCount.items():
+				mismatchesOutTable.append(str(val/lenExc))
+				mismatchesOutTable.append(str(val))
+				if flankBases > 0:
+					mismatchesOutTable.append(str(mismatchesCountF[key]))
+				if centerBases > 0:
+					mismatchesOutTable.append(str(mismatchesCountC[key]))
+			mismatchesOutTable = "\t".join(mismatchesOutTable)
+			outline = name + "\t" + oligo + "\t" + str(dimerCount) + "\t" + str(hairpinCount) + "\t" + str(consecutivesCount) + "\t" + str(mismatchesOutTable)
+			# tableOut.append(outline)
+			tableOut.write(outline + "\n")
+		timei_end = time.time()
+		run_time.append(timei_end-timei_start)
+	if mismatchesCheck:
+		print()
+
+if args.table:
+	tableOut.close()
+
+if args.verbose:
+	t = time.time() - start_time
+	t = seconds2string(t, longOut=True)
+	print("  Run time:", t, flush=True)
+	print("  Output file written to: \033[1m", outFile, "\033[0m", sep="")
+	if args.table:
+		print("  Summarised table written to: \033[1m", args.table, "\033[0m", sep="", flush=True)
+	print("Done")

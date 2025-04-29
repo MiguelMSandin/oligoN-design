@@ -1,0 +1,95 @@
+#!/usr/bin/env python3
+
+import argparse
+from Bio.Seq import Seq
+
+version='1.0'
+
+parser = argparse.ArgumentParser(description="%s v%s: Given a nucleotide sequence, prints to the console all possible hairpin formations." % ('%(prog)s', version), add_help=False)
+
+# Add the arguments to the parser
+requirArgs = parser.add_argument_group('Required arguments')
+functiArgs = parser.add_argument_group('Optional arguments related to hairpin formation')
+finputArgs = parser.add_argument_group('Optional arguments related to the input')
+optionArgs = parser.add_argument_group('Other optional arguments')
+
+requirArgs.add_argument("-s", "--sequence", dest="sequence", required=True,
+						help="A nucleotide sequence.")
+
+functiArgs.add_argument("-b", "--bases", dest="bases", required=False, action="store", type=int,
+						default=3,
+						help="Minimum number of base pairs required for hairpin formation. Default = %(default)s.")
+
+finputArgs.add_argument("-r", "--revComp", dest="revComp", required=False, action="store_true",
+						help="If selected, will reverse complement the sequences before testing.")
+
+optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
+						help="If selected, will only print the hairpins to the console.")
+
+optionArgs.add_argument("-h", "--help", action="help",
+						help="Show this help message and exit.")
+
+optionArgs.add_argument("-V", "--version", action='version',
+						version='oligoN-design %s v%s' % ('%(prog)s', version),
+						help='Show the version number and exit.')
+
+args = parser.parse_args()
+
+# Define functions _________________________________________________________________________________
+
+def hairPinCount(sequence, bases):
+	revSeq = sequence[::-1]
+	length = len(sequence)
+	hairpinSeqs = list()
+	countHairpin = 0
+	hairpinOutList = list()
+	for kmer in range(length, bases-1, -1):
+		for p in range(0, length):
+			phairpin = sequence[int(p):(int(p+kmer))]
+			truncSeq = sequence[(int(p+kmer)):]
+			revCom = str(Seq(phairpin).reverse_complement())
+			hairpin = False
+			if revCom in truncSeq:
+				if len([s for s in hairpinSeqs if phairpin in s]) == 0:
+					countHairpin += 1
+					hairpinSeqs.append(phairpin)
+					hairpin = True
+			if hairpin:
+				hairpinOut = list()
+				hairpinf = list(range(sequence.find(phairpin), sequence.find(phairpin)+len(phairpin)))
+				hairpinr = list(range(p+kmer+truncSeq.find(revCom), p+kmer+truncSeq.find(revCom)+len(revCom)))
+				for i in range(0, length):
+					if i in hairpinf or i in hairpinr:
+						hairpinOut.append("*")
+					else:
+						hairpinOut.append("-")
+				hairpinOutList.append("".join(hairpinOut))
+	return [countHairpin, hairpinOutList]
+
+# Find hairpins ____________________________________________________________________________________
+if args.verbose:
+	print("  Minimum number of bases to identify hairpins:", args.bases)
+	if args.revComp:
+		print("  Reverse-complementing the input sequence")
+
+if args.revComp:
+	sequence = Seq(args.sequence).reverse_complement()
+else:
+	sequence = args.sequence
+
+count, out = hairPinCount(sequence, bases=args.bases)
+
+if args.verbose:
+	if count == 0:
+		print("  No hairpins were found")
+	elif count == 1:
+		print("  There was 1 hairpin found:\n")
+	else:
+		print("  There were", count, "self-dimers found:\n")
+else:
+	print("")
+
+for value in out:
+	print("  ", sequence)
+	print("  ", value)
+	print("")
