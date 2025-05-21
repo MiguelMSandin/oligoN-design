@@ -14,7 +14,7 @@ functiArgs = parser.add_argument_group('Optional arguments related to the select
 outputArgs = parser.add_argument_group('Optional arguments related to the output')
 optionArgs = parser.add_argument_group('Other optional arguments')
 
-requirArgs.add_argument("-file", "--file", dest="table", required=True,
+requirArgs.add_argument("-f", "--file", dest="table", required=True,
 						help="A tab delimited table to be filtered.")
 
 functiArgs.add_argument("-c", "--columns", dest="columns", nargs="+", required=False,
