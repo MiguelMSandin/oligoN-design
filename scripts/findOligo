@@ -8,7 +8,7 @@ import itertools
 import statistics as st
 
 start_time = time.time()
-version='0.4.0'
+version='1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Find all possible specific oligonucleotides of length 'l', that matches at least 'm' sequences in the target file and has a maximum specificity of 's' to the excluding file." % ('%(prog)s', version), add_help=False,
 								 epilog="*The basic melting temperature (Tm) is an approximation and should be considered as a baseline for comparison. Briefly, for short oligonucleotides (<14 bp): Tm = 2*(A+T) + 4*(G+C); and for longer oligonucleotides (>13 bp): Tm = 64.9 + 41*(G+C - 16.4) / (A+G+C+T); where A, C, G and T are the number of bases of A, G, C and T respectively.")

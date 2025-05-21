@@ -7,7 +7,7 @@ import itertools
 from Bio.Seq import Seq
 
 start_time = time.time()
-version='0.4'
+version='1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Test thoroughly a fasta file containing oligonucleotides against a excluding fasta file. It will test for self-dimers, hairpins, consecutive bases and/or mismatches." % ('%(prog)s', version), add_help=False,
 								 epilog="Given the amount of information provided by this script, it will speed analysis if a small selection of oligonucleotides is provided.")
@@ -582,7 +582,7 @@ with open(outFile, "w", buffering=1) as outfile:
 			outline.append("max_consecutive")
 		if mismatchesCheck:
 			for m in mismatches:
-				outline.append("mismatch" + str(m) + "_prop_thorough")
+				outline.append("mismatch" + str(m) + "_thorough_prop")
 				outline.append("mismatch" + str(m) + "_thorough")
 				if flankBases > 0:
 					outline.append("mismatch" + str(m) + "_flanks" + str(flankBases) + "_thorough")

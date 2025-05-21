@@ -19,11 +19,4 @@ for FILE in $(ls regions/*); do
 	getHomologRegion -f ${FILE} -e ${EXCLUDING} -t
 done
 
-getHomologSats -f regions/*HomologRegion* -t -p
-
-
-FILE=''
-TARGET2=''
-EXCLUDING2=''
-sequenceSelect -f ${FILE} -o ${TARGET2} -p RAD-B
-sequenceSelect -f ${FILE} -o ${EXCLUDING2} -p RAD-B HMM_profile -r
+getHomologStats -f regions/*homologRegion* -t -p

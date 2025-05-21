@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='0.4'
+version='1.0'
 name=$(basename "$0")
 
 usage()
@@ -115,12 +115,12 @@ for i in ${MISMATCHESIN[@]}; do
                 for m in $(seq $min $max); do
                         MISMATCHES+=$m
                         MISMATCHES+=" "
-                        MISMATCHESOUT+="\tmismatch${m}_prop_indel\tmismatch${m}_indel"
+                        MISMATCHESOUT+="\tmismatch${m}_indel_prop\tmismatch${m}_indel"
                 done
         else
                 MISMATCHES+=$i
                 MISMATCHES+=" "
-                MISMATCHESOUT+="\tmismatch${i}_prop_indel\tmismatch${i}_indel"
+                MISMATCHESOUT+="\tmismatch${i}_indel_prop\tmismatch${i}_indel"
         fi
 done
 if [[ $verbose == "True" ]]; then

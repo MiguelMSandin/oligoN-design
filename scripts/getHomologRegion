@@ -7,7 +7,7 @@ import os
 import subprocess
 from Bio import Align
 
-version='0.4'
+version='1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Given an aligned fasta file and a (unaligned) excluding file, it will create a HMM profile from the aligned file, align the excluding file and export the aligned regions to a fasta file." % ('%(prog)s', version), add_help=False,
 								 epilog="This script uses HMMER, please cite accordingly (e.g., HMMER 3.4 (Aug 2023); http://hmmer.org/)")

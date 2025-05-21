@@ -5,7 +5,7 @@ import re
 import statistics as st
 import math
 
-version='0.4'
+version='1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Returns overall statistics and numbers from a log file." % ('%(prog)s', version), add_help=False)
 

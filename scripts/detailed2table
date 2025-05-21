@@ -3,7 +3,7 @@
 import argparse
 import re
 
-version='0.4'
+version='1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Exports a tab delimited file from a long output produced by 'testThorough'." % ('%(prog)s', version), add_help=False)
 
@@ -85,7 +85,7 @@ with open(output, "w", buffering=1) as outfile:
 			if "----------------------------------------" in line:
 				if mismatches == "":
 					for j in tmp:
-						mismatches = mismatches + "\tmismatch" + str(j) + "_prop_thorough"
+						mismatches = mismatches + "\tmismatch" + str(j) + "_thorough_prop"
 						mismatches = mismatches + "\tmismatch" + str(j) + "_thorough"
 						if flank:
 							mismatches = mismatches + "\tmismatch" + str(j) + "_flanks"  + str(basesF)

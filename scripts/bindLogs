@@ -3,7 +3,7 @@
 import argparse
 import pandas as pd
 
-version='0.4'
+version='1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Bind the columns from different log outputs of findOligo, testOligo, testThorough and/or rateAccess." % ('%(prog)s', version), add_help=False)
 
