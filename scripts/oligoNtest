@@ -58,7 +58,7 @@ ${PATHTOSCRIPTS}alignmentConsensus -V
 ${PATHTOSCRIPTS}breakFasta -V
 ${PATHTOSCRIPTS}identifyRegions -V
 ${PATHTOSCRIPTS}getMismatchSeq -V
-${PATHTOSCRIPTS}getHomologRegion -V
+${PATHTOSCRIPTS}getHomolog -V
 ${PATHTOSCRIPTS}getHomologStats -V
 
 echo ""
