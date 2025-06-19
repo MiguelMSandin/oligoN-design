@@ -42,35 +42,36 @@ then
 fi
 
 echo ""
-echo "Basic pipeline"
+echo "Unsupervised run"
 ${PATHTOSCRIPTS}oligoNdesign -V
 
 echo ""
-echo "Search functions"
+echo "Basic workflow"
+${PATHTOSCRIPTS}alignOligo -V
+${PATHTOSCRIPTS}bindLogs -V
 ${PATHTOSCRIPTS}findOligo -V
-${PATHTOSCRIPTS}testOligo -V
-${PATHTOSCRIPTS}testThorough -V
 ${PATHTOSCRIPTS}rateAccess -V
+${PATHTOSCRIPTS}selectLog -V
+${PATHTOSCRIPTS}testOligo -V
 
 echo ""
-echo "Advance functions"
+echo "Thorough design"
+${PATHTOSCRIPTS}filterLog -V
+${PATHTOSCRIPTS}getMismatchSeq -V
+${PATHTOSCRIPTS}logStats -V
+${PATHTOSCRIPTS}testThorough -V
+
+echo ""
+echo "Expert design"
 ${PATHTOSCRIPTS}alignmentConsensus -V
 ${PATHTOSCRIPTS}breakFasta -V
-${PATHTOSCRIPTS}identifyRegions -V
-${PATHTOSCRIPTS}getMismatchSeq -V
 ${PATHTOSCRIPTS}getHomolog -V
 ${PATHTOSCRIPTS}getHomologStats -V
-
-echo ""
-echo "Functions to select oligonucleotides"
-${PATHTOSCRIPTS}bindLogs -V
-${PATHTOSCRIPTS}filterLog -V
-${PATHTOSCRIPTS}logStats -V
-${PATHTOSCRIPTS}selectLog -V
+${PATHTOSCRIPTS}identifyRegions -V
+${PATHTOSCRIPTS}trimRegion -V
 
 echo ""
 echo "Auxiliary and helper functions"
-${PATHTOSCRIPTS}alignOligo -V
 ${PATHTOSCRIPTS}detailed2table -V
 ${PATHTOSCRIPTS}fastaRevCom -V
 ${PATHTOSCRIPTS}fastaChangeBases -V
@@ -79,6 +80,5 @@ ${PATHTOSCRIPTS}multi2linefasta -V
 ${PATHTOSCRIPTS}sequenceSelect -V
 ${PATHTOSCRIPTS}selfDimer -V
 ${PATHTOSCRIPTS}table2fasta -V
-${PATHTOSCRIPTS}trimRegion -V
 
 echo ""

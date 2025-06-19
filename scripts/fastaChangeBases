@@ -57,18 +57,28 @@ if args.upper and args.lower:
 
 if args.verbose:
 	print("  Reading and replacing")
+i = 0
 with open(outFile, "w") as outfile:
+	lineoutc = ""
 	for line in open(args.file_in):
 		if ">" in line:
-			print(line, end="", file=outfile)
+			if lineoutc != "":
+				print(lineoutc, end="", file=outfile)
+				lineoutc = ""
+			i += 1
+			if i != 1:
+				print("\n" + line, end="", file=outfile)
+			else:
+				print(line, end="", file=outfile)
 		else:
 			lineout = list()
+			line = line.replace("\n", "")
 			for l in list(line):
 				o = l
 				if args.change is not None:
 					if l == args.change[0]:
 						o = args.change[1]
-				if args.ambiguities is not None:
+				if args.ambiguities:
 					if l == "A" or l == "C" or l == "G" or l == "T" or l == "U":
 						o = l
 					else:
@@ -79,7 +89,7 @@ with open(outFile, "w") as outfile:
 				lineout = lineout.upper()
 			if args.lower:
 				lineout = lineout.lower()
-			print(lineout, end="", file=outfile)
+			lineoutc = lineoutc + lineout
 
 if args.verbose:
 	print("Done")
