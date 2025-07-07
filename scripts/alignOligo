@@ -8,16 +8,16 @@ usage()
     echo ""
     echo "$name v$version: A wrapper to align selected oligonucleotides to the Saccharomyces cerevisiae (18S rDNA) or Escherichia coli (16S rDNA) templates and the consensus sequence(s) from the target file."
     echo ""
-    echo "Usage: alignOligo -c CONSENSUS -p OLIGOS -o outFile"
+    echo "Usage: alignOligo -c CONSENSUS -p OLIGOS [-o outFile]"
     echo ""
     echo "Mandatory fields (as input file either -t or -c):"
+    echo "  -p    The fasta file containing the selected oligonucleotide."
     echo "  -t    The fasta file containing the target group"
     echo " (-c    The fasta file containing the consensus sequence(s) from the target file.)"
-    echo "  -g    The gene template. Either '18S' (from S. cervisae, default) or '16S' (from E. coli)."
-    echo "  -p    The fasta file containing the selected oligonucleotide."
-    echo "  -o    The output file name."
     echo ""
     echo "Other options:"
+    echo "  -o    The output file name. By default will add '_aligned' to the oligonucleotides file before the extension."
+    echo "  -g    The gene template. Either '18S' (from S. cervisae, default) or '16S' (from E. coli)."
     echo "  -s    Prints the S. cerevisiae template to the console."
     echo "  -S    Prints the S. cerevisiae template to the specified file. If the file exists, the S. cerevisae template sequence will be appended at the end."
     echo "  -e    Prints the E. coli template to the console."
@@ -39,6 +39,7 @@ ECOLI="AAATTGAAGAGTTTGATCATGGCTCAGATTGAACGCTGGCGGCAGGCCTAACACATGCAAGTCGAACGGTAAC
 
 GENE="18S"
 verbose="True"
+OUT="NONE"
 
 while getopts "hvVc:t:g:p:o:sS:eE:" opt; do
         case ${opt} in
@@ -110,6 +111,12 @@ while getopts "hvVc:t:g:p:o:sS:eE:" opt; do
                         ;;
         esac
 done
+
+if [[ $OUT == "NONE" ]]; then
+	filename="${OLIGOS%.*}"
+	extension="${FILE##*.}"
+	OUT="${filename}_aligned.${extension}"
+fi
 
 if [ -z ${TARGET+x} ]; then
         if [[ $verbose == "True" ]]; then
