@@ -25,6 +25,9 @@ finputArgs.add_argument("-c", "--columns", dest="columns", required=False, actio
 outputArgs.add_argument("-p", "--plot", dest="plot", required=False, action="store_true",
 						help="If selected, will prompt a histogram with the scores for each column independently.")
 
+outputArgs.add_argument("-n", "--headers", dest="headers", required=False, action="store_true",
+						help="If selected, will assume the log file has no header names.")
+
 optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_true",
 						help="If selected, will print information to the console.")
 
@@ -81,6 +84,14 @@ def percentile(listvals, qs):
 if args.plot:
 	import matplotlib.pyplot as plt
 
+# Debugging input commands _________________________________________________________________________
+if args.headers:
+	for i in args.columns:
+		if type(testNumOrStr(i)) is str:
+			print("\033[91mError!\033[0m A string cannot be provided through '-c/--columns', if '-n/--headers' is selected.")
+			import sys
+			sys.exit(1)
+
 # Reading the table ________________________________________________________________________________
 if args.verbose:
 	print("  Reading table:", args.fileIn)
@@ -88,34 +99,53 @@ with open(args.fileIn) as filein:
 	headers = filein.readline()
 headers = headers.strip("\t").split()
 
-if args.columns is None:
-	columns = list()
-	for i in headers:
-		if i != 'identifier' and i != 'sequence' and i != 'revCom':
-			columns.append(i)
-	ids = getIDs(columns, headers)
+if args.headers:
+	if args.columns is None:
+		ids = list(range(1, len(headers)+1))
+	else:
+		ids = list()
+		for i in args.columns:
+			ids.append(testNumOrStr(i)) 
 else:
-	ids = getIDs(args.columns, headers)
+	if args.columns is None:
+		columns = list()
+		for i in headers:
+			if i != 'identifier' and i != 'sequence' and i != 'revCom':
+				columns.append(i)
+		ids = getIDs(columns, headers)
+	else:
+		ids = getIDs(args.columns, headers)
 
 data = {}
 r = 0
 for line in open(args.fileIn):
 	r += 1
 	liner = line.strip("\t").split()
-	if r == 1:
+	if args.headers:
+		if r == 1:
+			for i in ids:
+				data[i] = list()
 		for i in ids:
-			data[headers[i]] = list()
-	if r > 1:
-		for i in ids:
-			tmp = testNumOrStr(liner[i])
-			data[headers[i]].append(tmp)
+			tmp = testNumOrStr(liner[i-1])
+			data[i].append(tmp)
+	else:
+		if r == 1:
+			for i in ids:
+				data[headers[i]] = list()
+		if r > 1:
+			for i in ids:
+				tmp = testNumOrStr(liner[i])
+				data[headers[i]].append(tmp)
 
 if args.verbose:
 	print("  Calculating stats...\n")
 print("")
 for key, values in data.items():
 	if type(values[0]) == int or type(values[0]) == float:
-		print("  Numerical summary for:", key)
+		if args.headers:
+			print("  Numerical summary for:", key)
+		else:
+			print("  Numerical summary for:", key)
 		minv = str(round(min(values), 3))
 		pcts = percentile(values, [0.05, 0.25, 0.5, 0.75, 0.95])
 		maxv = str(round(max(values), 3))
