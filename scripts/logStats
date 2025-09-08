@@ -143,7 +143,7 @@ print("")
 for key, values in data.items():
 	if type(values[0]) == int or type(values[0]) == float:
 		if args.headers:
-			print("  Numerical summary for:", key)
+			print("  Numerical summary for column", key)
 		else:
 			print("  Numerical summary for:", key)
 		minv = str(round(min(values), 3))
