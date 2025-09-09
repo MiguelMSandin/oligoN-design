@@ -101,7 +101,7 @@ headers = headers.strip("\t").split()
 
 if args.headers:
 	if args.columns is None:
-		ids = list(range(1, len(headers)+1))
+		ids = list(range(1, len(headers)))
 	else:
 		ids = list()
 		for i in args.columns:
