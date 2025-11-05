@@ -7,7 +7,7 @@ from statistics import mean
 import sys
 import re
 
-version='1.0'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Estimate the accessibility of the oligonucleotides in the rDNA by comparing the relative positions to the templates of Saccharomyces cerevisiae (18S rDNA, default) or Escherichia coli (16S rDNA) as described in Behrens et al. (2003)." % ('%(prog)s', version), add_help=False,
 								 epilog="Behrens S, Rühland C, Inácio J, Huber H, Fonseca A, Spencer-Martins I, Fuchs BM, Amann R (2003) In situ accessibility of small-subunit rRNA of members of the domains Bacteria, Archaea, and Eucarya to Cy3-labeled oligonucleotide probes. Appl Environ Microbiol 69(3):1748-58. doi: 10.1128/AEM.69.3.1748-1758.2003")

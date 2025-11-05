@@ -3,7 +3,7 @@
 import argparse
 import re
 
-version='1.0'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Given a nucleotide sequence, prints to the console all possible self-dimers." % ('%(prog)s', version), add_help=False)
 

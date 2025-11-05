@@ -2,7 +2,7 @@
 
 import argparse
 
-version='1.0'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Converts a fasta file where the sequences are in multiple lines to a fasta file where each sequence is in one line." % ('%(prog)s', version), add_help=False)
 

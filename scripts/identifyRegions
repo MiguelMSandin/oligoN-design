@@ -3,7 +3,7 @@
 import argparse
 import sys
 
-version='1.0'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: From a fasta file containing different potential oligonucleotides, identifies regions of interest and groups together oligonucleotides related to the same region." % ('%(prog)s', version), add_help=False)
 

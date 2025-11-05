@@ -3,7 +3,7 @@
 import argparse
 import re
 
-version='1.0'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Exports a tab delimited file from a long output produced by 'testThorough'." % ('%(prog)s', version), add_help=False)
 

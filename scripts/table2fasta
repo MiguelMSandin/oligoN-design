@@ -2,7 +2,7 @@
 
 import argparse
 
-version='1.0'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Exports a fasta file from a tab delimited table." % ('%(prog)s', version), add_help=False)
 
