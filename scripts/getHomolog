@@ -7,7 +7,7 @@ import os
 import subprocess
 from Bio import Align
 
-version='0.4'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Given an aligned fasta file and a (unaligned) excluding file, it will create a HMM profile from the aligned file, align the excluding file and export the aligned regions to a fasta file." % ('%(prog)s', version), add_help=False,
 								 epilog="This script uses HMMER, please cite accordingly (e.g., HMMER 3.4 (Aug 2023); http://hmmer.org/)")
@@ -30,7 +30,7 @@ functiArgs.add_argument("-l", "--length", dest="length", required=False, action=
 
 outputArgs.add_argument("-o", "--output", dest="file_out", required=False,
 						default=None,
-						help="The name of the output fasta file. By default will remove the extension of the input file and add '_homologRegion.fasta'. If the fasta file exists, it will append the sequences at the end and detect similar sequence headings that will be ignored.")
+						help="The name of the output fasta file. By default will remove the extension of the input file and add '_homologs.fasta'. If the fasta file exists, it will append the sequences at the end and detect similar sequence headings that will be ignored.")
 
 outputArgs.add_argument("-s", "--score", dest="score", required=False, action="store", type=str,
 						default="0.90",
@@ -107,7 +107,7 @@ if args.verbose:
 	print("  Setting variables...", flush=True)
 
 if args.file_out is None:
-	outFile = re.sub("\\.[^\\.]+$", "_homologRegion.fasta", args.filein)
+	outFile = re.sub("\\.[^\\.]+$", "_homologs.fasta", args.filein)
 	outProfile = re.sub("\\.[^\\.]+$", "_hmmProfile.hmm", args.filein)
 	outAlign = re.sub("\\.[^\\.]+$", "_hmmAlign.fasta", args.filein)
 else:

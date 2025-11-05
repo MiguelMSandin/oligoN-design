@@ -2,7 +2,7 @@
 
 import argparse
 
-version='0.4'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Breaks a fasta file into k-mers and outputs a tab delimited table with the number of k-mers at given thresholds." % ('%(prog)s', version), add_help=False)
 

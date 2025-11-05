@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='0.4'
+version='1.0.0'
 name=$(basename "$0")
 
 usage()
@@ -8,7 +8,7 @@ usage()
     echo "This is oligoN-design $name v$version"
     echo "https://github.com/MiguelMSandin/oligoN-design"
     echo ""
-    echo "This script is simply to test all scripts from the OligoN-design pipeline. It will run all sripts, and print their version to the console."
+    echo "This script is simply to test all scripts from OligoN-design. It will run all sripts, and print their version to the console."
     echo ""
     echo "Usage: oligoNtest"
     echo ""
@@ -42,41 +42,43 @@ then
 fi
 
 echo ""
-echo "Basic pipeline"
+echo "Unsupervised run"
 ${PATHTOSCRIPTS}oligoNdesign -V
 
 echo ""
-echo "Search functions"
-${PATHTOSCRIPTS}findOligo -V
-${PATHTOSCRIPTS}testOligo -V
-${PATHTOSCRIPTS}testThorough -V
-${PATHTOSCRIPTS}rateAccess -V
-
-echo ""
-echo "Functions to visualize and summarise"
-${PATHTOSCRIPTS}hairPins -V
-${PATHTOSCRIPTS}selfDimer -V
-${PATHTOSCRIPTS}logStats -V
-${PATHTOSCRIPTS}identifyRegions -V
-
-echo ""
-echo "Input functions"
-${PATHTOSCRIPTS}alignmentConsensus -V
+echo "Basic workflow"
 ${PATHTOSCRIPTS}alignOligo -V
-
-echo ""
-echo "Output functions"
 ${PATHTOSCRIPTS}bindLogs -V
-${PATHTOSCRIPTS}detailed2table -V
-${PATHTOSCRIPTS}table2fasta -V
-${PATHTOSCRIPTS}filterLog -V
+${PATHTOSCRIPTS}findOligo -V
+${PATHTOSCRIPTS}rateAccess -V
 ${PATHTOSCRIPTS}selectLog -V
+${PATHTOSCRIPTS}testOligo -V
 
 echo ""
-echo "Expert functions"
-${PATHTOSCRIPTS}breakFasta -V
-${PATHTOSCRIPTS}trimRegion -V
+echo "Thorough design"
+${PATHTOSCRIPTS}filterLog -V
 ${PATHTOSCRIPTS}getMismatchSeq -V
-${PATHTOSCRIPTS}getHomologRegion -V
+${PATHTOSCRIPTS}logStats -V
+${PATHTOSCRIPTS}testThorough -V
+
+echo ""
+echo "Expert design"
+${PATHTOSCRIPTS}alignmentConsensus -V
+${PATHTOSCRIPTS}breakFasta -V
+${PATHTOSCRIPTS}getHomolog -V
+${PATHTOSCRIPTS}getHomologStats -V
+${PATHTOSCRIPTS}identifyRegions -V
+${PATHTOSCRIPTS}trimRegion -V
+
+echo ""
+echo "Auxiliary and helper functions"
+${PATHTOSCRIPTS}detailed2table -V
+${PATHTOSCRIPTS}fastaRevCom -V
+${PATHTOSCRIPTS}fastaChangeBases -V
+${PATHTOSCRIPTS}hairPins -V
+${PATHTOSCRIPTS}multi2linefasta -V
+${PATHTOSCRIPTS}sequenceSelect -V
+${PATHTOSCRIPTS}selfDimer -V
+${PATHTOSCRIPTS}table2fasta -V
 
 echo ""

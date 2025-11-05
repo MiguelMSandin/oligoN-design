@@ -5,7 +5,7 @@ import re
 import pandas as pd
 import sys
 
-version='0.4'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Based on several user-defined thresholds from a given log file, it will filter oligonucleotides that do not meet the selected criteria." % ('%(prog)s', version), add_help=False)
 
@@ -16,7 +16,7 @@ outputArgs = parser.add_argument_group('Optional arguments related to the output
 optionArgs = parser.add_argument_group('Other optional arguments')
 
 requirArgs.add_argument("-l", "--logFile", dest="logFile", required=True,
-						help="The name of the input logFile to be filtered.")
+						help="The name of the input log file to be filtered.")
 
 outputArgs.add_argument("-o", "--outFile", dest="outFile", required=False, default=None,
 						help="The name of the output file. By default, will add '_filtered.tsv' to the input logFile.")
@@ -218,27 +218,27 @@ if args.Tm is not None:
 if args.target is not None:
 	tmp = string2numeric(args.target)
 	if type(tmp) is float:
-		outfile = outfile[outfile['hitsT'] >= tmp]
+		outfile = outfile[outfile['hitsT_prop'] >= tmp]
 	elif type(tmp) is int:
-		outfile = outfile[outfile['hitsT_abs'] >= tmp]
+		outfile = outfile[outfile['hitsT'] >= tmp]
 	if args.verbose:
 		if type(tmp) is float:
-			tmp = len(infile[infile['hitsT'] >= tmp])
+			tmp = len(infile[infile['hitsT_prop'] >= tmp])
 		elif type(tmp) is int:
-			tmp = len(infile[infile['hitsT_abs'] >= tmp])
+			tmp = len(infile[infile['hitsT'] >= tmp])
 		print("    Oligos passing target hits criteria:\t", tmp)
 
 if args.excluding is not None:
 	tmp = string2numeric(args.excluding)
 	if type(tmp) is float:
-		outfile = outfile[outfile['hitsE'] <= tmp]
+		outfile = outfile[outfile['hitsE_prop'] <= tmp]
 	elif type(tmp) is int:
-		outfile = outfile[outfile['hitsE_abs'] <= tmp]
+		outfile = outfile[outfile['hitsE'] <= tmp]
 	if args.verbose:
 		if type(tmp) is float:
-			tmp = len(infile[infile['hitsE'] <= tmp])
+			tmp = len(infile[infile['hitsE_prop'] <= tmp])
 		elif type(tmp) is int:
-			tmp = len(infile[infile['hitsE_abs'] <= tmp])
+			tmp = len(infile[infile['hitsE'] <= tmp])
 		print("    Oligos passing excluding hits criteria:\t", tmp)
 
 if args.mismatch1 is not None:
@@ -246,10 +246,10 @@ if args.mismatch1 is not None:
 	column = None
 	for i in list(infile.columns):
 		if type(tmp) is float:
-			if i.startswith("mismatch1") and not i.endswith("_abs") and "flanks" not in i:
+			if i.startswith("mismatch1") and i.endswith("_prop") and "flanks" not in i:
 				column = i
 		if type(tmp) is int:
-			if i.startswith("mismatch1") and i.endswith("_abs") and "flanks" not in i:
+			if i.startswith("mismatch1") and not i.endswith("_prop") and "flanks" not in i:
 				column = i
 	outfile = outfile[outfile[column] <= tmp]
 	if args.verbose:
@@ -261,10 +261,10 @@ if args.mismatch2 is not None:
 	column = None
 	for i in list(infile.columns):
 		if type(tmp) is float:
-			if i.startswith("mismatch2") and not i.endswith("_abs") and "flanks" not in i:
+			if i.startswith("mismatch2") and i.endswith("_prop") and "flanks" not in i:
 				column = i
 		if type(tmp) is int:
-			if i.startswith("mismatch2") and i.endswith("_abs") and "flanks" not in i:
+			if i.startswith("mismatch2") and not i.endswith("_prop") and "flanks" not in i:
 				column = i
 	outfile = outfile[outfile[column] <= tmp]
 	if args.verbose:

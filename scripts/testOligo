@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='0.4'
+version='1.0.0'
 name=$(basename "$0")
 
 usage()
@@ -8,25 +8,26 @@ usage()
     echo ""
     echo "$name v$version: Test oligonucleotides against a excluding database allowing mismatches. Note this script will also count the exact hit."
     echo ""
-    echo "Usage: testOligo -p OLIGOS -e EXCLUDING -o OUTPUT"
+    echo "Usage: testOligo -p OLIGOS -e EXCLUDING [-o OUTPUT] [-m 'MISMATCH']"
     echo ""
     echo "Required arguments:"
     echo "  -p    Oligonucleotides fasta file."
     echo "  -e    Excluding fasta file."
-    echo "  -o    Output log file."
     echo ""
     echo "Optional arguments:"
+    echo "  -o    Output log file. By default, will replace the extension of the oligonucleotides file by '_tested.tsv'."
     echo "  -m    The number of mismatches (in between quotes). Default='1 2'."
     echo "  -h    Show this help message and exit."
     echo "  -v    If selected, will not print information to the console."
     echo "  -V    Print version information and exit."
     echo ""
-    echo "This script is a wrapper using 'agrep'"
+    echo "This script is a wrapper using 'agrep'."
 }
 
 MISMATCHESIN="1 2"
 START_TIME=`date +%s`
 verbose="True"
+OUT="NONE"
 
 while getopts "hvVp:e:m:o:" opt; do
         case ${opt} in
@@ -64,9 +65,10 @@ if [ -z "${EXCLUDING}" ]; then
         echo "  \033[91mError!\033[0m Please provide a excluding file through '-r'"
         exit
 fi
-if [ -z "${OUT}" ]; then
-        echo "  \033[91mError!\033[0m Please provide an output file through '-o'"
-        exit
+
+if [[ $OUT == "NONE" ]]; then
+	filename="${OLIGOS%.*}"
+	OUT="${filename}_tested.tsv"
 fi
 
 OLIGOSSEQS=$(grep -c "^>" ${OLIGOS})
@@ -115,12 +117,12 @@ for i in ${MISMATCHESIN[@]}; do
                 for m in $(seq $min $max); do
                         MISMATCHES+=$m
                         MISMATCHES+=" "
-                        MISMATCHESOUT+="\tmismatch${m}_prop_indel\tmismatch${m}_indel"
+                        MISMATCHESOUT+="\tmismatch${m}_indel_prop\tmismatch${m}_indel"
                 done
         else
                 MISMATCHES+=$i
                 MISMATCHES+=" "
-                MISMATCHESOUT+="\tmismatch${i}_prop_indel\tmismatch${i}_indel"
+                MISMATCHESOUT+="\tmismatch${i}_indel_prop\tmismatch${i}_indel"
         fi
 done
 if [[ $verbose == "True" ]]; then

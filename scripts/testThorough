@@ -7,7 +7,7 @@ import itertools
 from Bio.Seq import Seq
 
 start_time = time.time()
-version='0.4'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Test thoroughly a fasta file containing oligonucleotides against a excluding fasta file. It will test for self-dimers, hairpins, consecutive bases and/or mismatches." % ('%(prog)s', version), add_help=False,
 								 epilog="Given the amount of information provided by this script, it will speed analysis if a small selection of oligonucleotides is provided.")
@@ -41,7 +41,7 @@ functiArgs.add_argument("-k", "--consecutives", dest="consecutives", required=Fa
 
 functiArgs.add_argument("-m", "--mismatches", dest="mismatches", nargs="+", required=False, action='store', type=str,
 						default=['1','2'],
-						help="The number of mismatches allowed. Default = %(default)s. A range can be specified with the '-' sign (i.e. '1-3'). Please bear in mind that an excessively high number of mismatches will considerably slow down the search. If '0', will not test for mismatches.")
+						help="The number of mismatches allowed. Default = %(default)s. A range can be specified with the '-' sign (i.e. '0-3'). Please bear in mind that an excessively high number of mismatches will considerably slow down the search. If '0', will not test for mismatches.")
 
 functiArgs.add_argument("-b", "--flank", dest="flank", required=False, action='store', type=str,
 						default="0",
@@ -284,6 +284,17 @@ def getMismatchedOligo(oligo, string):
 	oligoOut = "".join(oligoOut)
 	return oligoOut
 
+iupac = {"R":"(A|G)",
+		 "Y":"(C|T)",
+		 "S":"(G|C)",
+		 "W":"(A|T)",
+		 "K":"(G|T)",
+		 "M":"(A|C)",
+		 "B":"(C|G|T)",
+		 "D":"(A|G|T)",
+		 "H":"(A|C|T)",
+		 "V":"(A|C|G)"}
+
 def getMismatchedOligos(oligo, mismatches, indels=True):
 	out = {}
 	length = len(oligo)
@@ -295,7 +306,9 @@ def getMismatchedOligos(oligo, mismatches, indels=True):
 			moligo = list(oligo)
 			positionsi = list()
 			for l in range(0, length):
-				if m == 1:
+				if m == 0:
+					positionsi = ['0']
+				elif m == 1:
 					if l+1 == p:
 						if indels and l+1 != 1 and l+1 != length:
 							moligo[l] = ".{0,2}"
@@ -309,6 +322,9 @@ def getMismatchedOligos(oligo, mismatches, indels=True):
 						else:
 							moligo[l] = "."
 						positionsi.append(str(l+1))
+			for i in range(0, len(moligo)):
+				if moligo[i] in iupac.keys():
+					moligo[i] = iupac[moligo[i]]
 			moligo = "".join(moligo)
 			out[moligo] = positionsi
 	return out
@@ -370,8 +386,16 @@ def hitsMismatchDict(oligo, moligos, dictionary, flanksB, centerB, identity=Fals
 	lenMoligos = len(moligos)
 	nmismatches = list()
 	for val in moligos.values():
-		if str(len(val)) not in nmismatches:
-			nmismatches.append(str(len(val)))
+		if len(val) == 1:
+			tmp = int(val[0])
+			if tmp > 2:
+				tmp = "1"
+			else:
+				tmp = str(tmp)
+		else:
+			tmp = str(len(val))
+		if tmp not in nmismatches:
+			nmismatches.append(tmp)
 	hits = {}
 	positions = {}
 	flanks = {}
@@ -387,7 +411,14 @@ def hitsMismatchDict(oligo, moligos, dictionary, flanksB, centerB, identity=Fals
 		i = 0
 		pcti = 0
 	for m, p in moligos.items():
-		n = str(len(p))
+		if len(p) == 1:
+			n = int(p[0])
+			if n > 2:
+				n = "1"
+			else:
+				n = str(n)
+		else:
+			n = str(len(p))
 		hitsp = 0
 		if verbose:
 			i += 1
@@ -543,7 +574,7 @@ if args.table:
 	tableOut = list()
 with open(outFile, "w", buffering=1) as outfile:
 	# Print headers of the output file according to the selected parameters ------------------------
-	print("\nThis is oligoN-design testThorough v0.4.0-beta", file=outfile, flush=True)
+	print("\nThis is oligoN-design testThorough v1", file=outfile, flush=True)
 	print("\n  Tested file:   \t", args.file_in, file=outfile, flush=True)
 	print("    Sequences in tested file:   \t", lenOligos, file=outfile, flush=True)
 	print("  Excluding file:\t", args.excluding, file=outfile, flush=True)
@@ -582,7 +613,7 @@ with open(outFile, "w", buffering=1) as outfile:
 			outline.append("max_consecutive")
 		if mismatchesCheck:
 			for m in mismatches:
-				outline.append("mismatch" + str(m) + "_prop_thorough")
+				outline.append("mismatch" + str(m) + "_thorough_prop")
 				outline.append("mismatch" + str(m) + "_thorough")
 				if flankBases > 0:
 					outline.append("mismatch" + str(m) + "_flanks" + str(flankBases) + "_thorough")
@@ -670,7 +701,10 @@ with open(outFile, "w", buffering=1) as outfile:
 					i = 0
 					pcti = 0
 				for moligo, positions in moligos.items():
-					mismatch = len(positions)
+					if len(positions) == 1:
+						mismatch = int(positions)
+					else:
+						mismatch = len(positions)
 					moligoOut = moligo.replace("{0,2}", "")
 					if args.verbose:
 						i += 1
@@ -782,8 +816,7 @@ with open(outFile, "w", buffering=1) as outfile:
 			tableOut.write(outline + "\n")
 		timei_end = time.time()
 		run_time.append(timei_end-timei_start)
-	if mismatchesCheck:
-		print()
+	print()
 
 if args.table:
 	tableOut.close()

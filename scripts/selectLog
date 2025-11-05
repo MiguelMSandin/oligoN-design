@@ -4,7 +4,7 @@ import argparse
 import re
 import sys
 
-version='0.4'
+version='1.0.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Select the N best oligonucleotides from a tab delimited table by ranking chosen columns and selecting the oligonucleotides with the lowest average rank. This script works best if you want to select by many columns (i.e. >~4). Otherwise a manual selection might work better." % ('%(prog)s', version), add_help=False)
 
@@ -14,7 +14,7 @@ functiArgs = parser.add_argument_group('Optional arguments related to the select
 outputArgs = parser.add_argument_group('Optional arguments related to the output')
 optionArgs = parser.add_argument_group('Other optional arguments')
 
-requirArgs.add_argument("-t", "--table", dest="table", required=True,
+requirArgs.add_argument("-f", "--file", dest="table", required=True,
 						help="A tab delimited table to be filtered.")
 
 functiArgs.add_argument("-c", "--columns", dest="columns", nargs="+", required=False,
