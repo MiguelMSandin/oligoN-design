@@ -2,7 +2,7 @@
 
 import argparse
 
-version='1.0.0'
+version='1.0.1'
 
 parser = argparse.ArgumentParser(description="%s v%s: Replaces nucleotides characters, such as Us to Ts, ambiguities to Ns or lower to upper cases." % ('%(prog)s', version), add_help=False)
 
@@ -61,18 +61,14 @@ i = 0
 with open(outFile, "w") as outfile:
 	lineoutc = ""
 	for line in open(args.file_in):
+		line = line.replace("\n", "")
 		if ">" in line:
 			if lineoutc != "":
-				print(lineoutc, end="", file=outfile)
+				print(lineoutc, file=outfile)
 				lineoutc = ""
-			i += 1
-			if i != 1:
-				print("\n" + line, end="", file=outfile)
-			else:
-				print(line, end="", file=outfile)
+			print(line, file=outfile)
 		else:
 			lineout = list()
-			line = line.replace("\n", "")
 			for l in list(line):
 				o = l
 				if args.change is not None:
@@ -90,6 +86,7 @@ with open(outFile, "w") as outfile:
 			if args.lower:
 				lineout = lineout.lower()
 			lineoutc = lineoutc + lineout
+	print(lineoutc, file=outfile)
 
 if args.verbose:
 	print("Done")
