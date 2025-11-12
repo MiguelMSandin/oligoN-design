@@ -34,7 +34,7 @@ oligoNdesign -t target.fasta -e excluding.fasta -o oligos
 ## Citing
 If you use the oligoN-design tool to either design specific oligonucleotides, or to help you design specific oligonucleotides, please cite the following manuscript where we report this software:  
   
-Sandin MM, Walde M, Henry N, Berney C, Simon N, Forn I, Massana R, Richter D (**2025**) OligoN-design: A simple and versatile tool to design specific probes and primers from large heterogeneous datasets. *bioRxiv* 2025.11.04.685038; doi: [10.1101/2025.11.04.685038](https://www.biorxiv.org/content/10.1101/2025.11.04.685038v1)  
+>Sandin MM, Walde M, Henry N, Berney C, Simon N, Forn I, Massana R, Richter D (**2025**) OligoN-design: A simple and versatile tool to design specific probes and primers from large heterogeneous datasets. *bioRxiv* 2025.11.04.685038; doi: [10.1101/2025.11.04.685038](https://www.biorxiv.org/content/10.1101/2025.11.04.685038v1)  
   
 ## Concluding remarks
 The OligoN-design tool was designed to help the design of specific oligonucleotides accommodating the large environmental datasets and with a simple and versatile approach. However, any output from this tool should be interpreted as a starting point and needs to be empirically optimized and tested.  
