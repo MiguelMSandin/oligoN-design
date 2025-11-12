@@ -1,6 +1,6 @@
 # oligoN-design
   
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17534896.svg)](https://doi.org/10.5281/zenodo.17534896) [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/oligon-design/README.html)
+[![DOI:pre-print](http://img.shields.io/badge/DOI-pre-print-B31B1B.svg)](https://doi.org/10.1101/2025.11.04.685038) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17534896.svg)](https://doi.org/10.5281/zenodo.17534896) [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/oligon-design/README.html)
   
 The purpose of this tool is to help the user design specific oligonucleotide, to be later used as probes for Fluorescence *in situ* Hybridisation (FISH) or primers for PCR amplification. It focuses on Small SubUnit (SSU) of the rDNA operon (18S rDNA and 16S rDNA), but can potentially be used for other genes.  
   
