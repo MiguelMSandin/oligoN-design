@@ -5,7 +5,7 @@ import re
 import pandas as pd
 import sys
 
-version='1.0.0'
+version='1.0.1'
 
 parser = argparse.ArgumentParser(description="%s v%s: Based on several user-defined thresholds from a given log file, it will filter oligonucleotides that do not meet the selected criteria." % ('%(prog)s', version), add_help=False)
 
@@ -193,12 +193,12 @@ outfile = infile
 
 if args.GCcontent is not None:
 	if len(args.GCcontent) == 1:
-		outfile = outfile[outfile['GC'] >= args.GCcontent]
+		outfile = outfile[outfile['GC'] >= args.GCcontent[0]]
 	else:
 		outfile = outfile[(outfile['GC'] >= args.GCcontent[0]) & (outfile['GC'] <= args.GCcontent[1])]
 	if args.verbose:
 		if len(args.GCcontent) == 1:
-			tmp = len(infile[infile['GC'] >= args.GCcontent])
+			tmp = len(infile[infile['GC'] >= args.GCcontent[0]])
 		else:
 			tmp = len(infile[(infile['GC'] >= args.GCcontent[0]) & (infile['GC'] <= args.GCcontent[1])])
 		print("    Oligos passing GC criteria:\t", tmp)
