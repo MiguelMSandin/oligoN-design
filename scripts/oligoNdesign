@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='1.0.0'
+version='1.0.1'
 name=$(basename "$0")
 
 usage()
@@ -211,7 +211,7 @@ fi
 eval $COMMAND
 
 # Selecting best oligos
-COMMAND="selectLog -t ${PREFIX}_log.tsv -n ${BEST} -o ${PREFIX}_best.tsv"
+COMMAND="selectLog -f ${PREFIX}_log.tsv -n ${BEST} -o ${PREFIX}_best.tsv"
 if [[ $verbose == "True" ]]; then
         echo ""
         echo "Selecting the $BEST best oligonucleotides"
