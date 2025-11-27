@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='1.0.0'
+version='1.0.1'
 name=$(basename "$0")
 
 usage()
@@ -114,7 +114,7 @@ done
 
 if [[ $OUT == "NONE" ]]; then
 	filename="${OLIGOS%.*}"
-	extension="${FILE##*.}"
+	extension="${OLIGOS##*.}"
 	OUT="${filename}_aligned.${extension}"
 fi
 
