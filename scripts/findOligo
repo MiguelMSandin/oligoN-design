@@ -8,7 +8,7 @@ import itertools
 import statistics as st
 
 start_time = time.time()
-version='1.0.0'
+version='1.0.1'
 
 parser = argparse.ArgumentParser(description="%s v%s: Find all possible specific oligonucleotides of length 'l', that matches at least 'm' sequences in the target file and has a maximum specificity of 's' to the excluding file." % ('%(prog)s', version), add_help=False,
 								 epilog="*The basic melting temperature (Tm) is an approximation and should be considered as a baseline for comparison. Briefly, for short oligonucleotides (<14 bp): Tm = 2*(A+T) + 4*(G+C); and for longer oligonucleotides (>13 bp): Tm = 64.9 + 41*(G+C - 16.4) / (A+G+C+T); where A, C, G and T are the number of bases of A, G, C and T respectively.")
@@ -122,21 +122,26 @@ def string2numeric(string):
 
 def readFasta(fastafile):
 	out = {}
-	w = False
+	gaps = False
+	repeated = 0
 	for line in open(fastafile):
 		if line.startswith(">"):
 			name = line.replace(">", "")
 			name = name.replace("\n", "")
+			if name in out.keys():
+				repeated += 1
 			out[name] = str()
 		else:
 			if "-" in line:
-				w = True
+				gaps = True
 			sequence = line.replace("\n", "")
 			sequence = sequence.replace("-", "")
 			sequence = sequence.upper()
 			out[name] = (out[name] + sequence)
-	if w:
+	if gaps:
 		print("  Warning! Target file contains gaps, they will be removed before the search", flush=True)
+	if repeated > 0:
+		print("  \033[91mWarning!\033[0m There are", str(repeated), "repeated sequence names ignored", flush=True)
 	return out
 
 def kmersBreak(dictionary, k, frecuency=True, verbose=True, addinfo=""):

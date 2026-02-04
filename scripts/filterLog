@@ -135,7 +135,7 @@ if args.verbose:
 	print("  Filters:")
 	if args.GCcontent is not None:
 		if len(args.GCcontent) == 1:
-			print("    GC content ≥", args.GCcontent)
+			print("    GC content ≥", args.GCcontent[0])
 		else:
 			print("    GC content ≥", args.GCcontent[0], "and ≤", args.GCcontent[1])
 	if args.Tm is not None:

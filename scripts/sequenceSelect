@@ -3,7 +3,7 @@
 import argparse
 import re
 
-version='1.0.0'
+version='1.0.1'
 
 parser = argparse.ArgumentParser(description="%s v%s: Select sequence in a fasta file either from a list or that match a pattern and extract them or remove them." % ('%(prog)s', version), add_help=False)
 
@@ -45,16 +45,21 @@ args = parser.parse_args()
 # Define functions _________________________________________________________________________________
 def readFasta(fastafile):
 	out = {}
+	repeated = 0
 	for line in open(fastafile):
 		if line.startswith(">"):
 			name = line.replace(">", "")
 			name = name.replace("\n", "")
+			if name in out.keys():
+				repeated += 1
 			out[name] = str()
 		else:
 			sequence = line.replace("\n", "")
 			sequence = sequence.replace("-", "")
 			sequence = sequence.upper()
 			out[name] = (out[name] + sequence)
+	if repeated > 0:
+		print("  \033[91mWarning!\033[0m There are", str(repeated), "repeated sequence names ignored", flush=True)
 	return out
 
 # Troubleshoot input variables _____________________________________________________________________

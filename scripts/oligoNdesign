@@ -167,6 +167,7 @@ if [[ $fast != "True" ]]; then
         else
                 COMMAND="$COMMAND -v"
         fi
+        echo $COMMAND
         eval $COMMAND
 fi
 
@@ -180,6 +181,7 @@ if [[ $access == "True" ]]; then
         else
                 COMMAND="$COMMAND -v"
         fi
+        echo $COMMAND
         eval $COMMAND
 
         # Estimate accessibility of the primers
@@ -191,6 +193,7 @@ if [[ $access == "True" ]]; then
         else
                 COMMAND="$COMMAND -v"
         fi
+        echo $COMMAND
         eval $COMMAND
 fi
 
@@ -208,6 +211,7 @@ if [[ $verbose == "True" ]]; then
 else
         COMMAND="$COMMAND -v"
 fi
+echo $COMMAND
 eval $COMMAND
 
 # Selecting best oligos
@@ -226,6 +230,7 @@ fi
 if [[ $access == "True" ]]; then
         COMMAND="$COMMAND average_brightness"
 fi
+echo $COMMAND
 eval $COMMAND
 
 # keeping or deleting intermediate files
