@@ -75,6 +75,9 @@ optionArgs.add_argument("-L", "--lowMem", dest="lowMem", required=False, action=
 optionArgs.add_argument("--force", dest="force", required=False, action="store_true",
 						help="Only used for debugging unnecessarily large number of mismatches and preventing undesired slow down of the search and large RAM usage.")
 
+optionArgs.add_argument("-u", "--uracil", dest="uracil", required=False, action="store_false",
+						help="If selected, will not replace Uracil bases (U) by Thymine bases (T).")
+
 optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
 						help="If selected, will not print information to the console.")
 
@@ -124,6 +127,7 @@ def readFasta(fastafile):
 	out = {}
 	gaps = False
 	repeated = 0
+	uracil = False
 	for line in open(fastafile):
 		if line.startswith(">"):
 			name = line.replace(">", "")
@@ -137,11 +141,19 @@ def readFasta(fastafile):
 			sequence = line.replace("\n", "")
 			sequence = sequence.replace("-", "")
 			sequence = sequence.upper()
+			if "U" in sequence:
+				uracil = True
+				if args.uracil:
+					sequence = sequence.replace("U", "T")
 			out[name] = (out[name] + sequence)
 	if gaps:
-		print("  Warning! Target file contains gaps, they will be removed before the search", flush=True)
+		print("    Warning! Target file contains gaps, they will be removed before the search", flush=True)
 	if repeated > 0:
-		print("  \033[91mWarning!\033[0m There are", str(repeated), "repeated sequence names ignored", flush=True)
+		print("    \033[91mWarning!\033[0m There are", str(repeated), "repeated sequence names ignored", flush=True)
+	if uracil and args.uracil:
+		print("    Warning! RNA sequences were transformed into DNA sequences. Use '-u/--uracil' to desactivate", flush=True)
+	if uracil and not args.uracil:
+		print("    \033[91mWarning!\033[0m RNA sequences have been provided and intentionally not replaced, this might cause problems downstream", flush=True)
 	return out
 
 def kmersBreak(dictionary, k, frecuency=True, verbose=True, addinfo=""):
@@ -373,11 +385,11 @@ if lenTarget > 1:
 		if l < mean-sd:
 			countMin += 1
 	if countMax != 0:
-		print("\033[91m  Warning!\033[0m Some sequences are very long. Specific regions might be ignored in the search")
+		print("\033[91m    Warning!\033[0m Some sequences are very long. Specific regions might be ignored in the search")
 	if countMin != 0:
-		print("\033[91m  Warning!\033[0m Some sequences are very short. This will artifically bias the 'minimum' criteria")
+		print("\033[91m    Warning!\033[0m Some sequences are very short. This will artifically bias the 'minimum' criteria")
 else:
-	print("\033[91m  Warning!\033[0m With only 1 sequence, specificity values might be overestimated")
+	print("\033[91m    Warning!\033[0m With only 1 sequence, specificity values might be overestimated")
 
 if args.verbose:
 	print("    Sequences in target file:", lenTarget, flush=True)
