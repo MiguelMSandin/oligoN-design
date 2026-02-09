@@ -177,15 +177,19 @@ profile = "".join(profile)
 if args.verbose:
 	print("    HMM profile:", profile, flush=True)
 	print("    Length:     ", len(profile), flush=True)
-	if lengthAlign == "percentage":
+if lengthAlign == "percentage":
+	if args.verbose:
 		print("    Minimum alignment length: ", round(length*100), "% (", round(length*len(profile)), " bases)", sep="", flush=True)
-		length = round(length*len(profile))
-	if lengthAlign == "absolute":
+	length = round(length*len(profile))
+if lengthAlign == "absolute":
+	if args.verbose:
 		print("    Minimum alignment length: ", length, " bases (", round(length/len(profile)*100), "%)", sep="", flush=True)
-	if scoreType == "percentage":
+if scoreType == "percentage":
+	if args.verbose:
 		print("    Minimum alignment similarity: ", round(minScore*100), "% (", round(minScore*len(profile)), " identical bases)", sep="", flush=True)
-		minScore = round(minScore*len(profile))
-	if scoreType == "absolute":
+	minScore = round(minScore*len(profile))
+if scoreType == "absolute":
+	if args.verbose:
 		print("    Minimum alignment similarity: ", minScore, " identical bases (", round(minScore/len(profile)*100), "%)", sep="", flush=True)
 
 # Align profile to excluding file __________________________________________________________________
