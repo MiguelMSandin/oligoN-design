@@ -23,7 +23,7 @@ finputArgs.add_argument("-t", "--target", dest="target", required=False, action=
 
 outputArgs.add_argument("-o", "--output", dest="output", required=False,
 						default=None,
-						help="The name of the output fasta file. By default will print the information to the console.")
+						help="The name of the output file. By default will print the information to the console.")
 
 outputArgs.add_argument("-a", "--absolute", dest="absolute", required=False, action="store_true",
 						help="If selected, it will output the statistics as absolute values, and not dividing the scores by the first sequence length.")

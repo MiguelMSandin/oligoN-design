@@ -5,7 +5,7 @@ import pandas as pd
 
 version='1.0.1'
 
-parser = argparse.ArgumentParser(description="%s v%s: Bind the columns from different log outputs of findOligo, testOligo, testThorough and/or rateAccess." % ('%(prog)s', version), add_help=False)
+parser = argparse.ArgumentParser(description="%s v%s: Bind the columns from different log outputs of findOligo, testOligo, testThorough, rateAccess and/or any other tab delimited table with corresponding identifiers." % ('%(prog)s', version), add_help=False)
 
 # Add the arguments to the parser
 requirArgs = parser.add_argument_group('Required arguments')

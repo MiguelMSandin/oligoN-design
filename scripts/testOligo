@@ -6,7 +6,7 @@ name=$(basename "$0")
 usage()
 {
     echo ""
-    echo "$name v$version: Test oligonucleotides against a excluding database allowing mismatches. Note this script will also count the exact hit."
+    echo "$name v$version: Test oligonucleotides against a excluding file allowing mismatches. Note this script will also count the exact hit."
     echo ""
     echo "Usage: testOligo -p OLIGOS -e EXCLUDING [-o OUTPUT] [-m 'MISMATCH']"
     echo ""
