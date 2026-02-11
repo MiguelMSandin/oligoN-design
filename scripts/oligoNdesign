@@ -27,6 +27,7 @@ usage()
     echo "  -a    It will not test accessibility of the oligonucleotides. Recommended for very large target files."
     echo "  -g    The Small SubUnit of the rDNA: Either '18S' (default) or '16S'."
     echo "  -k    It will keep intermediate relevant files."
+    echo "  -r    It will print the exact commands to the console without running them."
     echo "  -h    Show this help message and exit."
     echo "  -v    If selected, will not print information to the console."
     echo "  -V    Print version information and exit."
@@ -69,6 +70,7 @@ usage()
 }
 
 verbose="True"
+run="True"
 fast="False"
 keep="False"
 access="True"
@@ -79,7 +81,7 @@ SPECIFICITY="0.01"
 GCcontent="0"
 BEST="4"
 
-while getopts "hvVfakg:t:e:o:l:m:s:c:n:" opt; do
+while getopts "hvVrfakg:t:e:o:l:m:s:c:n:" opt; do
         case ${opt} in
                 h )
                         usage
@@ -91,6 +93,9 @@ while getopts "hvVfakg:t:e:o:l:m:s:c:n:" opt; do
                 V )
                         echo "$name v$version"
                         exit
+                        ;;
+                r )
+                        run="False"
                         ;;
                 f )
                         fast="True"
@@ -150,11 +155,15 @@ if [[ $GCcontent != "0" ]]; then
         COMMAND="$COMMAND -c $GCcontent"
 fi
 echo $COMMAND
-eval $COMMAND
+if [[ $run == "True" ]]; then
+        eval $COMMAND
+fi
 
 # Test if oligos were found, otherwise stop the pipeline here
-if [ ! -f "${PREFIX}_find.tsv" ]; then
-    exit
+if [[ $run == "True" ]]; then
+        if [ ! -f "${PREFIX}_find.tsv" ]; then
+        exit
+        fi
 fi
 
 # test the candidate primers
@@ -168,7 +177,9 @@ if [[ $fast != "True" ]]; then
                 COMMAND="$COMMAND -v"
         fi
         echo $COMMAND
-        eval $COMMAND
+        if [[ $run == "True" ]]; then
+                eval $COMMAND
+        fi
 fi
 
 # Test accessibility of the oligonucleotides
@@ -182,7 +193,9 @@ if [[ $access == "True" ]]; then
                 COMMAND="$COMMAND -v"
         fi
         echo $COMMAND
-        eval $COMMAND
+        if [[ $run == "True" ]]; then
+                eval $COMMAND
+        fi
 
         # Estimate accessibility of the primers
         tmp2=$(mktemp --tmpdir=$(pwd))
@@ -194,7 +207,9 @@ if [[ $access == "True" ]]; then
                 COMMAND="$COMMAND -v"
         fi
         echo $COMMAND
-        eval $COMMAND
+        if [[ $run == "True" ]]; then
+                eval $COMMAND
+        fi
 fi
 
 # Bind all log files into a single log file
@@ -212,7 +227,9 @@ else
         COMMAND="$COMMAND -v"
 fi
 echo $COMMAND
-eval $COMMAND
+if [[ $run == "True" ]]; then
+        eval $COMMAND
+fi
 
 # Selecting best oligos
 COMMAND="selectLog -f ${PREFIX}_log.tsv -n ${BEST} -o ${PREFIX}_best.tsv"
@@ -231,7 +248,9 @@ if [[ $access == "True" ]]; then
         COMMAND="$COMMAND average_brightness"
 fi
 echo $COMMAND
-eval $COMMAND
+if [[ $run == "True" ]]; then
+        eval $COMMAND
+fi
 
 # keeping or deleting intermediate files
 if [[ $keep == "True" ]]; then
@@ -243,7 +262,9 @@ if [[ $keep == "True" ]]; then
                 COMMAND="$COMMAND -v"
         fi
         echo $COMMAND
-        eval $COMMAND
+        if [[ $run == "True" ]]; then
+                eval $COMMAND
+        fi
 else
         if [[ $verbose == "True" ]]; then
                 echo ""
