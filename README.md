@@ -28,8 +28,8 @@ For further information about installation, see the [bioconda](https://bioconda.
 ## Running  
 After activating the oligoN-design environment, you can start running the functions as follow:
 ```bash  
-sequenceSelect -f database.fasta -p pattern -o mast3_target.fasta
-sequenceSelect -f database.fasta -p pattern -o mast3_excluding.fasta -r
+sequenceSelect -f database.fasta -p pattern -o target.fasta
+sequenceSelect -f database.fasta -p pattern -o excluding.fasta -r
 oligoNdesign -t target.fasta -e excluding.fasta -o oligos  
 ```    
   
