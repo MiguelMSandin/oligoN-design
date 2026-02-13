@@ -18,10 +18,10 @@ micromamba install oligon-design
   
 Otherwise, you can create a new environment as follows:
 ```bash  
-micromamba create --name oligoNactivate oligon-design  
+micromamba create --name oligoNenv oligon-design  
 ```
-Then simply activate the environment to run oligoN-design functions (```micromamba activate oligoNactivate```  ), and deactivate it to exit (‘```micromamba deactivate```’).  
-Please, note that you can replace ```oligoNactivate``` by the environment name of your choice.
+Then simply activate the environment to run oligoN-design functions (```micromamba activate oligoNenv```  ), and deactivate it to exit (‘```micromamba deactivate```’).  
+Please, note that you can replace ```oligoNenv``` by the environment name of your choice.
 
 For further information about installation, see the [bioconda](https://bioconda.github.io/recipes/oligon-design/README.html) webapge.  
   
