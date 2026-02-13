@@ -18,10 +18,10 @@ micromamba install oligon-design
   
 Otherwise, you can create a new environment as follows:
 ```bash  
-micromamba create --name oligoNenv oligon-design  
+micromamba create --name oligoNactivate oligon-design  
 ```
-Then simply activate the environment to run oligoN-design functions (```micromamba activate oligoNenv```  ), and deactivate it to exit (‘```micromamba deactivate```’).  
-Please, note that you can replace ```oligoNenv``` by the environment name of your choice.
+Then simply activate the environment to run oligoN-design functions (```micromamba activate oligoNactivate```  ), and deactivate it to exit (‘```micromamba deactivate```’).  
+Please, note that you can replace ```oligoNactivate``` by the environment name of your choice.
 
 For further information about installation, see the [bioconda](https://bioconda.github.io/recipes/oligon-design/README.html) webapge.  
   
@@ -32,6 +32,8 @@ sequenceSelect -f database.fasta -p pattern -o target.fasta
 sequenceSelect -f database.fasta -p pattern -o excluding.fasta -r
 oligoNdesign -t target.fasta -e excluding.fasta -o oligos  
 ```    
+  
+You can find other examples, suggested workflows and even "common problems and misconceptions" or "good practices" in the [documentation](oligoN-design_documentation.pdf).  
   
 ## Citing
 If you use the oligoN-design tool to either design specific oligonucleotides, or to help you design specific oligonucleotides, please cite the following manuscript where we report this software:  
