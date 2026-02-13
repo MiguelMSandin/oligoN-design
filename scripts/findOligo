@@ -8,7 +8,7 @@ import itertools
 import statistics as st
 
 start_time = time.time()
-version='1.0.1'
+version='1.1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Find all possible specific oligonucleotides of length 'l', that matches at least 'm' sequences in the target file and has a maximum specificity of 's' to the excluding file." % ('%(prog)s', version), add_help=False)
 
