@@ -212,6 +212,12 @@ testOligo -e mast1.fasta -p oligos.fasta -m '3 4'
 
 rm -f oligos_*
 
+# testTarget --------------------------------------------------------------------------------------
+
+testTarget -t mast1.fasta -f oligos.fasta -m 0-2 -d mast1_testTarget.fasta
+
+rm -f mast1_*
+
 # testThorough ------------------------------------------------------------------------------------
 
 testThorough -f oligos.fasta -e mast3.fasta -b 3 -c 0.6 -i -t oligos_testThoroughTable.tsv
