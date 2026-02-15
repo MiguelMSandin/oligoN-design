@@ -68,6 +68,7 @@ ${PATHTOSCRIPTS}breakFasta -V
 ${PATHTOSCRIPTS}getHomolog -V
 ${PATHTOSCRIPTS}getHomologStats -V
 ${PATHTOSCRIPTS}identifyRegions -V
+${PATHTOSCRIPTS}testTarget -V
 ${PATHTOSCRIPTS}trimRegion -V
 
 echo ""

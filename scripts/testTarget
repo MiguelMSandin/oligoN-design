@@ -36,7 +36,7 @@ functiArgs.add_argument("-x", "--indels", dest="indels", required=False, action=
 
 outputArgs.add_argument("-o", "--output", dest="file_out", required=False,
 						default=None,
-						help="The name of the output file. By default will remove the extension of the input file and add '_testTarget.tsv'. This will generate a table with the sequences to be tested as rows, oligos as columns and the values represent the position in the sequence at which the oligo was found, or 'NA' if not found.")
+						help="The name of the output file. By default will remove the extension of the input file and add '_testTarget.tsv'. This will generate a table with the sequences to be tested as rows, oligos as columns and the values represent the position in the sequence at which the oligo was found.")
 
 outputArgs.add_argument("-a", "--absence", dest="absence", required=False,
 						default="0",
@@ -47,7 +47,7 @@ outputArgs.add_argument("-b", "--binary", dest="binary", required=False, action=
 
 outputArgs.add_argument("-d", "--detailed", dest="detailed", required=False,
 						default=None,
-						help="If a file name is provided, it will export to the given output a fasta file with all oligonucleotides found aligned to each sequence. Not recommended when testing many sequences to many oligonucleotides (e.g., > ~100 seqs).")
+						help="If a file name is provided, it will export to the given output a fasta file with all oligonucleotides found aligned to each sequence. This option becomes visually impractical with many oligonucleotides (e.g., > ~100 seqs).")
 
 optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
 						help="If selected, will not print information to the console.")
@@ -227,10 +227,10 @@ if args.verbose:
 	print("    Number of oligonucleotides:", lenOligos, flush=True)
 
 # Testing __________________________________________________________________________________________
-# After defining all functions and parameters, this is just deailing with input and output
 if args.verbose:
 	print("  Testing...", flush=True, end="")
 	i = 0
+	pcti = 0
 if args.detailed is not None:
 	detailed = open(args.detailed, 'w', buffering=1)
 with open(outFile, "w", buffering=1) as outfile:
@@ -238,21 +238,16 @@ with open(outFile, "w", buffering=1) as outfile:
 	headers = ("\t").join(headers)
 	print("identifier\t" + headers, file=outfile)
 	for keyt, seq in target.items():
-		if args.verbose:
-			i += 1
-			print("\r  Testing sequence  ", i, "/", lenTarget, end="", flush=True)
-			j = 0
-			pctj = 0
 		if args.detailed is not None:
 			detailed.write(">" + keyt +"\n" + seq + "\n")
 		hits = list()
 		for keyo, oligo in oligos.items():
 			if args.verbose:
-				j += 1
-				pct = round(j / lenOligos * 100)
-				if pct > pctj:
-					pctj = pct
-					print("\r  Testing sequence  ", i, "/", lenTarget, "  ", pct, "%  ", sep="", end="", flush=True)
+				i += 1
+				pct = round((i / (lenTarget * lenOligos) )* 100)
+				if pct > pcti:
+					pcti = pct
+					print("\r  Testing...  ", pct, "%  ", sep="", end="", flush=True)
 			if args.binary and mismatches == [0] and args.detailed is None:
 				if oligo in seq:
 					position = "1"
@@ -283,6 +278,8 @@ if args.detailed is not None:
 if args.verbose:
 	t = time.time() - start_time
 	t = seconds2string(t, longOut=True)
-	print("  Run time:", t, flush=True)
+	print("\n  Run time:", t, flush=True)
 	print("  Output file written to: \033[1m", outFile, "\033[0m", sep="")
+	if args.detailed is not None:
+		print("  Aligned oligos written to: \033[1m", args.detailed, "\033[0m", sep="")
 	print("Done")
