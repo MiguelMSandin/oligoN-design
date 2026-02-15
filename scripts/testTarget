@@ -230,6 +230,7 @@ if args.verbose:
 if args.verbose:
 	print("  Testing...", flush=True, end="")
 	i = 0
+	n = 0
 	pcti = 0
 if args.detailed is not None:
 	detailed = open(args.detailed, 'w', buffering=1)
@@ -241,6 +242,7 @@ with open(outFile, "w", buffering=1) as outfile:
 		if args.detailed is not None:
 			detailed.write(">" + keyt +"\n" + seq + "\n")
 		hits = list()
+		n += 1
 		for keyo, oligo in oligos.items():
 			if args.verbose:
 				i += 1
@@ -264,7 +266,7 @@ with open(outFile, "w", buffering=1) as outfile:
 				if args.detailed is not None and position != args.absence:
 					tail = len(seq) - hit.start() - len(oligo)
 					detailedOut = "-" * hit.start() + oligo + "-" * tail
-					detailed.write(">" + keyo + "_" + str(i) + "\n" + detailedOut + "\n")
+					detailed.write(">" + keyo + "_" + str(n) + "\n" + detailedOut + "\n")
 				if args.binary:
 					if position != args.absence:
 						position = "1"
@@ -283,3 +285,4 @@ if args.verbose:
 	if args.detailed is not None:
 		print("  Aligned oligos written to: \033[1m", args.detailed, "\033[0m", sep="")
 	print("Done")
+	
