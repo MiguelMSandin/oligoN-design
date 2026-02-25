@@ -5,7 +5,7 @@ import statistics as st
 import math
 from Bio import Align
 
-version='1.0.0'
+version='1.1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: From one or several fasta files, estimates the similarity of all sequences to the first sequences of every file by pairwise sequence alignment. See 'PairwiseAligner' from the Bio.Align module for further details. Briefly, it will output summary statistics of the alignment score, relative to the first sequence. " % ('%(prog)s', version), add_help=False)
 
@@ -23,7 +23,7 @@ finputArgs.add_argument("-t", "--target", dest="target", required=False, action=
 
 outputArgs.add_argument("-o", "--output", dest="output", required=False,
 						default=None,
-						help="The name of the output fasta file. By default will print the information to the console.")
+						help="The name of the output file. By default will print the information to the console.")
 
 outputArgs.add_argument("-a", "--absolute", dest="absolute", required=False, action="store_true",
 						help="If selected, it will output the statistics as absolute values, and not dividing the scores by the first sequence length.")

@@ -3,7 +3,7 @@
 import argparse
 import re
 
-version='1.0.0'
+version='1.1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Select sequence in a fasta file either from a list or that match a pattern and extract them or remove them." % ('%(prog)s', version), add_help=False)
 
@@ -30,6 +30,9 @@ outputArgs.add_argument("-k", "--keep", dest="keep", required=False, action="sto
 outputArgs.add_argument("-r", "--remove", dest="remove", required=False, action="store_true",
 						help="If selected, will delete selected sequences. If both this argument and '-k/--keep' are selected, this argument will be ignored.")
 
+outputArgs.add_argument("-u", "--uracil", dest="uracil", required=False, action="store_false",
+						help="If selected, will not replace Uracil bases (U) by Thymine bases (T).")
+
 optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
 						help="If selected, will not print information to the console.")
 
@@ -45,16 +48,30 @@ args = parser.parse_args()
 # Define functions _________________________________________________________________________________
 def readFasta(fastafile):
 	out = {}
+	repeated = 0
+	uracil = False
 	for line in open(fastafile):
 		if line.startswith(">"):
 			name = line.replace(">", "")
 			name = name.replace("\n", "")
+			if name in out.keys():
+				repeated += 1
 			out[name] = str()
 		else:
 			sequence = line.replace("\n", "")
 			sequence = sequence.replace("-", "")
 			sequence = sequence.upper()
+			if "U" in sequence:
+				uracil = True
+				if args.uracil:
+					sequence = sequence.replace("U", "T")
 			out[name] = (out[name] + sequence)
+	if repeated > 0:
+		print("  \033[91mWarning!\033[0m There are", str(repeated), "repeated sequence names ignored", flush=True)
+	if uracil and args.uracil:
+		print("  Warning! RNA sequences were transformed into DNA sequences. Use '-u/--uracil' to desactivate", flush=True)
+	if uracil and not args.uracil:
+		print("  \033[91mWarning!\033[0m RNA sequences have been provided and intentionally not replaced, this might cause problems downstream", flush=True)
 	return out
 
 # Troubleshoot input variables _____________________________________________________________________

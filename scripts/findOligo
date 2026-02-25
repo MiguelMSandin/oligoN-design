@@ -8,10 +8,9 @@ import itertools
 import statistics as st
 
 start_time = time.time()
-version='1.0.0'
+version='1.1.0'
 
-parser = argparse.ArgumentParser(description="%s v%s: Find all possible specific oligonucleotides of length 'l', that matches at least 'm' sequences in the target file and has a maximum specificity of 's' to the excluding file." % ('%(prog)s', version), add_help=False,
-								 epilog="*The basic melting temperature (Tm) is an approximation and should be considered as a baseline for comparison. Briefly, for short oligonucleotides (<14 bp): Tm = 2*(A+T) + 4*(G+C); and for longer oligonucleotides (>13 bp): Tm = 64.9 + 41*(G+C - 16.4) / (A+G+C+T); where A, C, G and T are the number of bases of A, G, C and T respectively.")
+parser = argparse.ArgumentParser(description="%s v%s: Find all possible specific oligonucleotides of length 'l', that matches at least 'm' sequences in the target file and has a maximum specificity of 's' to the excluding file." % ('%(prog)s', version), add_help=False)
 
 # Add the arguments to the parser
 requirArgs = parser.add_argument_group('Required arguments')
@@ -55,7 +54,7 @@ functiArgs.add_argument("-C", "--GCcontent", dest="GCcontent", required=False, a
 
 outputArgs.add_argument("-o", "--output", dest="output", required=False,
 						default=None,
-						help="The output file name. By default will replace the extension of the target file with '_oligos.tsv'. The output file is a tab delimited table with the following columns: an arbitrary oligonucleotide identifier, the oligonucleotide sequence, the reverse complement sequence (which will be the reverse primer or the FISH probe), the length of the oligonucleotide, the GC content, the basic melting temperature*, the theoretical formamide concentration at 35ºC (based on the basic melting temperature), the proportion of hits in the target file, the number of hits in the target file, the proportion of hits in the excluding file, the number of hits in the excluding file and four columns for each number of mismatches selected, corresponding to the the proportion of hits with N mismatches, the number of hits with N mismatches and the number of hits with N mismatches in the first or last B bases.")
+						help="The output file name. By default will replace the extension of the target file with '_oligos.tsv'. The output file is a tab delimited table with the following default columns: identifier, sequence, revCom, length, GC, Tm, F35t, hitsT_prop, hitsT, hitsE_prop, hitsE, mismatch1_prop, mismatch1, mismatch2_prop, mismatch2. Please see documentation for further details.")
 
 outputArgs.add_argument("-f", "--fasta", dest="fasta", required=False, action="store",
 						default=None,
@@ -74,6 +73,9 @@ optionArgs.add_argument("-L", "--lowMem", dest="lowMem", required=False, action=
 
 optionArgs.add_argument("--force", dest="force", required=False, action="store_true",
 						help="Only used for debugging unnecessarily large number of mismatches and preventing undesired slow down of the search and large RAM usage.")
+
+optionArgs.add_argument("-u", "--uracil", dest="uracil", required=False, action="store_false",
+						help="If selected, will not replace Uracil bases (U) by Thymine bases (T).")
 
 optionArgs.add_argument("-v", "--verbose", dest="verbose", required=False, action="store_false",
 						help="If selected, will not print information to the console.")
@@ -122,21 +124,35 @@ def string2numeric(string):
 
 def readFasta(fastafile):
 	out = {}
-	w = False
+	gaps = False
+	repeated = 0
+	uracil = False
 	for line in open(fastafile):
 		if line.startswith(">"):
 			name = line.replace(">", "")
 			name = name.replace("\n", "")
+			if name in out.keys():
+				repeated += 1
 			out[name] = str()
 		else:
 			if "-" in line:
-				w = True
+				gaps = True
 			sequence = line.replace("\n", "")
 			sequence = sequence.replace("-", "")
 			sequence = sequence.upper()
+			if "U" in sequence:
+				uracil = True
+				if args.uracil:
+					sequence = sequence.replace("U", "T")
 			out[name] = (out[name] + sequence)
-	if w:
-		print("  Warning! Target file contains gaps, they will be removed before the search", flush=True)
+	if gaps:
+		print("    Warning! Target file contains gaps, they will be removed before the search", flush=True)
+	if repeated > 0:
+		print("    \033[91mWarning!\033[0m There are", str(repeated), "repeated sequence names ignored", flush=True)
+	if uracil and args.uracil:
+		print("    Warning! RNA sequences were transformed into DNA sequences. Use '-u/--uracil' to desactivate", flush=True)
+	if uracil and not args.uracil:
+		print("    \033[91mWarning!\033[0m RNA sequences have been provided and intentionally not replaced, this might cause problems downstream", flush=True)
 	return out
 
 def kmersBreak(dictionary, k, frecuency=True, verbose=True, addinfo=""):
@@ -368,11 +384,11 @@ if lenTarget > 1:
 		if l < mean-sd:
 			countMin += 1
 	if countMax != 0:
-		print("\033[91m  Warning!\033[0m Some sequences are very long. Specific regions might be ignored in the search")
+		print("\033[91m    Warning!\033[0m Some sequences are very long. Specific regions might be ignored in the search")
 	if countMin != 0:
-		print("\033[91m  Warning!\033[0m Some sequences are very short. This will artifically bias the 'minimum' criteria")
+		print("\033[91m    Warning!\033[0m Some sequences are very short. This will artifically bias the 'minimum' criteria")
 else:
-	print("\033[91m  Warning!\033[0m With only 1 sequence, specificity values might be overestimated")
+	print("\033[91m    Warning!\033[0m With only 1 sequence, specificity values might be overestimated")
 
 if args.verbose:
 	print("    Sequences in target file:", lenTarget, flush=True)

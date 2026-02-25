@@ -7,7 +7,7 @@ import itertools
 from Bio.Seq import Seq
 
 start_time = time.time()
-version='1.0.0'
+version='1.1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Test thoroughly a fasta file containing oligonucleotides against a excluding fasta file. It will test for self-dimers, hairpins, consecutive bases and/or mismatches." % ('%(prog)s', version), add_help=False,
 								 epilog="Given the amount of information provided by this script, it will speed analysis if a small selection of oligonucleotides is provided.")
@@ -574,7 +574,7 @@ if args.table:
 	tableOut = list()
 with open(outFile, "w", buffering=1) as outfile:
 	# Print headers of the output file according to the selected parameters ------------------------
-	print("\nThis is oligoN-design testThorough v1", file=outfile, flush=True)
+	print("\nThis is oligoN-design testThorough v1.1.0", file=outfile, flush=True)
 	print("\n  Tested file:   \t", args.file_in, file=outfile, flush=True)
 	print("    Sequences in tested file:   \t", lenOligos, file=outfile, flush=True)
 	print("  Excluding file:\t", args.excluding, file=outfile, flush=True)
@@ -701,10 +701,7 @@ with open(outFile, "w", buffering=1) as outfile:
 					i = 0
 					pcti = 0
 				for moligo, positions in moligos.items():
-					if len(positions) == 1:
-						mismatch = int(positions)
-					else:
-						mismatch = len(positions)
+					mismatch = len(positions)
 					moligoOut = moligo.replace("{0,2}", "")
 					if args.verbose:
 						i += 1

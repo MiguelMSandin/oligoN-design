@@ -4,7 +4,7 @@ import argparse
 import re
 import sys
 
-version='1.0.0'
+version='1.1.0'
 
 parser = argparse.ArgumentParser(description="%s v%s: Builds a consensus sequence of an alignment." % ('%(prog)s', version), add_help=False)
 
@@ -93,7 +93,7 @@ if args.verbose:
 	if args.removeGaps:
 		print("    Gaps will be removed in output sequence")
 
-iupac = {"A":"A", "C":"C", "G":"G", "T":"T", "AG":"R", "GA":"R", "CT":"Y", "TC":"Y", "GC":"S", "CG":"S", "AT":"W", "TA":"W", "GT":"K", "TG":"K", "AC":"M", "CA":"M", "CGT":"B", "CTG":"B", "TCG":"B", "GCT":"B", "TGC":"B", "GTC":"B", "AGT":"D", "ATG":"D", "GAT":"D", "TAG":"D", "GTA":"D", "TGA":"D", "ACT":"H", "ATC":"H", "CAT":"H", "TAC":"H", "CTA":"H", "TCA":"H", "ACG":"V", "AGC":"V", "CAG":"V", "GAC":"V", "CGA":"V", "GCA":"V"}
+iupac = {"A":"A", "C":"C", "G":"G", "T":"T", "AG":"R", "CT":"Y", "CG":"S", "AT":"W", "GT":"K", "AC":"M", "CGT":"B", "AGT":"D", "ACT":"H", "ACG":"V","ACGT":"N"}
 
 # Reading input file and parsing ___________________________________________________________________
 if args.verbose:
@@ -175,6 +175,7 @@ for position, values in fasta.items():
 		if "N" in candidate:
 			base = "N"
 		else:
+			candidate.sort()
 			base = "".join(candidate)
 			base = iupac[base]
 		if args.ambiguities:

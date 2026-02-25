@@ -7,8 +7,30 @@ authors:
 - family-names: "Walde"
   given-names: "Marie"
   orcid: "https://orcid.org/0000-0002-4071-7677"
-title: "oligoN-design v0.3.0: A pipeline for the high throughput design of specific primers/probes"
-doi: 10.5281/zenodo.7473220
-version: v0.3.0
-date-released: 2024-02-21
-url: "https://github.com/MiguelMSandin/oligoN-design"
+- family-names: "Henry"
+  given-names: "Nicolas"
+  orcid: "https://orcid.org/0000-0002-7702-1382"
+- family-names: "Forn"
+  given-names: "Irene"
+  orcid: "https://orcid.org/0000-0002-5681-0710"
+- family-names: "Simon"
+  given-names: "Nathalie"
+  orcid: "https://orcid.org/0000-0001-6434-7861"
+- family-names: "Berney"
+  given-names: "Cédric"
+  orcid: "https://orcid.org/0000-0001-8689-9907"
+- family-names: "Massana"
+  given-names: "Ramon"
+  orcid: "https://orcid.org/0000-0001-9172-5418"
+- family-names: "Richter"
+  given-names: "Daniel J."
+  orcid: "https://orcid.org/0000-0002-9238-5571"
+title: "oligoN-design v1.0.0: A simple and versatile tool to design specific probes and primers from large heterogeneous datasets"
+doi: https://doi.org/10.5281/zenodo.7473194
+version: v1.0.0
+date-released: 2025-11-05
+identifiers:
+  - description: This is the manuscript describing the tool
+    type: doi
+    value: "https://doi.org/10.1101/2025.11.04.685038"
+repository-code: "https://github.com/MiguelMSandin/oligoN-design"
