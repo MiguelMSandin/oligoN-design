@@ -1,7 +1,8 @@
 # oligoN-design
   
 [![Generic badge](https://img.shields.io/badge/Version-1.1.0-blue.svg)](https://github.com/MiguelMSandin/oligoN-design/releases)  
-[![Generic badge](http://img.shields.io/badge/Pre--print-10.1101/2025.11.04.685038-B31B1B.svg)](https://doi.org/10.1101/2025.11.04.685038) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7473194.svg)](https://doi.org/10.5281/zenodo.7473194) [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/oligon-design/README.html)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7473194.svg)](https://doi.org/10.5281/zenodo.7473194) [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/oligon-design/README.html) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  
+[![Generic badge](http://img.shields.io/badge/Manuscript-10.1111/1755--0998.70140-blue.svg)](https://doi.org/10.1111/1755-0998.70140) [![Generic badge](http://img.shields.io/badge/Pre--print-10.1101/2025.11.04.685038-B31B1B.svg)](https://doi.org/10.1101/2025.11.04.685038) 
   
 The purpose of this tool is to help the user design specific oligonucleotide, to be later used as probes for Fluorescence *in situ* Hybridisation (FISH) or primers for PCR amplification. It focuses on Small SubUnit (SSU) of the rDNA operon (18S rDNA and 16S rDNA), but can potentially be used for other genes.  
   
@@ -38,7 +39,7 @@ You can find other examples, suggested workflows and even "common problems and m
 ## Citing
 If you use the oligoN-design tool to either design specific oligonucleotides, or to help you design specific oligonucleotides, please cite the following manuscript where we report this software:  
   
->Sandin MM, Walde M, Henry N, Berney C, Simon N, Forn I, Massana R, Richter D (**2025**) OligoN-design: A simple and versatile tool to design specific probes and primers from large heterogeneous datasets. *bioRxiv* 2025.11.04.685038; doi: [10.1101/2025.11.04.685038](https://www.biorxiv.org/content/10.1101/2025.11.04.685038v1)  
+>Sandin MM, Walde M, Henry N, Berney C, Simon N, Forn I, Massana R, Richter D (**2025**) OligoN-design: A simple and versatile tool to design specific probes and primers from large heterogeneous datasets. *Mol. Ecol. Resour*. 26(3): e70140. doi: [10.1111/1755-0998.70140 ](https://doi.org/10.1111/1755-0998.70140)   
   
 ## Concluding remarks
 The OligoN-design tool was designed to help the design of specific oligonucleotides accommodating the large environmental datasets and with a simple and versatile approach. However, any output from this tool should be interpreted as a starting point and needs to be empirically optimized and tested.  
