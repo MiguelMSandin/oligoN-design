@@ -1,6 +1,6 @@
 #!/bin/bash
 
-version='1.1.0'
+version='1.2.0'
 name=$(basename "$0")
 
 usage()
@@ -17,6 +17,7 @@ usage()
     echo "Optional arguments:"
     echo "  -o    Output log file. By default, will replace the extension of the oligonucleotides file by '_tested.tsv'."
     echo "  -m    The number of mismatches (in between quotes). Default='1 2'."
+    echo "  -l    Transforms the multiline excluding fasta file to a single line before the search."
     echo "  -h    Show this help message and exit."
     echo "  -v    If selected, will not print information to the console."
     echo "  -V    Print version information and exit."
@@ -26,10 +27,11 @@ usage()
 
 MISMATCHESIN="1 2"
 START_TIME=`date +%s`
+line="False"
 verbose="True"
 OUT="NONE"
 
-while getopts "hvVp:e:m:o:" opt; do
+while getopts "hvVp:e:m:o:l" opt; do
         case ${opt} in
                 h )
                         usage
@@ -53,6 +55,9 @@ while getopts "hvVp:e:m:o:" opt; do
                         ;;
                 o )
                         OUT=$OPTARG
+                        ;;
+                l )
+                        line="True"
                         ;;
         esac
 done
@@ -86,26 +91,30 @@ LINES=$(wc -l < ${EXCLUDING})
 if [ $LINES -gt $(( ${EXCSEQS}*2 )) ]; then
         echo "    Warning! Sequences in '${EXCLUDING}' might be in different lines"
         tmp=$(mktemp --tmpdir=$(pwd))
-        echo -n "      Editing file..."
-        i=0
-        while read LINE; do
-                if echo $LINE | grep -q ">"; then
-                        ((i=i+1))
-                        if [[ $verbose == "True" ]]; then
-                                echo -n -e "\r      Editing file...  $(( ${i}*100/${EXCSEQS} ))%"
-                        fi
-                        if (( $i == 1 )); then
-                        echo "$LINE" > ${tmp}
+        if [[ $line == "True" ]]; then
+                echo -n "      Editing file..."
+                i=0
+                while read LINE; do
+                        if echo $LINE | grep -q ">"; then
+                                ((i=i+1))
+                                if [[ $verbose == "True" ]]; then
+                                        echo -n -e "\r      Editing file...  $(( ${i}*100/${EXCSEQS} ))%"
+                                fi
+                                if (( $i == 1 )); then
+                                echo "$LINE" > ${tmp}
+                                else
+                                echo -e "\n$LINE" >> ${tmp}
+                                fi
                         else
-                        echo -e "\n$LINE" >> ${tmp}
+                                echo -n "$LINE" >> ${tmp}
                         fi
-                else
-                        echo -n "$LINE" >> ${tmp}
-                fi
-        done < "${EXCLUDING}"
-        mv ${tmp} ${EXCLUDING}
-        rm -f ${tmp}
-        echo ""
+                done < "${EXCLUDING}"
+                mv ${tmp} ${EXCLUDING}
+                rm -f ${tmp}
+                echo ""
+        else
+                echo "    Consider adding the option '-l' to transform the excluding file before the search"
+        fi
 fi
 
 MISMATCHESOUT=""

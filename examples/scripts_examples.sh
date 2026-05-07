@@ -1,6 +1,6 @@
 #!bin/bash/
 
-oligoNactivate
+micromamba activate /_PATH_TO_/oligoN-design
 
 # alignmentConsensus ------------------------------------------------------------------------------
 mafft mast1.fasta > mast1_align.fasta
