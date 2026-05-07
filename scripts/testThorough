@@ -574,7 +574,7 @@ if args.table:
 	tableOut = list()
 with open(outFile, "w", buffering=1) as outfile:
 	# Print headers of the output file according to the selected parameters ------------------------
-	print("\nThis is oligoN-design testThorough v1.1.0", file=outfile, flush=True)
+	print("\nThis is oligoN-design testThorough v1.2.0", file=outfile, flush=True)
 	print("\n  Tested file:   \t", args.file_in, file=outfile, flush=True)
 	print("    Sequences in tested file:   \t", lenOligos, file=outfile, flush=True)
 	print("  Excluding file:\t", args.excluding, file=outfile, flush=True)
