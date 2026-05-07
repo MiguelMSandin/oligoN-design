@@ -90,8 +90,8 @@ fi
 LINES=$(wc -l < ${EXCLUDING})
 if [ $LINES -gt $(( ${EXCSEQS}*2 )) ]; then
         echo "    Warning! Sequences in '${EXCLUDING}' might be in different lines"
-        tmp=$(mktemp --tmpdir=$(pwd))
         if [[ $line == "True" ]]; then
+                tmp=$(mktemp --tmpdir=$(pwd))
                 echo -n "      Editing file..."
                 i=0
                 while read LINE; do
