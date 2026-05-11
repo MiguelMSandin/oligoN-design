@@ -16,7 +16,7 @@ mafft --addfragments ${PREFIX}_regions.fasta ${TARGET/.fasta/_align.fasta} > ${T
 trimRegion -f ${TARGET/.fasta/_align.fasta} -s ${PREFIX}_regions.fasta -d regions -n
 
 for FILE in $(ls regions/*); do
-	getHomologRegion -f ${FILE} -e ${EXCLUDING} -t
+	getHomolog -f ${FILE} -e ${EXCLUDING} -t
 done
 
 getHomologStats -f regions/*homologRegion* -t -p
