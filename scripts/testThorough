@@ -165,6 +165,7 @@ def readFasta(fastafile, revcom=False):
 			sequence = sequence.upper()
 			if revcom:
 				sequence = Seq(sequence).reverse_complement()
+				sequence = str(sequence)
 			out[name] = (out[name] + sequence)
 	if w:
 		print("Warning!!", fastafile, "contains gaps", flush=True)
@@ -549,6 +550,8 @@ if args.verbose:
 # Reading input file _______________________________________________________________________________
 if args.verbose:
 	print("  Reading file to be tested:", str(args.file_in), flush=True)
+	if args.revComp:
+		print("    Reverse complementing oligos")
 
 oligos = readFasta(args.file_in, revcom=args.revComp)
 lenOligos = len(oligos)

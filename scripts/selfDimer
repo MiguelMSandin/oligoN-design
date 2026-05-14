@@ -83,6 +83,7 @@ if args.verbose:
 if args.revComp:
 	from Bio.Seq import Seq
 	sequence = Seq(args.sequence).reverse_complement()
+	sequence = str(sequence)
 else:
 	sequence = args.sequence
 
