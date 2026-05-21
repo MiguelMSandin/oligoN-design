@@ -18,6 +18,11 @@ channels:
   - defaults
 
 dependencies:
+  # ── Python ────────────────────────────────────────────────────────────────
+  # oligon-design 1.x requires Python >=3.14. This line overrides Binder's
+  # default Python 3.10 pin so the solver can find a compatible version.
+  - python>=3.14
+
   # ── oligoN-design and its bioinformatics dependencies ──────────────────────
   - oligon-design      # the pipeline itself (installs Python scripts + data)
   - mafft              # multiple sequence aligner, used by rateAccess
