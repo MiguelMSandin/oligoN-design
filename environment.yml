@@ -1,0 +1,42 @@
+# Binder environment for the oligoN-design interactive notebook
+#
+# Binder reads this file automatically when building the Docker image.
+# It installs everything listed here before the notebook is launched,
+# so users arrive with a fully configured environment — no installation
+# steps required.
+#
+# Channel priority (highest → lowest):
+#   bioconda   — provides oligon-design and bioinformatics dependencies
+#   conda-forge — provides most general-purpose Python packages
+#   defaults    — Anaconda's default channel (fallback)
+
+name: oligoNenv
+
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+
+dependencies:
+  # ── oligoN-design and its bioinformatics dependencies ──────────────────────
+  - oligon-design      # the pipeline itself (installs Python scripts + data)
+  - mafft              # multiple sequence aligner, used by rateAccess
+  - hmmer              # profile HMM tools (hmmbuild, hmmsearch), used by rateAccess
+
+  # ── Jupyter ────────────────────────────────────────────────────────────────
+  - jupyterlab>=3.0    # the browser-based IDE Binder launches
+  - notebook           # classic Jupyter notebook interface (fallback)
+
+  # ── Interactive widgets ────────────────────────────────────────────────────
+  - ipywidgets>=8.0    # powers all interactive sliders, buttons, upload widgets
+                       # version 8+ is required for the FileUpload .value API
+                       # used in Cell 3
+
+  # ── Data analysis and plotting ─────────────────────────────────────────────
+  - pandas             # reads and manipulates the .tsv output tables
+  - matplotlib         # produces the summary plot in Cell 9
+
+  # ── pip-only packages (not available on conda channels) ───────────────────
+  - pip
+  - pip:
+    - ipyfilechooser   # graphical file browser widget (Cell 3 fallback)

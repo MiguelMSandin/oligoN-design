@@ -1,0 +1,9 @@
+# System packages installed via apt-get before the conda environment is built.
+#
+# Binder reads this file automatically. Each line is one package name,
+# exactly as it appears in the Ubuntu/Debian package index.
+#
+# agrep is the approximate-grep utility used internally by oligoN-design's
+# testOligo step to perform fast mismatch searches. It is not available on
+# conda channels and must be installed at the system level.
+agrep
