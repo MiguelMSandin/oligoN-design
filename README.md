@@ -19,6 +19,9 @@ An interactive Jupyter notebook for this pipeline is available and can be launch
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/MiguelMSandin/oligoN-design/jupyter?urlpath=lab/tree/oligoN-design_interactive.ipynb)
 
+Caveats: the first launch takes a few minutes to build the Docker image (subsequent launches are faster). Sessions time out after ~10 minutes of inactivity, and there is no persistent storage — output files are lost when the session closes so make sure you download any outputs you wish to keep. 
+For large excluding FASTA files (e.g. a full PR2 or SILVA database) it may also hit the 2 GB RAM limit.
+
 ## Installation
 
 OligoN-design is available from [bioconda](https://bioconda.github.io/recipes/oligon-design/README.html), and the simplest option to install oligoN-design is to use [micromamba](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html) (or [conda](https://docs.conda.io/projects/conda/en/stable/) or [mamba](https://mamba.readthedocs.io/en/latest/)). So before starting, please make sure you have micromamba installed.  
