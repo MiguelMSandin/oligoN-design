@@ -1,9 +1,9 @@
 # oligoN-design
 
-[![Generic badge](https://img.shields.io/badge/Version-1.1.0-blue.svg)](https://github.com/MiguelMSandin/oligoN-design/releases)
+[![Generic badge](https://img.shields.io/badge/Version-1.1.0-blue.svg)](https://github.com/MiguelMSandin/oligoN-design/releases)  
 [![install with bioconda](https://img.shields.io/badge/install%20with-bioconda-brightgreen.svg?style=flat)](http://bioconda.github.io/recipes/oligon-design/README.html)
 [![Generic badge](http://img.shields.io/badge/DOI-10.5281/zenodo.7473194-blue.svg)](https://doi.org/10.5281/zenodo.7473194)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  
 [![Generic badge](http://img.shields.io/badge/Manuscript-10.1111/1755--0998.70140-blue.svg)](https://doi.org/10.1111/1755-0998.70140)
 [![Generic badge](http://img.shields.io/badge/Pre--print-10.1101/2025.11.04.685038-B31B1B.svg)](https://doi.org/10.1101/2025.11.04.685038)
 
