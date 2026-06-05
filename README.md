@@ -39,7 +39,7 @@ You can find other examples, suggested workflows and even "common problems and m
 ## Citing
 If you use the oligoN-design tool to either design specific oligonucleotides, or to help you design specific oligonucleotides, please cite the following manuscript where we report this software:  
   
->Sandin MM, Walde M, Henry N, Berney C, Simon N, Forn I, Massana R, Richter D (**2025**) OligoN-design: A simple and versatile tool to design specific probes and primers from large heterogeneous datasets. *Mol. Ecol. Resour*. 26(3): e70140. doi: [10.1111/1755-0998.70140 ](https://doi.org/10.1111/1755-0998.70140)   
+>Sandin MM, Walde M, Henry N, Berney C, Simon N, Forn I, Massana R, Richter D (**2026**) OligoN-design: A simple and versatile tool to design specific probes and primers from large heterogeneous datasets. *Mol. Ecol. Resour*. 26(3): e70140. doi: [10.1111/1755-0998.70140 ](https://doi.org/10.1111/1755-0998.70140)   
   
 ## Concluding remarks
 The OligoN-design tool was designed to help the design of specific oligonucleotides accommodating the large environmental datasets and with a simple and versatile approach. However, any output from this tool should be interpreted as a starting point and needs to be empirically optimized and tested.  
