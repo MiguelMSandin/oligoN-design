@@ -25,6 +25,9 @@ Then simply activate the environment to run oligoN-design functions (```micromam
 Please, note that you can replace ```oligoNenv``` by the environment name of your choice.
 
 For further information about installation, see the [bioconda](https://bioconda.github.io/recipes/oligon-design/README.html) webapge.  
+
+> If there is a ```perhaps a typo or a missing channel``` error try adding the channels manually:
+> ```micromamba create --name oligoNenv oligon-design --channel conda-forge --channel bioconda```
   
 ## Running  
 After activating the oligoN-design environment, you can start running the functions as follow:
